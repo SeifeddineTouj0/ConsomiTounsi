@@ -41,4 +41,5 @@ secrets.yml
 .gradletasknamecache
 .sts4-cache
 .git-hooks/
-node_modules
+.qodo
+.idea

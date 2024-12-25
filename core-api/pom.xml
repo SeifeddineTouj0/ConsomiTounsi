@@ -19,5 +19,12 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+
+    <!-- Lombok for reducing boilerplate code -->
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
 </project>
