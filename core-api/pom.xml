@@ -22,5 +22,12 @@
       <groupId>org.axonframework</groupId>
       <artifactId>axon-modelling</artifactId>
     </dependency>
+
+    <!-- Lombok for reducing boilerplate code -->
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
 </project>
