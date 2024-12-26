@@ -21,7 +21,7 @@
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-dependencies</artifactId>
-				<version>2022.0.4</version>
+				<version>${spring-cloud.version}</version>
 				<scope>import</scope>
 				<type>pom</type>
 			</dependency>
