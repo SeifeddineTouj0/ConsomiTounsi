@@ -3,6 +3,7 @@ package com.example.coreapi.ventes.payment;
 import java.time.LocalDateTime;
 import java.util.Set;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,6 +14,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
+@Entity
 public class PaymentInfo {
     @Id
     String paymentId;

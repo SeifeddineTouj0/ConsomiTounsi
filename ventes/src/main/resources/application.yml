@@ -2,13 +2,15 @@ spring:
   application:
     name: ventes
   jpa:
-    # properties:
-    #   hibernate:
-    #     dialect: org.hibernate.dialect.MySQL8Dialect
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
     hibernate:
       ddl-auto: update
-  # datasource:
-  #   driver-class-name: com.mysql.cj.jdbc.Driver
-  #   url: jdbc:mysql://ventes_microservice_db:3306/ventes_microservice
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/ventes_microservice
+    username: root
+    password: root
 server:
   port: 8081
