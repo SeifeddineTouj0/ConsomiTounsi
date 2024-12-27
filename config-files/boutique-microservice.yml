@@ -68,4 +68,4 @@ logging:
     root: INFO
     org.springframework.web: DEBUG
     org.axonframework.eventhandling: DEBUG
-    org.axonframework.commandhandling: DEBUGw
+    org.axonframework.commandhandling: DEBUG
