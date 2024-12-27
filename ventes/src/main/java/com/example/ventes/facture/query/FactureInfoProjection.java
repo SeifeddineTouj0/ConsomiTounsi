@@ -13,15 +13,19 @@ import com.example.coreapi.ventes.facture.FactureInfoNamedQueries;
 import com.example.coreapi.ventes.facture.TypeFacture;
 import com.example.coreapi.ventes.payment.PaymentInfo;
 import com.example.coreapi.ventes.payment.PaymentInfoNamedQueries;
+import com.example.ventes.facture.utils.FacturePdfGenerator;
 
 @Component
 public class FactureInfoProjection {
     private final FactureInfoRepository factureInfoRepository;
     private final QueryGateway queryGateway;
+    private final FacturePdfGenerator facturePdfGenerator;
 
-    public FactureInfoProjection(FactureInfoRepository factureInfoRepository, QueryGateway queryGateway) {
+    public FactureInfoProjection(FactureInfoRepository factureInfoRepository, QueryGateway queryGateway,
+            FacturePdfGenerator facturePdfGenerator) {
         this.factureInfoRepository = factureInfoRepository;
         this.queryGateway = queryGateway;
+        this.facturePdfGenerator = facturePdfGenerator;
     }
 
     @EventHandler
@@ -66,6 +70,17 @@ public class FactureInfoProjection {
     @QueryHandler(queryName = FactureInfoNamedQueries.FIND_FACTURE_BY_TYPE)
     public Iterable<FactureInfo> handleFactureByType(TypeFacture typeFacture) {
         return factureInfoRepository.findByTypeFacture(typeFacture);
+    }
+
+    @QueryHandler(queryName = FactureInfoNamedQueries.GENERATE_FACTURE_PDF)
+    public byte[] handleGenerateFacturePdf(String factureId) {
+        FactureInfo factureInfo = factureInfoRepository.findById(factureId).orElse(null);
+        if (factureInfo == null) {
+            throw new RuntimeException("Facture not found");
+        }
+
+        return facturePdfGenerator.generatePdf(factureInfo);
+
     }
 
 }

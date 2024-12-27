@@ -8,6 +8,9 @@ import java.util.concurrent.CompletableFuture;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.messaging.responsetypes.ResponseTypes;
 import org.axonframework.queryhandling.QueryGateway;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,6 +56,21 @@ public class FactureController {
     @GetMapping("/{factureId}")
     public CompletableFuture<FactureInfo> getFacture(@RequestParam String factureId) {
         return queryGateway.query(FactureInfoNamedQueries.FIND_ONE, factureId, FactureInfo.class);
+    }
+
+    @GetMapping("/{factureId}/pdf")
+    public CompletableFuture<ResponseEntity<byte[]>> getFacturePdf(@RequestParam String factureId) {
+        return queryGateway.query(FactureInfoNamedQueries.GENERATE_FACTURE_PDF, factureId, byte[].class)
+                .thenApply(pdfContent -> {
+                    if (pdfContent == null || pdfContent.length == 0) {
+                        return ResponseEntity.notFound().build();
+                    }
+                    String fileName = "facture-" + factureId + ".pdf";
+                    return ResponseEntity.ok()
+                            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName)
+                            .contentType(MediaType.APPLICATION_PDF)
+                            .body(pdfContent);
+                });
     }
 
     @GetMapping("/user")
