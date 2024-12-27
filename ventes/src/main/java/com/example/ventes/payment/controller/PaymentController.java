@@ -54,4 +54,45 @@ public class PaymentController {
                 null,
                 ResponseTypes.multipleInstancesOf(PaymentInfo.class));
     }
+
+    @GetMapping("/{paymentId}")
+    public CompletableFuture<PaymentInfo> findOne(@RequestParam String paymentId) {
+        return queryGateway.query(
+                PaymentInfoNamedQueries.FIND_ONE,
+                paymentId,
+                ResponseTypes.instanceOf(PaymentInfo.class));
+    }
+
+    @GetMapping("/online")
+    public CompletableFuture<List<PaymentInfo>> findOnlinePayment() {
+        return queryGateway.query(
+                PaymentInfoNamedQueries.FIND_ONLINE_PAYMENT,
+                null,
+                ResponseTypes.multipleInstancesOf(PaymentInfo.class));
+    }
+
+    @GetMapping("/delivery")
+    public CompletableFuture<List<PaymentInfo>> findDeliveryPayment() {
+        return queryGateway.query(
+                PaymentInfoNamedQueries.FIND_DELIVERY_PAYMENT,
+                null,
+                ResponseTypes.multipleInstancesOf(PaymentInfo.class));
+    }
+
+    @GetMapping("/user")
+    public CompletableFuture<List<PaymentInfo>> findPaymentByUser(@RequestParam String userId) {
+        return queryGateway.query(
+                PaymentInfoNamedQueries.FIND_PAYMENT_BY_USER,
+                userId,
+                ResponseTypes.multipleInstancesOf(PaymentInfo.class));
+    }
+
+    @GetMapping("/products")
+    public CompletableFuture<List<PaymentInfo>> findPaymentByProduct(@RequestParam Set<String> productIds) {
+        return queryGateway.query(
+                PaymentInfoNamedQueries.FIND_PAYMENT_BY_PRODUCT,
+                productIds,
+                ResponseTypes.multipleInstancesOf(PaymentInfo.class));
+    }
+
 }
