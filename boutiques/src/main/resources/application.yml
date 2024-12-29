@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: boutique-microservice
+  profiles:
+    active: default
+
+server:
+  port: 8082

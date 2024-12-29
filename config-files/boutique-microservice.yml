@@ -1,6 +1,7 @@
 spring:
   application:
     name: boutique-microservice # Name for identification in Eureka
+  port: 8082
   cloud:
     config:
       uri: http://config-server:8888
@@ -48,6 +49,19 @@ eureka:
     service-url:
       defaultZone: http://eureka-server:8761/eureka # Eureka Server URL
 
+resilience4j:
+  retry:
+    instances:
+      myRetry:
+        max-attempts: 3 # Maximum number of retry attempts
+        wait-duration: 500ms # Wait time between retries
+  rate-limiter:
+    instances:
+      myRateLimiter:
+        limit-for-period: 5 # Maximum 5 requests per period
+        limit-refresh-period: 1s # Refresh period for rate limiter
+        timeout-duration: 500ms # Timeout duration for rate-limited requests
+
 management:
   endpoints:
     web:
@@ -68,4 +82,4 @@ logging:
     root: INFO
     org.springframework.web: DEBUG
     org.axonframework.eventhandling: DEBUG
-    org.axonframework.commandhandling: DEBUGw
+    org.axonframework.commandhandling: DEBUG
