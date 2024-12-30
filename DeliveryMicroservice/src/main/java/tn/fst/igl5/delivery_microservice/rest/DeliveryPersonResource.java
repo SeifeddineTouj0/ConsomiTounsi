@@ -2,7 +2,9 @@ package tn.fst.igl5.delivery_microservice.rest;
 
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
+
 import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,11 +21,9 @@ import tn.fst.igl5.delivery_microservice.service.DeliveryPersonService;
 import tn.fst.igl5.delivery_microservice.util.ReferencedException;
 import tn.fst.igl5.delivery_microservice.util.ReferencedWarning;
 
-
 @RestController
 @RequestMapping(value = "/api/deliveryPeople", produces = MediaType.APPLICATION_JSON_VALUE)
 public class DeliveryPersonResource {
-
     private final DeliveryPersonService deliveryPersonService;
 
     public DeliveryPersonResource(final DeliveryPersonService deliveryPersonService) {
@@ -36,22 +36,19 @@ public class DeliveryPersonResource {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DeliveryPersonDTO> getDeliveryPerson(
-            @PathVariable(name = "id") final Long id) {
+    public ResponseEntity<DeliveryPersonDTO> getDeliveryPerson(@PathVariable(name = "id") final Long id) {
         return ResponseEntity.ok(deliveryPersonService.get(id));
     }
 
     @PostMapping
     @ApiResponse(responseCode = "201")
-    public ResponseEntity<Long> createDeliveryPerson(
-            @RequestBody @Valid final DeliveryPersonDTO deliveryPersonDTO) {
+    public ResponseEntity<Long> createDeliveryPerson(@RequestBody @Valid final DeliveryPersonDTO deliveryPersonDTO) {
         final Long createdId = deliveryPersonService.create(deliveryPersonDTO);
         return new ResponseEntity<>(createdId, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Long> updateDeliveryPerson(@PathVariable(name = "id") final Long id,
-            @RequestBody @Valid final DeliveryPersonDTO deliveryPersonDTO) {
+    public ResponseEntity<Long> updateDeliveryPerson(@PathVariable(name = "id") final Long id, @RequestBody @Valid final DeliveryPersonDTO deliveryPersonDTO) {
         deliveryPersonService.update(id, deliveryPersonDTO);
         return ResponseEntity.ok(id);
     }
@@ -66,5 +63,4 @@ public class DeliveryPersonResource {
         deliveryPersonService.delete(id);
         return ResponseEntity.noContent().build();
     }
-
 }

@@ -2,7 +2,9 @@ package tn.fst.igl5.delivery_microservice.rest;
 
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
+
 import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,11 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 import tn.fst.igl5.delivery_microservice.model.DeliveryDTO;
 import tn.fst.igl5.delivery_microservice.service.DeliveryService;
 
-
 @RestController
 @RequestMapping(value = "/api/deliveries", produces = MediaType.APPLICATION_JSON_VALUE)
 public class DeliveryResource {
-
     private final DeliveryService deliveryService;
 
     public DeliveryResource(final DeliveryService deliveryService) {
@@ -46,8 +46,7 @@ public class DeliveryResource {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Long> updateDelivery(@PathVariable(name = "id") final Long id,
-            @RequestBody @Valid final DeliveryDTO deliveryDTO) {
+    public ResponseEntity<Long> updateDelivery(@PathVariable(name = "id") final Long id, @RequestBody @Valid final DeliveryDTO deliveryDTO) {
         deliveryService.update(id, deliveryDTO);
         return ResponseEntity.ok(id);
     }
@@ -58,5 +57,4 @@ public class DeliveryResource {
         deliveryService.delete(id);
         return ResponseEntity.noContent().build();
     }
-
 }

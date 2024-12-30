@@ -1,11 +1,3 @@
 package tn.fst.igl5.delivery_microservice.model;
 
-
-public enum Vehicule {
-
-    BIKE,
-    MOTORCYCLE,
-    CAR,
-    TRUCK
-
-}
+public enum Vehicule {BIKE, MOTORCYCLE, CAR, TRUCK}
