@@ -1,61 +1,65 @@
 package tn.fst.igl5.delivery_microservice.rest;
 
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
-import java.util.List;
+import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.messaging.responsetypes.ResponseTypes;
+import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import tn.fst.igl5.delivery_microservice.command.command.CreateClaimCommand;
+import tn.fst.igl5.delivery_microservice.command.command.DeleteClaimCommand;
+import tn.fst.igl5.delivery_microservice.command.command.UpdateClaimCommand;
 import tn.fst.igl5.delivery_microservice.model.ClaimDTO;
+import tn.fst.igl5.delivery_microservice.query.query.GetAllClaimsQuery;
+import tn.fst.igl5.delivery_microservice.query.query.GetClaimQuery;
 import tn.fst.igl5.delivery_microservice.service.ClaimService;
 
+import java.util.List;
+import java.util.UUID;
 
 @RestController
-@RequestMapping(value = "/api/claims", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping("/api/claims")
 public class ClaimResource {
-
     private final ClaimService claimService;
+    private final QueryGateway queryGateway;
+    private final CommandGateway commandGateway;
 
-    public ClaimResource(final ClaimService claimService) {
+    public ClaimResource(ClaimService claimService, QueryGateway queryGateway, CommandGateway commandGateway) {
         this.claimService = claimService;
+        this.queryGateway = queryGateway;
+        this.commandGateway = commandGateway;
     }
 
     @GetMapping
     public ResponseEntity<List<ClaimDTO>> getAllClaims() {
-        return ResponseEntity.ok(claimService.findAll());
+        List<ClaimDTO> claims = queryGateway.query(new GetAllClaimsQuery(), ResponseTypes.multipleInstancesOf(ClaimDTO.class)).join();
+        return ResponseEntity.ok(claims);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ClaimDTO> getClaim(@PathVariable(name = "id") final Long id) {
-        return ResponseEntity.ok(claimService.get(id));
+    public ResponseEntity<ClaimDTO> getClaim(@PathVariable String id) {
+        ClaimDTO claim = queryGateway.query(new GetClaimQuery(id), ClaimDTO.class).join();
+        return ResponseEntity.ok(claim);
     }
 
     @PostMapping
-    @ApiResponse(responseCode = "201")
-    public ResponseEntity<Long> createClaim(@RequestBody @Valid final ClaimDTO claimDTO) {
-        final Long createdId = claimService.create(claimDTO);
-        return new ResponseEntity<>(createdId, HttpStatus.CREATED);
+    public ResponseEntity<String> createClaim(@RequestBody ClaimDTO claimDTO) {
+        String id = UUID.randomUUID().toString();
+        commandGateway.send(new CreateClaimCommand(id, claimDTO));
+        return new ResponseEntity<>(id, HttpStatus.CREATED);
     }
 
+
     @PutMapping("/{id}")
-    public ResponseEntity<Long> updateClaim(@PathVariable(name = "id") final Long id,
-            @RequestBody @Valid final ClaimDTO claimDTO) {
-        claimService.update(id, claimDTO);
-        return ResponseEntity.ok(id);
+    public ResponseEntity<Void> updateClaim(@PathVariable String id, @RequestBody ClaimDTO claimDTO) {
+        commandGateway.send(new UpdateClaimCommand(id, claimDTO));
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
-    @ApiResponse(responseCode = "204")
-    public ResponseEntity<Void> deleteClaim(@PathVariable(name = "id") final Long id) {
-        claimService.delete(id);
+    public ResponseEntity<Void> deleteClaim(@PathVariable String id) {
+        commandGateway.send(new DeleteClaimCommand(id));
         return ResponseEntity.noContent().build();
     }
 
