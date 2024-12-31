@@ -25,8 +25,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public class Delivery {
     @Id
     @Column(nullable = false, updatable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
     @Column
     private Long locationLat;
     @Column

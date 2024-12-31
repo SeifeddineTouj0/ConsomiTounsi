@@ -27,8 +27,7 @@ import tn.fst.igl5.delivery_microservice.model.Vehicule;
 public class DeliveryPerson {
     @Id
     @Column(nullable = false, updatable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
     @Column(nullable = false)
     private String name;
     @Column

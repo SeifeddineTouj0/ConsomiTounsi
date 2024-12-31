@@ -26,28 +26,27 @@ public class DeliveryService {
         return deliveries.stream().map(delivery -> mapToDTO(delivery, new DeliveryDTO())).toList();
     }
 
-    public DeliveryDTO get(final Long id) {
+    public DeliveryDTO get(final String id) {
         return deliveryRepository.findById(id).map(delivery -> mapToDTO(delivery, new DeliveryDTO())).orElseThrow(NotFoundException::new);
     }
 
-    public Long create(final DeliveryDTO deliveryDTO) {
+    public String create(final DeliveryDTO deliveryDTO) {
         final Delivery delivery = new Delivery();
         mapToEntity(deliveryDTO, delivery);
         return deliveryRepository.save(delivery).getId();
     }
 
-    public void update(final Long id, final DeliveryDTO deliveryDTO) {
+    public void update(final String id, final DeliveryDTO deliveryDTO) {
         final Delivery delivery = deliveryRepository.findById(id).orElseThrow(NotFoundException::new);
         mapToEntity(deliveryDTO, delivery);
         deliveryRepository.save(delivery);
     }
 
-    public void delete(final Long id) {
+    public void delete(final String id) {
         deliveryRepository.deleteById(id);
     }
 
     private DeliveryDTO mapToDTO(final Delivery delivery, final DeliveryDTO deliveryDTO) {
-        deliveryDTO.setId(delivery.getId());
         deliveryDTO.setLocationLat(delivery.getLocationLat());
         deliveryDTO.setLocationLon(delivery.getLocationLon());
         deliveryDTO.setOrderId(delivery.getOrderId());

@@ -34,26 +34,26 @@ public class DeliveryResource {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DeliveryDTO> getDelivery(@PathVariable(name = "id") final Long id) {
+    public ResponseEntity<DeliveryDTO> getDelivery(@PathVariable(name = "id") final String id) {
         return ResponseEntity.ok(deliveryService.get(id));
     }
 
     @PostMapping
     @ApiResponse(responseCode = "201")
-    public ResponseEntity<Long> createDelivery(@RequestBody @Valid final DeliveryDTO deliveryDTO) {
-        final Long createdId = deliveryService.create(deliveryDTO);
+    public ResponseEntity<String> createDelivery(@RequestBody @Valid final DeliveryDTO deliveryDTO) {
+        final String createdId = deliveryService.create(deliveryDTO);
         return new ResponseEntity<>(createdId, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Long> updateDelivery(@PathVariable(name = "id") final Long id, @RequestBody @Valid final DeliveryDTO deliveryDTO) {
+    public ResponseEntity<String> updateDelivery(@PathVariable(name = "id") final String id, @RequestBody @Valid final DeliveryDTO deliveryDTO) {
         deliveryService.update(id, deliveryDTO);
         return ResponseEntity.ok(id);
     }
 
     @DeleteMapping("/{id}")
     @ApiResponse(responseCode = "204")
-    public ResponseEntity<Void> deleteDelivery(@PathVariable(name = "id") final Long id) {
+    public ResponseEntity<Void> deleteDelivery(@PathVariable(name = "id") final String id) {
         deliveryService.delete(id);
         return ResponseEntity.noContent().build();
     }

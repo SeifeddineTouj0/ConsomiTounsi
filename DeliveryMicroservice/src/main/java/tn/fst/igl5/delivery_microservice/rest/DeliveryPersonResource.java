@@ -36,26 +36,26 @@ public class DeliveryPersonResource {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DeliveryPersonDTO> getDeliveryPerson(@PathVariable(name = "id") final Long id) {
+    public ResponseEntity<DeliveryPersonDTO> getDeliveryPerson(@PathVariable(name = "id") final String id) {
         return ResponseEntity.ok(deliveryPersonService.get(id));
     }
 
     @PostMapping
     @ApiResponse(responseCode = "201")
-    public ResponseEntity<Long> createDeliveryPerson(@RequestBody @Valid final DeliveryPersonDTO deliveryPersonDTO) {
-        final Long createdId = deliveryPersonService.create(deliveryPersonDTO);
+    public ResponseEntity<String> createDeliveryPerson(@RequestBody @Valid final DeliveryPersonDTO deliveryPersonDTO) {
+        final String createdId = deliveryPersonService.create(deliveryPersonDTO);
         return new ResponseEntity<>(createdId, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Long> updateDeliveryPerson(@PathVariable(name = "id") final Long id, @RequestBody @Valid final DeliveryPersonDTO deliveryPersonDTO) {
+    public ResponseEntity<String> updateDeliveryPerson(@PathVariable(name = "id") final String id, @RequestBody @Valid final DeliveryPersonDTO deliveryPersonDTO) {
         deliveryPersonService.update(id, deliveryPersonDTO);
         return ResponseEntity.ok(id);
     }
 
     @DeleteMapping("/{id}")
     @ApiResponse(responseCode = "204")
-    public ResponseEntity<Void> deleteDeliveryPerson(@PathVariable(name = "id") final Long id) {
+    public ResponseEntity<Void> deleteDeliveryPerson(@PathVariable(name = "id") final String id) {
         final ReferencedWarning referencedWarning = deliveryPersonService.getReferencedWarning(id);
         if (referencedWarning != null) {
             throw new ReferencedException(referencedWarning);

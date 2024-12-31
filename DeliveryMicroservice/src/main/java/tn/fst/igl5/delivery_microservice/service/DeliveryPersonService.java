@@ -27,28 +27,27 @@ public class DeliveryPersonService {
         return deliveryPersons.stream().map(deliveryPerson -> mapToDTO(deliveryPerson, new DeliveryPersonDTO())).toList();
     }
 
-    public DeliveryPersonDTO get(final Long id) {
+    public DeliveryPersonDTO get(final String id) {
         return deliveryPersonRepository.findById(id).map(deliveryPerson -> mapToDTO(deliveryPerson, new DeliveryPersonDTO())).orElseThrow(NotFoundException::new);
     }
 
-    public Long create(final DeliveryPersonDTO deliveryPersonDTO) {
+    public String create(final DeliveryPersonDTO deliveryPersonDTO) {
         final DeliveryPerson deliveryPerson = new DeliveryPerson();
         mapToEntity(deliveryPersonDTO, deliveryPerson);
         return deliveryPersonRepository.save(deliveryPerson).getId();
     }
 
-    public void update(final Long id, final DeliveryPersonDTO deliveryPersonDTO) {
+    public void update(final String id, final DeliveryPersonDTO deliveryPersonDTO) {
         final DeliveryPerson deliveryPerson = deliveryPersonRepository.findById(id).orElseThrow(NotFoundException::new);
         mapToEntity(deliveryPersonDTO, deliveryPerson);
         deliveryPersonRepository.save(deliveryPerson);
     }
 
-    public void delete(final Long id) {
+    public void delete(final String id) {
         deliveryPersonRepository.deleteById(id);
     }
 
     private DeliveryPersonDTO mapToDTO(final DeliveryPerson deliveryPerson, final DeliveryPersonDTO deliveryPersonDTO) {
-        deliveryPersonDTO.setId(deliveryPerson.getId());
         deliveryPersonDTO.setName(deliveryPerson.getName());
         deliveryPersonDTO.setPhone(deliveryPerson.getPhone());
         deliveryPersonDTO.setEmail(deliveryPerson.getEmail());
@@ -68,7 +67,7 @@ public class DeliveryPersonService {
         return deliveryPerson;
     }
 
-    public ReferencedWarning getReferencedWarning(final Long id) {
+    public ReferencedWarning getReferencedWarning(final String id) {
         final ReferencedWarning referencedWarning = new ReferencedWarning();
         final DeliveryPerson deliveryPerson = deliveryPersonRepository.findById(id).orElseThrow(NotFoundException::new);
         final Delivery deliveryPersonDelivery = deliveryRepository.findFirstByDeliveryPerson(deliveryPerson);
