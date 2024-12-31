@@ -30,8 +30,9 @@ public class DeliveryService {
         return deliveryRepository.findById(id).map(delivery -> mapToDTO(delivery, new DeliveryDTO())).orElseThrow(NotFoundException::new);
     }
 
-    public String create(final DeliveryDTO deliveryDTO) {
+    public String create(final DeliveryDTO deliveryDTO, String id) {
         final Delivery delivery = new Delivery();
+        delivery.setId(id);
         mapToEntity(deliveryDTO, delivery);
         return deliveryRepository.save(delivery).getId();
     }

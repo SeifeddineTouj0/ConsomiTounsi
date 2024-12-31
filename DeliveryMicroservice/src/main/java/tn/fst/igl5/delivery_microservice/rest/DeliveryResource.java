@@ -4,7 +4,11 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 
 import java.util.List;
+import java.util.UUID;
 
+import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.messaging.responsetypes.ResponseTypes;
+import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -16,45 +20,67 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import tn.fst.igl5.delivery_microservice.command.command.CreateDeliveryCommand;
+import tn.fst.igl5.delivery_microservice.command.command.DeleteDeliveryCommand;
+import tn.fst.igl5.delivery_microservice.command.command.UpdateDeliveryCommand;
 import tn.fst.igl5.delivery_microservice.model.DeliveryDTO;
+import tn.fst.igl5.delivery_microservice.query.query.GetAllDeliveriesQuery;
+import tn.fst.igl5.delivery_microservice.query.query.GetDeliveryQuery;
 import tn.fst.igl5.delivery_microservice.service.DeliveryService;
 
 @RestController
 @RequestMapping(value = "/api/deliveries", produces = MediaType.APPLICATION_JSON_VALUE)
 public class DeliveryResource {
-    private final DeliveryService deliveryService;
 
-    public DeliveryResource(final DeliveryService deliveryService) {
-        this.deliveryService = deliveryService;
+    private final CommandGateway commandGateway;
+    private final QueryGateway queryGateway;
+
+    public DeliveryResource(CommandGateway commandGateway, QueryGateway queryGateway) {
+        this.commandGateway = commandGateway;
+        this.queryGateway = queryGateway;
     }
 
+    // Query: Get all deliveries
     @GetMapping
     public ResponseEntity<List<DeliveryDTO>> getAllDeliveries() {
-        return ResponseEntity.ok(deliveryService.findAll());
+        List<DeliveryDTO> deliveries = queryGateway.query(
+                new GetAllDeliveriesQuery(),
+                ResponseTypes.multipleInstancesOf(DeliveryDTO.class)
+        ).join();
+        return ResponseEntity.ok(deliveries);
     }
 
+    // Query: Get delivery by ID
     @GetMapping("/{id}")
-    public ResponseEntity<DeliveryDTO> getDelivery(@PathVariable(name = "id") final String id) {
-        return ResponseEntity.ok(deliveryService.get(id));
+    public ResponseEntity<DeliveryDTO> getDelivery(@PathVariable String id) {
+        DeliveryDTO delivery = queryGateway.query(
+                new GetDeliveryQuery(id),
+                DeliveryDTO.class
+        ).join();
+        return ResponseEntity.ok(delivery);
     }
 
+    // Command: Create delivery
     @PostMapping
     @ApiResponse(responseCode = "201")
-    public ResponseEntity<String> createDelivery(@RequestBody @Valid final DeliveryDTO deliveryDTO) {
-        final String createdId = deliveryService.create(deliveryDTO);
-        return new ResponseEntity<>(createdId, HttpStatus.CREATED);
+    public ResponseEntity<String> createDelivery(@RequestBody @Valid DeliveryDTO deliveryDTO) {
+        String id = UUID.randomUUID().toString();
+        commandGateway.sendAndWait(new CreateDeliveryCommand(id, deliveryDTO));
+        return new ResponseEntity<>(id, HttpStatus.CREATED);
     }
 
+    // Command: Update delivery
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateDelivery(@PathVariable(name = "id") final String id, @RequestBody @Valid final DeliveryDTO deliveryDTO) {
-        deliveryService.update(id, deliveryDTO);
-        return ResponseEntity.ok(id);
+    public ResponseEntity<Void> updateDelivery(@PathVariable String id, @RequestBody @Valid DeliveryDTO deliveryDTO) {
+        commandGateway.sendAndWait(new UpdateDeliveryCommand(id, deliveryDTO));
+        return ResponseEntity.ok().build();
     }
 
+    // Command: Delete delivery
     @DeleteMapping("/{id}")
     @ApiResponse(responseCode = "204")
-    public ResponseEntity<Void> deleteDelivery(@PathVariable(name = "id") final String id) {
-        deliveryService.delete(id);
+    public ResponseEntity<Void> deleteDelivery(@PathVariable String id) {
+        commandGateway.sendAndWait(new DeleteDeliveryCommand(id));
         return ResponseEntity.noContent().build();
     }
 }
