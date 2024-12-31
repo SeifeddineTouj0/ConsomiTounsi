@@ -8,6 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class DeliveryPersonDTO {
+    private String id;
     @NotNull
     @Size(max = 255)
     private String name;

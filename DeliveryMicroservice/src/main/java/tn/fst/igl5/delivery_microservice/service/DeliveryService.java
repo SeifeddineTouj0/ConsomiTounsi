@@ -48,6 +48,7 @@ public class DeliveryService {
     }
 
     private DeliveryDTO mapToDTO(final Delivery delivery, final DeliveryDTO deliveryDTO) {
+        deliveryDTO.setId(delivery.getId());
         deliveryDTO.setLocationLat(delivery.getLocationLat());
         deliveryDTO.setLocationLon(delivery.getLocationLon());
         deliveryDTO.setOrderId(delivery.getOrderId());

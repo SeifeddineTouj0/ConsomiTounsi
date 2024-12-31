@@ -49,6 +49,7 @@ public class DeliveryPersonService {
     }
 
     private DeliveryPersonDTO mapToDTO(final DeliveryPerson deliveryPerson, final DeliveryPersonDTO deliveryPersonDTO) {
+        deliveryPersonDTO.setId(deliveryPerson.getId());
         deliveryPersonDTO.setName(deliveryPerson.getName());
         deliveryPersonDTO.setPhone(deliveryPerson.getPhone());
         deliveryPersonDTO.setEmail(deliveryPerson.getEmail());

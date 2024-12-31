@@ -44,6 +44,7 @@ public class ClaimService {
     }
 
     private ClaimDTO mapToDTO(final Claim claim, final ClaimDTO claimDTO) {
+        claimDTO.setId(claim.getId());
         claimDTO.setContent(claim.getContent());
         claimDTO.setDecision(claim.getDecision());
         claimDTO.setStatus(claim.getStatus());
