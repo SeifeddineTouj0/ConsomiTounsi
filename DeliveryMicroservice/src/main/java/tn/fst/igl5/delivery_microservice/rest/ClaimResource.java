@@ -34,14 +34,14 @@ public class ClaimResource {
     }
 
     @GetMapping
-    public ResponseEntity<List<Claim>> getAllClaims() {
-        List<Claim> claims = queryGateway.query(new GetAllClaimsQuery(), ResponseTypes.multipleInstancesOf(Claim.class)).join();
+    public ResponseEntity<List<ClaimDTO>> getAllClaims() {
+        List<ClaimDTO> claims = queryGateway.query(new GetAllClaimsQuery(), ResponseTypes.multipleInstancesOf(ClaimDTO.class)).join();
         return ResponseEntity.ok(claims);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Claim> getClaim(@PathVariable String id) {
-        Claim claim = queryGateway.query(new GetClaimQuery(id), Claim.class).join();
+    public ResponseEntity<ClaimDTO> getClaim(@PathVariable String id) {
+        ClaimDTO claim = queryGateway.query(new GetClaimQuery(id), ClaimDTO.class).join();
         return ResponseEntity.ok(claim);
     }
 

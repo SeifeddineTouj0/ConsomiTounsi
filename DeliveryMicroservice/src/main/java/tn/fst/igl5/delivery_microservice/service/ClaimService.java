@@ -26,8 +26,9 @@ public class ClaimService {
         return claimRepository.findById(id).map(claim -> mapToDTO(claim, new ClaimDTO())).orElseThrow(NotFoundException::new);
     }
 
-    public String create(final ClaimDTO claimDTO) {
+    public String create(final ClaimDTO claimDTO,String claimId) {
         final Claim claim = new Claim();
+        claim.setId(claimId);
         mapToEntity(claimDTO, claim);
         return claimRepository.save(claim).getId();
     }
