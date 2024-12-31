@@ -10,12 +10,14 @@ import org.springframework.web.bind.annotation.*;
 import tn.fst.igl5.delivery_microservice.command.command.CreateClaimCommand;
 import tn.fst.igl5.delivery_microservice.command.command.DeleteClaimCommand;
 import tn.fst.igl5.delivery_microservice.command.command.UpdateClaimCommand;
+import tn.fst.igl5.delivery_microservice.domain.Claim;
 import tn.fst.igl5.delivery_microservice.model.ClaimDTO;
 import tn.fst.igl5.delivery_microservice.query.query.GetAllClaimsQuery;
 import tn.fst.igl5.delivery_microservice.query.query.GetClaimQuery;
 import tn.fst.igl5.delivery_microservice.service.ClaimService;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -32,14 +34,14 @@ public class ClaimResource {
     }
 
     @GetMapping
-    public ResponseEntity<List<ClaimDTO>> getAllClaims() {
-        List<ClaimDTO> claims = queryGateway.query(new GetAllClaimsQuery(), ResponseTypes.multipleInstancesOf(ClaimDTO.class)).join();
+    public ResponseEntity<List<Claim>> getAllClaims() {
+        List<Claim> claims = queryGateway.query(new GetAllClaimsQuery(), ResponseTypes.multipleInstancesOf(Claim.class)).join();
         return ResponseEntity.ok(claims);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ClaimDTO> getClaim(@PathVariable String id) {
-        ClaimDTO claim = queryGateway.query(new GetClaimQuery(id), ClaimDTO.class).join();
+    public ResponseEntity<Claim> getClaim(@PathVariable String id) {
+        Claim claim = queryGateway.query(new GetClaimQuery(id), Claim.class).join();
         return ResponseEntity.ok(claim);
     }
 

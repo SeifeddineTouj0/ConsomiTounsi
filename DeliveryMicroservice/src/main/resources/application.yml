@@ -3,7 +3,7 @@ spring:
     name: DeliveryMicroservice
 
   datasource:
-    url: ${JDBC_DATABASE_URL:jdbc:mysql://localhost:3306/deliverymicroserivce2?serverTimezone=UTC}
+    url: ${JDBC_DATABASE_URL:jdbc:mysql://localhost:3306/delivery?serverTimezone=UTC}
     username: ${JDBC_DATABASE_USERNAME:root}
     password: ${JDBC_DATABASE_PASSWORD:seif2001}
     hikari:
