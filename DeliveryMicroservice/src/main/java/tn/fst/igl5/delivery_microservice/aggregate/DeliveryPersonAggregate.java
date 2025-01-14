@@ -1,16 +1,14 @@
-package tn.fst.igl5.delivery_microservice.command.aggregate;
+package tn.fst.igl5.delivery_microservice.aggregate;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.spring.stereotype.Aggregate;
 import org.axonframework.modelling.command.AggregateIdentifier;
-import tn.fst.igl5.delivery_microservice.command.command.AffectDeliveryPersonCommand;
-import tn.fst.igl5.delivery_microservice.command.command.CreateDeliveryPersonCommand;
-import tn.fst.igl5.delivery_microservice.command.command.DeleteDeliveryPersonCommand;
-import tn.fst.igl5.delivery_microservice.command.command.UpdateDeliveryPersonCommand;
-import tn.fst.igl5.delivery_microservice.command.event.DeliveryPersonAffectedEvent;
-import tn.fst.igl5.delivery_microservice.command.event.DeliveryPersonCreatedEvent;
-import tn.fst.igl5.delivery_microservice.command.event.DeliveryPersonDeletedEvent;
-import tn.fst.igl5.delivery_microservice.command.event.DeliveryPersonUpdatedEvent;
+import tn.fst.igl5.delivery_microservice.command.CreateDeliveryPersonCommand;
+import tn.fst.igl5.delivery_microservice.command.DeleteDeliveryPersonCommand;
+import tn.fst.igl5.delivery_microservice.command.UpdateDeliveryPersonCommand;
+import tn.fst.igl5.delivery_microservice.event.DeliveryPersonCreatedEvent;
+import tn.fst.igl5.delivery_microservice.event.DeliveryPersonDeletedEvent;
+import tn.fst.igl5.delivery_microservice.event.DeliveryPersonUpdatedEvent;
 import tn.fst.igl5.delivery_microservice.model.DeliveryPersonDTO;
 
 import static org.axonframework.modelling.command.AggregateLifecycle.apply;

@@ -1,4 +1,4 @@
-package tn.fst.igl5.delivery_microservice.command.command;
+package tn.fst.igl5.delivery_microservice.command;
 
 import lombok.Getter;
 import lombok.Setter;

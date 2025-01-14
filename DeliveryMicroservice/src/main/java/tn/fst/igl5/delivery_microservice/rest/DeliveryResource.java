@@ -21,15 +21,14 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import tn.fst.igl5.delivery_microservice.command.command.CreateDeliveryCommand;
-import tn.fst.igl5.delivery_microservice.command.command.DeleteDeliveryCommand;
-import tn.fst.igl5.delivery_microservice.command.command.UpdateDeliveryCommand;
+import tn.fst.igl5.delivery_microservice.command.CreateDeliveryCommand;
+import tn.fst.igl5.delivery_microservice.command.DeleteDeliveryCommand;
+import tn.fst.igl5.delivery_microservice.command.UpdateDeliveryCommand;
 import tn.fst.igl5.delivery_microservice.model.DeliveryDTO;
 import tn.fst.igl5.delivery_microservice.model.OrderDetailsDTO;
 import tn.fst.igl5.delivery_microservice.query.query.GetAllDeliveriesQuery;
 import tn.fst.igl5.delivery_microservice.query.query.GetDeliveryFeesQuery;
 import tn.fst.igl5.delivery_microservice.query.query.GetDeliveryQuery;
-import tn.fst.igl5.delivery_microservice.service.DeliveryService;
 
 @RestController
 @RequestMapping(value = "/api/deliveries", produces = MediaType.APPLICATION_JSON_VALUE)

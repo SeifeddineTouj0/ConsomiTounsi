@@ -1,4 +1,4 @@
-package tn.fst.igl5.delivery_microservice.command.aggregate;
+package tn.fst.igl5.delivery_microservice.aggregate;
 
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.common.Assert;
@@ -6,12 +6,12 @@ import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.modelling.command.AggregateLifecycle;
 import org.axonframework.spring.stereotype.Aggregate;
-import tn.fst.igl5.delivery_microservice.command.command.CreateClaimCommand;
-import tn.fst.igl5.delivery_microservice.command.command.DeleteClaimCommand;
-import tn.fst.igl5.delivery_microservice.command.command.UpdateClaimCommand;
-import tn.fst.igl5.delivery_microservice.command.event.ClaimCreatedEvent;
-import tn.fst.igl5.delivery_microservice.command.event.ClaimDeletedEvent;
-import tn.fst.igl5.delivery_microservice.command.event.ClaimUpdatedEvent;
+import tn.fst.igl5.delivery_microservice.command.CreateClaimCommand;
+import tn.fst.igl5.delivery_microservice.command.DeleteClaimCommand;
+import tn.fst.igl5.delivery_microservice.command.UpdateClaimCommand;
+import tn.fst.igl5.delivery_microservice.event.ClaimCreatedEvent;
+import tn.fst.igl5.delivery_microservice.event.ClaimDeletedEvent;
+import tn.fst.igl5.delivery_microservice.event.ClaimUpdatedEvent;
 import tn.fst.igl5.delivery_microservice.model.ClaimDTO;
 @Aggregate
 public class ClaimAggregate {

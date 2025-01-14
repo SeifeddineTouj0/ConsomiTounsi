@@ -6,7 +6,6 @@ import jakarta.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
-import org.aspectj.weaver.ast.Or;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.messaging.responsetypes.ResponseTypes;
 import org.axonframework.queryhandling.QueryGateway;
@@ -21,18 +20,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import tn.fst.igl5.delivery_microservice.command.command.AffectDeliveryPersonCommand;
-import tn.fst.igl5.delivery_microservice.command.command.CreateDeliveryPersonCommand;
-import tn.fst.igl5.delivery_microservice.command.command.DeleteDeliveryPersonCommand;
-import tn.fst.igl5.delivery_microservice.command.command.UpdateDeliveryPersonCommand;
-import tn.fst.igl5.delivery_microservice.model.DeliveryDTO;
+import tn.fst.igl5.delivery_microservice.command.CreateDeliveryPersonCommand;
+import tn.fst.igl5.delivery_microservice.command.DeleteDeliveryPersonCommand;
+import tn.fst.igl5.delivery_microservice.command.UpdateDeliveryPersonCommand;
 import tn.fst.igl5.delivery_microservice.model.DeliveryPersonDTO;
-import tn.fst.igl5.delivery_microservice.model.OrderDetailsDTO;
 import tn.fst.igl5.delivery_microservice.query.query.GetAllDeliveryPeopleQuery;
 import tn.fst.igl5.delivery_microservice.query.query.GetDeliveryPersonQuery;
-import tn.fst.igl5.delivery_microservice.service.DeliveryPersonService;
-import tn.fst.igl5.delivery_microservice.util.ReferencedException;
-import tn.fst.igl5.delivery_microservice.util.ReferencedWarning;
 
 @RestController
 @RequestMapping(value = "/api/deliveryPeople", produces = MediaType.APPLICATION_JSON_VALUE)

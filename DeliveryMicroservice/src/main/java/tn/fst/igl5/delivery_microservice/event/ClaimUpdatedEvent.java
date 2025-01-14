@@ -1,4 +1,4 @@
-package tn.fst.igl5.delivery_microservice.command.event;
+package tn.fst.igl5.delivery_microservice.event;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

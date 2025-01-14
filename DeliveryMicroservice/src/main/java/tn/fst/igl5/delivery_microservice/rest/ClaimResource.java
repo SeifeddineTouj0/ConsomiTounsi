@@ -6,19 +6,16 @@ import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import tn.fst.igl5.delivery_microservice.command.command.CreateClaimCommand;
-import tn.fst.igl5.delivery_microservice.command.command.DeleteClaimCommand;
-import tn.fst.igl5.delivery_microservice.command.command.UpdateClaimCommand;
+import tn.fst.igl5.delivery_microservice.command.CreateClaimCommand;
+import tn.fst.igl5.delivery_microservice.command.DeleteClaimCommand;
+import tn.fst.igl5.delivery_microservice.command.UpdateClaimCommand;
 import tn.fst.igl5.delivery_microservice.model.ClaimDTO;
-import tn.fst.igl5.delivery_microservice.model.OrderDetailsDTO;
 import tn.fst.igl5.delivery_microservice.query.query.GetAllClaimsQuery;
 import tn.fst.igl5.delivery_microservice.query.query.GetClaimQuery;
-import tn.fst.igl5.delivery_microservice.query.query.GetDeliveryFeesQuery;
 import tn.fst.igl5.delivery_microservice.service.ClaimService;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("/api/claims")
