@@ -1,7 +1,7 @@
 spring:
   application:
-    name: boutique-microservice # Name for identification in Eureka
-  port: 8082
+    name: users-microservice # Name for identification in Eureka
+  port: 8090
   cloud:
     config:
       uri: http://config-server:8888
@@ -10,7 +10,7 @@ spring:
       import-check:
         enabled: true
   datasource:
-    url: jdbc:mysql://boutique-db:3306/boutique_db
+    url: jdbc:mysql://users-db:3306/users_db
     username: root
     password: ""
     driver-class-name: com.mysql.cj.jdbc.Driver
