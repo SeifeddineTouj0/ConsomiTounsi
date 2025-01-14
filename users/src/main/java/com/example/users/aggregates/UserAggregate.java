@@ -36,6 +36,7 @@ public class UserAggregate {
         this.username=event.getUsername();
         this.email = event.getEmail();
         this.password= event.getPassword();
+        this.role = event.getRole();
         this.isActive = event.isActive();
         this.createdAt = event.getCreatedAt();
     }

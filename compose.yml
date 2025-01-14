@@ -6,10 +6,11 @@ services:
     ports:
       - "8024:8024"
       - "8124:8124"
-  ventes_microservice_db:
+  users-db:
     image: mysql:8.0
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: ventes_microservice
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+      MYSQL_DATABASE: users_db
     ports:
-      - "3306:3306"
+      - "18000:3306"
+

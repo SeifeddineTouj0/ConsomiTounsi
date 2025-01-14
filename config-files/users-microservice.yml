@@ -23,6 +23,8 @@ spring:
 
 
 axon:
+  serializer:
+    general: jackson
   axonserver:
     servers: axon-server:8124
   eventhandling:
