@@ -3,10 +3,14 @@ package com.example.coreapi.ventes.facture;
 import java.time.LocalDate;
 import java.util.Set;
 
+import com.example.coreapi.ventes.payment.PurchasedProduct;
+
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,5 +31,6 @@ public class FactureInfo {
     Double montant;
 
     @ElementCollection(fetch = FetchType.EAGER)
-    Set<String> products;
+    @CollectionTable(name = "payment_products", joinColumns = @JoinColumn(name = "payment_id"))
+    Set<PurchasedProduct> products;
 }

@@ -36,17 +36,17 @@ public class FactureInfoProjection {
         try {
             paymentInfo = queryGateway.query(
                     PaymentInfoNamedQueries.FIND_ONE,
-                    event.paymentId(),
+                    event.getPaymentId(),
                     PaymentInfo.class).get();
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException("Failed to fetch PaymentInfo", e);
         }
 
         FactureInfo factureInfo = new FactureInfo();
-        factureInfo.setFactureId(event.factureId());
-        factureInfo.setDateFacture(event.dateFacture());
-        factureInfo.setTypeFacture(event.typeFacture());
-        factureInfo.setPaymentId(event.paymentId());
+        factureInfo.setFactureId(event.getFactureId());
+        factureInfo.setDateFacture(event.getDateFacture());
+        factureInfo.setTypeFacture(event.getTypeFacture());
+        factureInfo.setPaymentId(event.getPaymentId());
         factureInfo.setUser(paymentInfo.getUser());
         factureInfo.setMontant(paymentInfo.getMontant());
         factureInfo.setProducts(paymentInfo.getProducts());
@@ -56,7 +56,7 @@ public class FactureInfoProjection {
 
     @EventHandler
     public void on(FactureUpdatedEvent event) {
-        FactureInfo factureInfo = factureInfoRepository.findById(event.factureId()).orElse(null);
+        FactureInfo factureInfo = factureInfoRepository.findById(event.getFactureId()).orElse(null);
         if (factureInfo == null) {
             throw new RuntimeException("Facture not found");
         }
@@ -65,15 +65,15 @@ public class FactureInfoProjection {
         try {
             paymentInfo = queryGateway.query(
                     PaymentInfoNamedQueries.FIND_ONE,
-                    event.paymentId(),
+                    event.getPaymentId(),
                     PaymentInfo.class).get();
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException("Failed to fetch PaymentInfo", e);
         }
 
-        factureInfo.setDateFacture(event.dateFacture());
-        factureInfo.setTypeFacture(event.typeFacture());
-        factureInfo.setPaymentId(event.paymentId());
+        factureInfo.setDateFacture(event.getDateFacture());
+        factureInfo.setTypeFacture(event.getTypeFacture());
+        factureInfo.setPaymentId(event.getPaymentId());
         factureInfo.setUser(paymentInfo.getUser());
         factureInfo.setMontant(paymentInfo.getMontant());
         factureInfo.setProducts(paymentInfo.getProducts());
@@ -83,7 +83,7 @@ public class FactureInfoProjection {
 
     @EventHandler
     public void on(FactureDeletedEvent event) {
-        factureInfoRepository.deleteById(event.factureId());
+        factureInfoRepository.deleteById(event.getFactureId());
     }
 
     @QueryHandler(queryName = FactureInfoNamedQueries.FIND_ALL)

@@ -3,8 +3,6 @@ package com.example.produits.controllers;
 import com.example.coreapi.produits.queries.FetchproductByIdQuery;
 import com.example.coreapi.produits.queries.ListAllProductsQuery;
 import com.example.coreapi.produits.queries.ProductInfo;
-import com.example.coreapi.users.queries.FetchUserByIdQuery;
-import com.example.coreapi.users.queries.UserInfo;
 import org.axonframework.messaging.responsetypes.ResponseTypes;
 import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.http.ResponseEntity;

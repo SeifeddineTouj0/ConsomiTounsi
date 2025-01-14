@@ -1,5 +1,12 @@
 package com.example.coreapi.ventes.facture;
 
-public record FactureDeletedEvent(
-        String factureId) {
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class FactureDeletedEvent {
+        String factureId;
 }
