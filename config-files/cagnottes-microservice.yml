@@ -1,0 +1,42 @@
+spring:
+  application:
+    name: cagnottes-microservice # Nom de l'application pour identification dans Eureka
+  cloud:
+    config:
+      uri: http://localhost:8888 # Adresse de Config Server
+      import: "optional:configserver:" # Utilisation correcte de configserver avec optional pour éviter l'erreur
+      import-check:
+        enabled: false # Désactiver la vérification de l'importation de configuration
+  eureka:
+    client:
+      service-url:
+        defaultZone: http://localhost:8761/eureka/ # Adresse de votre Eureka Server
+  management:
+    tracing:
+      sampling:
+        probability: 1.0 # Taux d'échantillonnage pour la traçabilité (1.0 signifie que toutes les requêtes seront tracées)
+    zipkin:
+      endpoint: http://localhost:9411/api/v2/spans # URL du serveur Zipkin pour collecter et visualiser les traces
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*" # Exposer tous les points d'exposition
+  metrics:
+    export:
+      prometheus:
+        enabled: true # Activer l'exportation des métriques pour Prometheus
+
+resilience4j:
+  retry:
+    instances:
+      myRetry:
+        max-attempts: 3 # Nombre maximum de tentatives
+        wait-duration: 500ms # Durée entre chaque tentative
+  rate-limiter:
+    instances:
+      myRateLimiter:
+        limit-for-period: 5 # Nombre de requêtes par période
+        limit-refresh-period: 1s # Période de rafraîchissement (1 seconde)
+        timeout-duration: 500ms # Durée de timeout pour une requête
