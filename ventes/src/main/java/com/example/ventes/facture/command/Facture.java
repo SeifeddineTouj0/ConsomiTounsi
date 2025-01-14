@@ -7,6 +7,7 @@ import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.spring.stereotype.Aggregate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.axonframework.queryhandling.QueryGateway;
 
 import com.example.coreapi.ventes.facture.CreateFactureCommand;
@@ -22,6 +23,7 @@ import com.example.coreapi.ventes.payment.PaymentInfo;
 import com.example.coreapi.ventes.payment.PaymentInfoNamedQueries;
 
 import static org.axonframework.modelling.command.AggregateLifecycle.apply;
+import static org.axonframework.modelling.command.AggregateLifecycle.markDeleted;
 
 @Aggregate
 public class Facture {
@@ -35,6 +37,7 @@ public class Facture {
 
     private String paymentId;
 
+    @Autowired
     private final QueryGateway queryGateway;
 
     public Facture() {
@@ -65,9 +68,8 @@ public class Facture {
     }
 
     @CommandHandler
-    public Facture(UpdateFactureCommand command, QueryGateway queryGateway)
+    public void handle(UpdateFactureCommand command)
             throws ExecutionException, InterruptedException {
-        this.queryGateway = queryGateway;
 
         // Check if facture exists
         FactureInfo factureInfo = queryGateway.query(
@@ -98,8 +100,7 @@ public class Facture {
     }
 
     @CommandHandler
-    public Facture(DeleteFactureCommand command, QueryGateway queryGateway) {
-        this.queryGateway = queryGateway;
+    public void handle(DeleteFactureCommand command) {
         apply(new FactureDeletedEvent(command.factureId()));
     }
 
@@ -117,5 +118,11 @@ public class Facture {
         this.dateFacture = event.dateFacture();
         this.typeFacture = event.typeFacture();
         this.paymentId = event.paymentId();
+    }
+
+    @EventSourcingHandler
+    protected void on(FactureDeletedEvent event) {
+        this.id = event.factureId();
+        markDeleted();
     }
 }
