@@ -219,9 +219,18 @@ services:
     networks:
       - microservices-network
     depends_on:
-      - api-gateway
       - boutique-microservice
       - ventes-microservice
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    networks:
+      - microservices-network
+    depends_on:
+      - prometheus
 
 #  zipkin:
 #    image: openzipkin/zipkin
