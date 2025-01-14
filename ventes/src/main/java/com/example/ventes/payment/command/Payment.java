@@ -45,8 +45,8 @@ public class Payment {
     public Payment(CreatePaymentCommand command, QueryGateway queryGateway) {
         this.queryGateway = queryGateway;
 
-        for (PurchasedProduct produit : command.produitIds()) {
-            if (produit.getQuantity() < 0) {
+        for (PurchasedProduct produit : command.getProduitIds()) {
+            if (produit.getQuantity() <= 0) {
                 throw new IllegalArgumentException("Quantite doit etre positive");
             }
             StockStatusResponse stockStatusResponse = queryGateway.query(
@@ -56,20 +56,19 @@ public class Payment {
             }
         }
 
-
-        apply(new PaymentCreatedEvent(command.paymentId(), command.typePayment(), command.montant(),
-                command.datePayment(), command.statusPayment(), command.userId(), command.produitIds()));
+        apply(new PaymentCreatedEvent(command.getPaymentId(), command.getTypePayment(), command.getMontant(),
+                command.getDatePayment(), command.getStatusPayment(), command.getUserId(), command.getProduitIds()));
     }
 
     @EventSourcingHandler
     protected void on(PaymentCreatedEvent event) {
-        this.paymentId = event.paymentId();
-        this.typePayment = event.typePayment();
-        this.montant = event.montant();
-        this.datePayment = event.datePayment();
-        this.statusPayment = event.statusPayment();
-        this.user = event.userId();
-        this.produits = event.produitIds();
+        this.paymentId = event.getPaymentId();
+        this.typePayment = event.getTypePayment();
+        this.montant = event.getMontant();
+        this.datePayment = event.getDatePayment();
+        this.statusPayment = event.getStatusPayment();
+        this.user = event.getUserId();
+        this.produits = event.getProduitIds();
     }
 
 }
