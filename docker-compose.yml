@@ -63,6 +63,7 @@ services:
       timeout: 5s
       retries: 5
       start_period: 30s
+
   boutique-db:
     image: mysql:8.0
     container_name: boutique-db
@@ -78,20 +79,7 @@ services:
       retries: 5
       start_period: 30s
 
-  #  boutique-db:
-  #    image: mysql:8.0
-  #    container_name: boutique-db
-  #    environment:
-  #      MYSQL_ALLOW_EMPTY_PASSWORD: 1
-  #      MYSQL_DATABASE: boutique_db
-  #    networks:
-  #      - microservices-network
-  #    healthcheck:
-  #      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
-  #      interval: 10s
-  #      timeout: 5s
-  #      retries: 5
-  #      start_period: 30s
+
   users-microservice:
     build: ./users
     container_name: users-microservice
@@ -106,7 +94,7 @@ services:
       config-server:
         condition: service_healthy
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8080/actuator/health" ]
+      test: [ "CMD", "curl", "-f", "http://localhost:8090/actuator/health" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -132,7 +120,7 @@ services:
       eureka-server:
         condition: service_healthy
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8080/actuator/health" ]
+      test: [ "CMD", "curl", "-f", "http://localhost:8082/actuator/health" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -175,7 +163,7 @@ services:
       eureka-server:
         condition: service_healthy
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8080/actuator/health" ]
+      test: [ "CMD", "curl", "-f", "http://localhost:8081/actuator/health" ]
       interval: 10s
       timeout: 5s
       retries: 5
