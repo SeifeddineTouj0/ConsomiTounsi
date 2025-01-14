@@ -13,7 +13,11 @@ import com.example.coreapi.ventes.facture.CreateFactureCommand;
 import com.example.coreapi.ventes.facture.DeleteFactureCommand;
 import com.example.coreapi.ventes.facture.FactureCreatedEvent;
 import com.example.coreapi.ventes.facture.FactureDeletedEvent;
+import com.example.coreapi.ventes.facture.FactureInfo;
+import com.example.coreapi.ventes.facture.FactureInfoNamedQueries;
+import com.example.coreapi.ventes.facture.FactureUpdatedEvent;
 import com.example.coreapi.ventes.facture.TypeFacture;
+import com.example.coreapi.ventes.facture.UpdateFactureCommand;
 import com.example.coreapi.ventes.payment.PaymentInfo;
 import com.example.coreapi.ventes.payment.PaymentInfoNamedQueries;
 
@@ -61,6 +65,39 @@ public class Facture {
     }
 
     @CommandHandler
+    public Facture(UpdateFactureCommand command, QueryGateway queryGateway)
+            throws ExecutionException, InterruptedException {
+        this.queryGateway = queryGateway;
+
+        // Check if facture exists
+        FactureInfo factureInfo = queryGateway.query(
+                FactureInfoNamedQueries.FIND_ONE,
+                command.factureId(),
+                FactureInfo.class).get();
+
+        if (factureInfo == null) {
+            throw new IllegalArgumentException("Facture not found");
+        }
+
+        // Fetch PaymentInfo using QueryGateway
+        PaymentInfo paymentInfo = queryGateway.query(
+                PaymentInfoNamedQueries.FIND_ONE,
+                command.paymentId(),
+                PaymentInfo.class).get();
+
+        if (paymentInfo == null) {
+            throw new IllegalArgumentException("Payment not found");
+        }
+
+        // Apply FactureUpdatedEvent with additional fields
+        apply(new FactureUpdatedEvent(
+                command.factureId(),
+                command.dateFacture(),
+                command.typeFacture(),
+                command.paymentId()));
+    }
+
+    @CommandHandler
     public Facture(DeleteFactureCommand command, QueryGateway queryGateway) {
         this.queryGateway = queryGateway;
         apply(new FactureDeletedEvent(command.factureId()));
@@ -68,6 +105,14 @@ public class Facture {
 
     @EventSourcingHandler
     protected void on(FactureCreatedEvent event) {
+        this.id = event.factureId();
+        this.dateFacture = event.dateFacture();
+        this.typeFacture = event.typeFacture();
+        this.paymentId = event.paymentId();
+    }
+
+    @EventSourcingHandler
+    protected void on(FactureUpdatedEvent event) {
         this.id = event.factureId();
         this.dateFacture = event.dateFacture();
         this.typeFacture = event.typeFacture();

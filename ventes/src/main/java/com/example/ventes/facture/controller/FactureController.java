@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,6 +24,7 @@ import com.example.coreapi.ventes.facture.DeleteFactureCommand;
 import com.example.coreapi.ventes.facture.FactureInfo;
 import com.example.coreapi.ventes.facture.FactureInfoNamedQueries;
 import com.example.coreapi.ventes.facture.TypeFacture;
+import com.example.coreapi.ventes.facture.UpdateFactureCommand;
 
 @RestController
 @RequestMapping("/factures")
@@ -91,6 +93,20 @@ public class FactureController {
     public CompletableFuture<Void> deleteFacture(@RequestParam String factureId) {
         DeleteFactureCommand command = new DeleteFactureCommand(factureId);
         return commandGateway.send(command);
+    }
+
+    @PutMapping("/{factureId}")
+    public CompletableFuture<String> updateFacture(@RequestParam String factureId, @RequestParam String paymentId,
+            @RequestParam LocalDate dateFacture, @RequestParam TypeFacture typeFacture) {
+        UpdateFactureCommand command = new UpdateFactureCommand(
+                factureId,
+                dateFacture,
+                typeFacture,
+                paymentId);
+
+        CompletableFuture<String> commandResult = commandGateway.send(command);
+
+        return commandResult;
     }
 
 }
