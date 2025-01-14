@@ -4,6 +4,7 @@ spring:
   jpa:
     properties:
       hibernate:
+        ddl-auto: update
         dialect: org.hibernate.dialect.MySQL8Dialect
     hibernate:
       ddl-auto: update
@@ -14,3 +15,5 @@ spring:
     password: root
 server:
   port: 8089
+
+
