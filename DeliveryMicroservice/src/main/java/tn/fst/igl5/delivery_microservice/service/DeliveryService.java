@@ -35,6 +35,9 @@ public class DeliveryService {
         final Delivery delivery = new Delivery();
         delivery.setId(id);
         mapToEntity(deliveryDTO, delivery);
+        List<DeliveryPerson> deliveryPeople=deliveryPersonRepository.findDeliveryPersonByAvailable(true);
+        DeliveryPerson deliveryPerson= DistanceHelper.findClosestDeliveryPerson(36.83435984660222, 10.147430061928251,deliveryPeople);
+        delivery.setDeliveryPerson(deliveryPerson);
         return deliveryRepository.save(delivery).getId();
     }
 

@@ -3,9 +3,11 @@ import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.spring.stereotype.Aggregate;
 import org.axonframework.modelling.command.AggregateIdentifier;
+import tn.fst.igl5.delivery_microservice.command.command.AffectDeliveryPersonCommand;
 import tn.fst.igl5.delivery_microservice.command.command.CreateDeliveryPersonCommand;
 import tn.fst.igl5.delivery_microservice.command.command.DeleteDeliveryPersonCommand;
 import tn.fst.igl5.delivery_microservice.command.command.UpdateDeliveryPersonCommand;
+import tn.fst.igl5.delivery_microservice.command.event.DeliveryPersonAffectedEvent;
 import tn.fst.igl5.delivery_microservice.command.event.DeliveryPersonCreatedEvent;
 import tn.fst.igl5.delivery_microservice.command.event.DeliveryPersonDeletedEvent;
 import tn.fst.igl5.delivery_microservice.command.event.DeliveryPersonUpdatedEvent;
@@ -41,6 +43,7 @@ public class DeliveryPersonAggregate {
         apply(new DeliveryPersonDeletedEvent(command.getId()));
     }
 
+
     @EventSourcingHandler
     protected void on(DeliveryPersonCreatedEvent event) {
         this.id = event.getId();
@@ -55,4 +58,6 @@ public class DeliveryPersonAggregate {
     @EventSourcingHandler
     protected void on(DeliveryPersonDeletedEvent event) {
     }
+
+
 }

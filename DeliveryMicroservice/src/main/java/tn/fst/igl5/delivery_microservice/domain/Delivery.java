@@ -27,9 +27,9 @@ public class Delivery {
     @Column(nullable = false, updatable = false)
     private String id;
     @Column
-    private Long locationLat;
+    private Double locationLat;
     @Column
-    private Long locationLon;
+    private Double locationLon;
     @Column
     private String orderId;
     @ManyToOne(fetch = FetchType.LAZY)

@@ -66,7 +66,7 @@ public class DeliveryResource {
     // Command: Create delivery
     @PostMapping
     @ApiResponse(responseCode = "201")
-    public ResponseEntity<String> createDelivery(@RequestBody @Valid DeliveryDTO deliveryDTO) {
+    public ResponseEntity<String> createAndAssignDelivery(@RequestBody @Valid DeliveryDTO deliveryDTO) {
         String id = UUID.randomUUID().toString();
         commandGateway.sendAndWait(new CreateDeliveryCommand(id, deliveryDTO));
         return new ResponseEntity<>(id, HttpStatus.CREATED);
@@ -92,4 +92,5 @@ public class DeliveryResource {
         //return orderDetailsDTO;
         return queryGateway.query(new GetDeliveryFeesQuery(orderDetailsDTO), Double.class);
     }
+
 }

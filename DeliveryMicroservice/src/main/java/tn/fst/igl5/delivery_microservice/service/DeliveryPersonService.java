@@ -3,10 +3,13 @@ package tn.fst.igl5.delivery_microservice.service;
 import java.util.List;
 
 import org.springframework.data.domain.Sort;
+import org.springframework.data.geo.Distance;
 import org.springframework.stereotype.Service;
 import tn.fst.igl5.delivery_microservice.domain.Delivery;
 import tn.fst.igl5.delivery_microservice.domain.DeliveryPerson;
+import tn.fst.igl5.delivery_microservice.helper.DistanceHelper;
 import tn.fst.igl5.delivery_microservice.model.DeliveryPersonDTO;
+import tn.fst.igl5.delivery_microservice.model.OrderDetailsDTO;
 import tn.fst.igl5.delivery_microservice.repos.DeliveryPersonRepository;
 import tn.fst.igl5.delivery_microservice.repos.DeliveryRepository;
 import tn.fst.igl5.delivery_microservice.util.NotFoundException;
@@ -56,6 +59,9 @@ public class DeliveryPersonService {
         deliveryPersonDTO.setAddress(deliveryPerson.getAddress());
         deliveryPersonDTO.setVehiculeType(deliveryPerson.getVehiculeType());
         deliveryPersonDTO.setPlateNumber(deliveryPerson.getPlateNumber());
+        deliveryPersonDTO.setCurrentLat(deliveryPerson.getCurrentLat());
+        deliveryPersonDTO.setCurrentLng(deliveryPerson.getCurrentLng());
+        deliveryPersonDTO.setAvailable(deliveryPerson.isAvailable());
         return deliveryPersonDTO;
     }
 
@@ -66,6 +72,9 @@ public class DeliveryPersonService {
         deliveryPerson.setAddress(deliveryPersonDTO.getAddress());
         deliveryPerson.setVehiculeType(deliveryPersonDTO.getVehiculeType());
         deliveryPerson.setPlateNumber(deliveryPersonDTO.getPlateNumber());
+        deliveryPerson.setCurrentLat(deliveryPersonDTO.getCurrentLat());
+        deliveryPerson.setCurrentLng(deliveryPersonDTO.getCurrentLng());
+        deliveryPerson.setAvailable(deliveryPersonDTO.isAvailable());
         return deliveryPerson;
     }
 
@@ -80,4 +89,5 @@ public class DeliveryPersonService {
         }
         return null;
     }
+
 }

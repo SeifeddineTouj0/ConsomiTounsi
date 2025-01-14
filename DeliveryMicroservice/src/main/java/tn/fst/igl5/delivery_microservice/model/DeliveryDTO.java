@@ -8,8 +8,8 @@ import lombok.Setter;
 @Setter
 public class DeliveryDTO {
     private String id;
-    private Long locationLat;
-    private Long locationLon;
+    private Double locationLat;
+    private Double locationLon;
     @Size(max = 255)
     private String orderId;
     private String deliveryPerson;

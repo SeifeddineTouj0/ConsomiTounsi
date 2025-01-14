@@ -35,6 +35,8 @@ public class DeliveryPersonProjection {
         deliveryPersonService.delete(event.getId());
     }
 
+
+
     @QueryHandler
     public List<DeliveryPersonDTO> handle(GetAllDeliveryPeopleQuery query) {
         return deliveryPersonService.findAll();

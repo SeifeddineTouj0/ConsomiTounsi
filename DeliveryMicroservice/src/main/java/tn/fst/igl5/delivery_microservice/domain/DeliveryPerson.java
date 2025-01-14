@@ -43,9 +43,9 @@ public class DeliveryPerson {
     private String plateNumber;
 
     @Column
-    private Long currentLat;
+    private Double currentLat;
     @Column
-    private Long currentLng;
+    private Double currentLng;
 
     @Column
     private boolean available;
