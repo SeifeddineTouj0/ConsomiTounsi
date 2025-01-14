@@ -17,8 +17,9 @@
     <module>core-api</module>
     <module>config-server</module>
     <module>boutiques</module>
-    <!--    <module>ventes</module>-->
-<!--    <module>users</module>-->
+    <module>ventes</module>
+    <module>users</module>
+
     <module>produits</module>
 
   </modules>
