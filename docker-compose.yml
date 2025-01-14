@@ -187,7 +187,7 @@ services:
     container_name: delivery-db
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: 1
-      MYSQL_DATABASE: delivery
+      MYSQL_DATABASE: delivery_db
     networks:
       - microservices-network
     healthcheck:
