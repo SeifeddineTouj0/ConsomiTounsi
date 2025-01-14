@@ -137,6 +137,7 @@ services:
 
 
   cagnottes-microservice:
+    image: cagnottes-microservice:latest
     build: ./cagnottes
     container_name: cagnottes-microservice
     environment:
@@ -162,9 +163,18 @@ services:
 
   cagnottes-db:
     image: mysql:8.0
+    container_name: cagnottes-db
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: cagnottes_microservice_db
+      MYSQL_DATABASE: cagnottes_db
+    networks:
+      - microservices-network
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
 
 
   eureka-server:
