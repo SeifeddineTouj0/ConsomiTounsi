@@ -2,7 +2,9 @@ package com.consommitounsi.cagnottes.cagnottes.aggregates;
 
 import com.consommitounsi.cagnottes.cagnottes.commands.AjouterDonCommand;
 import com.consommitounsi.cagnottes.cagnottes.commands.CreerCagnotteCommand;
+import com.consommitounsi.cagnottes.cagnottes.commands.SupprimerCagnotteCommand;
 import com.consommitounsi.cagnottes.cagnottes.events.CagnotteCreeeEvent;
+import com.consommitounsi.cagnottes.cagnottes.events.CagnotteSupprimeeEvent;
 import com.consommitounsi.cagnottes.cagnottes.events.DonAjouteEvent;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
@@ -47,5 +49,18 @@ public class CagnotteAggregate {
     public void on(DonAjouteEvent event) {
         this.montantCollecte += event.getMontant();
     }
+
+
+    @CommandHandler
+    public void handle(SupprimerCagnotteCommand command) {
+        apply(new CagnotteSupprimeeEvent(command.getCagnotteId()));
+    }
+
+    @EventSourcingHandler
+    public void on(CagnotteSupprimeeEvent event) {
+        // L'agrégat sera marqué pour suppression
+        this.montantCible = -1.0;
+    }
+
 }
 
