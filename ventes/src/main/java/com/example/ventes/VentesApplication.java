@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 import com.example.coreapi.ventes.facture.FactureInfo;
 import com.example.coreapi.ventes.payment.PaymentInfo;
@@ -13,6 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @EntityScan(basePackageClasses = { PaymentInfo.class, FactureInfo.class, SagaEntry.class, TokenEntry.class })
 @SpringBootApplication
+@EnableDiscoveryClient
 public class VentesApplication {
 
 	public static void main(final String[] args) {
