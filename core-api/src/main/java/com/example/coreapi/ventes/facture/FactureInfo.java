@@ -1,6 +1,6 @@
-package com.example.coreapi.ventes.payment;
+package com.example.coreapi.ventes.facture;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Set;
 
 import jakarta.persistence.ElementCollection;
@@ -17,14 +17,15 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class PaymentInfo {
+public class FactureInfo {
     @Id
+    String factureId;
+    LocalDate dateFacture;
+    TypeFacture typeFacture;
     String paymentId;
-    TypePayment typePayment;
-    Double montant;
-    LocalDateTime datePayment;
-    StatusPaiment statusPayment;
     String user;
+    Double montant;
+
     @ElementCollection(fetch = FetchType.EAGER)
     Set<String> products;
 }
