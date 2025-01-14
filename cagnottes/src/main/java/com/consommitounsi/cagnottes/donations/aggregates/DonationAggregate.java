@@ -51,7 +51,6 @@ public class DonationAggregate {
         boolean productExists = true;
         if (productExists) {
             // Apply event if product exists
-            System.err.println("RECEIVED THE COMMAND, SENDING THE EVENT ADDED TO DONATION");
             apply(new ProductAddedToDonationEvent(command.getProductId(), this.donationId));
         } else {
             // Handle the case where the product doesn't exist

@@ -37,15 +37,12 @@ public class DonationProjection {
     @EventHandler
     @Transactional
     public void on(ProductAddedToDonationEvent event) {
-        System.err.println("IN PRODUCT ADDED TO DONATION EVENT");
         Donation donation = donationRepository.findByDonationIdWithProducts(event.getDonationId());
         if (donation == null) {
-            System.err.println("NOT FOUND? WHAT THE SKIBIDI");
             return;
         }
         DonationProduct donationProduct = new DonationProduct();
         donationProduct.setProductId(event.getProductId());
-        System.err.println("ADDINGGG PRODUCT " + event.getProductId() + " TO donation : " + event.getDonationId());
         donationProduct.setDonation(donation);
 
         donationProductRepository.save(donationProduct); // Persist the product in the query database
@@ -73,11 +70,6 @@ public class DonationProjection {
         Donation donation = donationRepository.findByDonationId(query.getDonationId());
         if (donation == null) {
             return null;
-        }
-
-        // Ensure the collectedProducts collection is initialized
-        if (donation.getCollectedProducts() != null) {
-            System.out.println("Products: " + donation.getCollectedProducts());
         }
 
         return new DonationResponse(
