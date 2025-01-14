@@ -21,4 +21,6 @@ public class DeliveryPersonDTO {
     private Vehicule vehiculeType;
     @Size(max = 255)
     private String plateNumber;
+    private Long currentLat;
+    private Long currentLng;
 }

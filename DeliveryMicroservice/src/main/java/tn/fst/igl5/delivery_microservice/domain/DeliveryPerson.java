@@ -41,6 +41,15 @@ public class DeliveryPerson {
     private Vehicule vehiculeType;
     @Column
     private String plateNumber;
+
+    @Column
+    private Long currentLat;
+    @Column
+    private Long currentLng;
+
+    @Column
+    private boolean available;
+
     @OneToMany(mappedBy = "deliveryPerson")
     private Set<Delivery> deliveries;
     @CreatedDate
