@@ -2,53 +2,53 @@ version: '3.8'
 name: consommi-tounsi
 services:
 
-# Template for adding a new microservice database
-# Replace <microservice-name> with the actual name of the microservice
-# <db-image> with the appropriate database image (e.g., mysql:8.0, postgres:13, etc.)
-# <db-name> with the desired database name
+  # Template for adding a new microservice database
+  # Replace <microservice-name> with the actual name of the microservice
+  # <db-image> with the appropriate database image (e.g., mysql:8.0, postgres:13, etc.)
+  # <db-name> with the desired database name
 
-# <microservice-name>-db:
-#   image: <db-image>
-#   container_name: <microservice-name>-db
-#   environment:
-#     MYSQL_ALLOW_EMPTY_PASSWORD: 1  # Adjust environment variables as needed for the chosen database
-#     MYSQL_DATABASE: <db-name>
-#   networks:
-#     - microservices-network
-#   healthcheck:
-#     test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]  # Adjust healthcheck command for the chosen database
-#     interval: 10s
-#     timeout: 5s
-#     retries: 5
-#     start_period: 30s
+  # <microservice-name>-db:
+  #   image: <db-image>
+  #   container_name: <microservice-name>-db
+  #   environment:
+  #     MYSQL_ALLOW_EMPTY_PASSWORD: 1  # Adjust environment variables as needed for the chosen database
+  #     MYSQL_DATABASE: <db-name>
+  #   networks:
+  #     - microservices-network
+  #   healthcheck:
+  #     test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]  # Adjust healthcheck command for the chosen database
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 5
+  #     start_period: 30s
 
 
-# Template for adding a new microservice
-# Replace <microservice-name> with the actual name of the microservice
-# <microservice-image> with the appropriate Docker image for the microservice
+  # Template for adding a new microservice
+  # Replace <microservice-name> with the actual name of the microservice
+  # <microservice-image> with the appropriate Docker image for the microservice
 
-# <microservice-name>:
-#   image: <microservice-image>:latest
-#   build: ./path/to/<microservice-name>
-#   container_name: <microservice-name>
-#   environment:
-#     SPRING_CLOUD_CONFIG_URI: http://config-server:8888
-#     SPRING_CONFIG_IMPORT: "configserver:"
-#     # Add additional environment variables as needed
-#  ports:
-#    - "<port>:<port>"
-#   networks:
-#     - microservices-network
-#   depends_on:
-#     config-server:
-#       condition: service_healthy
-#     # Add additional dependencies as needed
-#   healthcheck:
-#     test: [ "CMD", "curl", "-f", "http://localhost:<port>/actuator/health" ]
-#     interval: 10s
-#     timeout: 5s
-#     retries: 5
-#     start_period: 40s
+  # <microservice-name>:
+  #   image: <microservice-image>:latest
+  #   build: ./path/to/<microservice-name>
+  #   container_name: <microservice-name>
+  #   environment:
+  #     SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+  #     SPRING_CONFIG_IMPORT: "configserver:"
+  #     # Add additional environment variables as needed
+  #  ports:
+  #    - "<port>:<port>"
+  #   networks:
+  #     - microservices-network
+  #   depends_on:
+  #     config-server:
+  #       condition: service_healthy
+  #     # Add additional dependencies as needed
+  #   healthcheck:
+  #     test: [ "CMD", "curl", "-f", "http://localhost:<port>/actuator/health" ]
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 5
+  #     start_period: 40s
 
   boutique-db:
     image: mysql:8.0
@@ -135,6 +135,38 @@ services:
       start_period: 40s
     restart: on-failure
 
+
+  cagnottes-microservice:
+    build: ./cagnottes
+    container_name: cagnottes-microservice
+    environment:
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+      SPRING_CONFIG_IMPORT: "configserver:"
+    ports:
+      - "8089:8089"
+    networks:
+      - microservices-network
+    depends_on:
+      config-server:
+        condition: service_healthy
+      cagnottes-db:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/actuator/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+
+  cagnottes-db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: cagnottes_microservice_db
+
+
   eureka-server:
     image: eureka-server:latest
     container_name: eureka-server
@@ -162,7 +194,7 @@ services:
     ports:
       - "8888:8888"
     healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8888/actuator/health"]
+      test: [ "CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8888/actuator/health" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -173,30 +205,30 @@ services:
       - SPRING_CLOUD_CONFIG_SERVER_GIT_CLONE_ON_START=true
 
 
-#  api-gateway:
-#    image: api-gateway-server:latest
-#    container_name: api-gateway-server
-#    build: ./api-gateway
-#    ports:
-#      - "8181:8181"
-#    environment:
-#      - EUREKA_SERVER_URI=http://eureka-server:8761/eureka
-#      - CONFIG_SERVER_URI=http://config-server:8888
-#      - LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY=TRACE
-#      - SPRING_CLOUD_CONFIG_URI=http://config-server:8888
-#    networks:
-#      - microservices-network
-#    depends_on:
-#      config-server:
-#        condition: service_healthy
-#      eureka-server:
-#        condition: service_healthy
-#    healthcheck:
-#      test: [ "CMD", "curl", "-f", "http://localhost:8181/actuator/health" ]
-#      interval: 10s
-#      timeout: 5s
-#      retries: 5
-#      start_period: 40s
+  #  api-gateway:
+  #    image: api-gateway-server:latest
+  #    container_name: api-gateway-server
+  #    build: ./api-gateway
+  #    ports:
+  #      - "8181:8181"
+  #    environment:
+  #      - EUREKA_SERVER_URI=http://eureka-server:8761/eureka
+  #      - CONFIG_SERVER_URI=http://config-server:8888
+  #      - LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY=TRACE
+  #      - SPRING_CLOUD_CONFIG_URI=http://config-server:8888
+  #    networks:
+  #      - microservices-network
+  #    depends_on:
+  #      config-server:
+  #        condition: service_healthy
+  #      eureka-server:
+  #        condition: service_healthy
+  #    healthcheck:
+  #      test: [ "CMD", "curl", "-f", "http://localhost:8181/actuator/health" ]
+  #      interval: 10s
+  #      timeout: 5s
+  #      retries: 5
+  #      start_period: 40s
 
   axon-server:
     image: axoniq/axonserver
@@ -209,6 +241,13 @@ services:
     networks:
       - microservices-network
 
+  #  zipkin:
+  #    image: openzipkin/zipkin
+  #    container_name: zipkin
+  #    ports:
+  #      - "9411:9411"
+  #    networks:
+  #      - microservices-network
   prometheus:
     image: prom/prometheus:latest
     container_name: prometheus

@@ -1,53 +1,7 @@
-spring:
-  application:
-    name: cagnottes
-  jpa:
-    properties:
-      hibernate:
-        ddl-auto: update
-        dialect: org.hibernate.dialect.MySQL8Dialect
-    hibernate:
-      ddl-auto: update
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/cagnottes_microservice?createDatabaseIfNotExist=true
-    username: root
-    password: root
 server:
   port: 8089
 
-springdoc:
-  api-docs:
-    path: /api-docs
+spring:
+  application:
+    name: cagnottes
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health,info,prometheus
-  endpoint:
-    prometheus:
-      enabled: true
-
-resilience4j:
-  retry:
-    instances:
-      default:
-        maxAttempts: 3
-        waitDuration: 500ms
-        enableExponentialBackoff: false
-  rateLimiter:
-    instances:
-      default:
-        limitForPeriod: 5
-        limitRefreshPeriod: 1s
-        timeoutDuration: 500ms
-  circuitbreaker:
-    instances:
-      default:
-        registerHealthIndicator: true
-        failureRateThreshold: 50
-        slidingWindowSize: 10
-        permittedNumberOfCallsInHalfOpenState: 5
-        waitDurationInOpenState: 10000ms
-        minimumNumberOfCalls: 5
