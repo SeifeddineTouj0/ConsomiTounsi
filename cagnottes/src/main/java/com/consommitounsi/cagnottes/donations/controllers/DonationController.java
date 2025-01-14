@@ -109,7 +109,7 @@ public class DonationController {
 
     public CompletableFuture<DonationResponse> getDonationFallback(String donationId, Throwable throwable) {
         logger.error("Fallback triggered for getDonation with ID {}: {}", donationId, throwable.getMessage());
-        DonationResponse fallbackResponse = new DonationResponse(donationId, "Fallback Donation", false, 0);
+        DonationResponse fallbackResponse = null;
         return CompletableFuture.completedFuture(fallbackResponse);  // Returning a fallback response
     }
 }
