@@ -16,9 +16,11 @@
     <module>eureka-server</module>
     <module>core-api</module>
     <module>config-server</module>
-     <module>boutiques</module>
-<!--    <module>ventes</module>-->
+    <module>boutiques</module>
+    <!--    <module>ventes</module>-->
     <module>users</module>
+    <module>produits</module>
+
   </modules>
   <properties>
     <java.version>17</java.version>
@@ -38,7 +40,13 @@
       <artifactId>lombok</artifactId>
       <optional>true</optional>
     </dependency>
+    <dependency>
+      <groupId>org.springdoc</groupId>
+      <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+      <version>2.6.0</version>
+    </dependency>
   </dependencies>
+
   <dependencyManagement>
     <dependencies>
       <dependency>
@@ -47,6 +55,13 @@
         <version>${axon.version}</version>
         <type>pom</type>
         <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-dependencies</artifactId>
+        <version>${spring-cloud.version}</version>
+        <scope>import</scope>
+        <type>pom</type>
       </dependency>
     </dependencies>
   </dependencyManagement>

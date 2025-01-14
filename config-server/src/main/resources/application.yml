@@ -10,6 +10,7 @@ spring:
           search-paths: config-files
           default-label: develop
           clone-on-start: true
+          default-label: develop # Specify the branch to pull from
     compatibility-verifier:
       enabled: false
 

@@ -17,6 +17,7 @@ public class AxonConfig {
         XStream xStream = new XStream();
         xStream.allowTypesByWildcard(new String[]{
                 "com.example.coreapi.boutique.rayon.**",
+                "com.example.coreapi.boutique.stock.**",
                 "com.example.boutiques.**",
         });
         xStream.allowTypes(new Class[] {

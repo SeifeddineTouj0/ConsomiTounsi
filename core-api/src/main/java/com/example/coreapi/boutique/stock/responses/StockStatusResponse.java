@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StockStatusResponse {
+    private String stockId;
     private StockStatus status;
     private int quantity;
 }
