@@ -12,7 +12,7 @@ spring:
   datasource:
     url: jdbc:mysql://cagnottes-db:3306/cagnottes_db
     username: root
-    password: ""
+    password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
