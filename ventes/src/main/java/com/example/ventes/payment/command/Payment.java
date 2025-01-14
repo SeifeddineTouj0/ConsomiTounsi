@@ -10,7 +10,7 @@ import org.axonframework.queryhandling.QueryGateway;
 import org.axonframework.spring.stereotype.Aggregate;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.example.coreapi.boutique.stock.queries.GetStockByIdQuery;
+import com.example.coreapi.boutique.stock.queries.GetStockStatusQuery;
 import com.example.coreapi.boutique.stock.responses.StockStatusResponse;
 import com.example.coreapi.ventes.payment.*;
 
@@ -50,7 +50,10 @@ public class Payment {
                 throw new IllegalArgumentException("Quantite doit etre positive");
             }
             StockStatusResponse stockStatusResponse = queryGateway.query(
-                    new GetStockByIdQuery(produit.getProductId()), StockStatusResponse.class).join();
+                    new GetStockStatusQuery(produit.getProductId()), StockStatusResponse.class).join();
+            if (stockStatusResponse == null) {
+                throw new IllegalArgumentException("Produit non trouve dans le stock");
+            }
             if (stockStatusResponse.getQuantity() < produit.getQuantity()) {
                 throw new IllegalArgumentException("Quantite insuffisante");
             }

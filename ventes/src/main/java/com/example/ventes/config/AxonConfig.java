@@ -18,11 +18,9 @@ public class AxonConfig {
         xStream.allowTypesByWildcard(new String[] {
                 "com.example.coreapi.ventes.**",
         });
-        xStream.allowTypes(new Class[] {
-                // com.example.ventes.payment.command.Payment.class,
-                // com.example.ventes.facture.command.Facture.class,
-                com.example.coreapi.ventes.payment.PaymentInfo.class,
-                com.example.coreapi.ventes.facture.FactureInfo.class,
+        xStream.allowTypesByWildcard(new String[] {
+                "com.example.coreapi.**",
+                "com.example.ventes.**",
         });
         return XStreamSerializer.builder()
                 .xStream(xStream)
