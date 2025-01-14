@@ -1,13 +1,25 @@
-package tn.fst.igl5.delivery_microservice.query.query;
+package com.example.coreapi.delivery;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import tn.fst.igl5.delivery_microservice.model.OrderDetailsDTO;
+
+import java.io.Serializable;
 
 @Getter
 @Setter
-@AllArgsConstructor
+@NoArgsConstructor
 public class GetDeliveryFeesQuery {
+
+
+
     OrderDetailsDTO order;
+
+    @JsonCreator
+    public GetDeliveryFeesQuery(@JsonProperty("order") OrderDetailsDTO order) {
+        this.order = order;
+    }
 }
