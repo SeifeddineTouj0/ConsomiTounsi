@@ -4,13 +4,18 @@ import com.consommitounsi.cagnottes.donations.commands.AddProductToDonationComma
 import com.consommitounsi.cagnottes.donations.commands.CreateDonationCommand;
 import com.consommitounsi.cagnottes.donations.events.DonationCreatedEvent;
 import com.consommitounsi.cagnottes.donations.events.ProductAddedToDonationEvent;
+import com.example.coreapi.boutique.stock.queries.GetStockStatusQuery;
+import com.example.coreapi.boutique.stock.responses.StockStatusResponse;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
+import org.axonframework.messaging.responsetypes.ResponseTypes;
 import org.axonframework.modelling.command.AggregateIdentifier;
+import org.axonframework.queryhandling.QueryGateway;
 import org.axonframework.spring.stereotype.Aggregate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import static org.axonframework.modelling.command.AggregateLifecycle.apply;
 
@@ -21,6 +26,7 @@ public class DonationAggregate {
     private String donationId;
     private boolean isActive;
     private List<String> collectedProducts;
+    private QueryGateway queryGateway;
 
 
 //    private ProductServiceClient productServiceClient;
@@ -28,9 +34,9 @@ public class DonationAggregate {
     public DonationAggregate() {
     }
 
-//    public DonationAggregate(ProductServiceClient productServiceClient) {
-//        this.productServiceClient = productServiceClient;
-//    }
+    public DonationAggregate(QueryGateway queryGateway) {
+        this.queryGateway = queryGateway;
+    }
 
     @CommandHandler
     public DonationAggregate(CreateDonationCommand command) {
@@ -46,10 +52,10 @@ public class DonationAggregate {
 
     @CommandHandler
     public void handle(AddProductToDonationCommand command) throws Exception {
-        // Check if the product exists using OpenFeign
-//        boolean productExists = productServiceClient.checkProductExists(command.getProductId());
-        boolean productExists = true;
-        if (productExists) {
+
+        CompletableFuture<StockStatusResponse> stockStatus = queryGateway.query(new GetStockStatusQuery(command.getProductId()), ResponseTypes.instanceOf(StockStatusResponse.class));
+
+        if (stockStatus.get().getQuantity() > 0) {
             // Apply event if product exists
             apply(new ProductAddedToDonationEvent(command.getProductId(), this.donationId));
         } else {
