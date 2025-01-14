@@ -20,10 +20,6 @@
       <type>pom</type>
     </dependency>
     <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-databind</artifactId>
-    </dependency>
-    <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>core-api</artifactId>
       <version>${project.version}</version>

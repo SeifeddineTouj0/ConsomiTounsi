@@ -22,13 +22,13 @@ public class PaymentInfoProjection {
     @EventHandler
     public void on(PaymentCreatedEvent event) {
         PaymentInfo paymentInfo = new PaymentInfo();
-        paymentInfo.setPaymentId(event.paymentId());
-        paymentInfo.setTypePayment(event.typePayment());
-        paymentInfo.setMontant(event.montant());
-        paymentInfo.setDatePayment(event.datePayment());
-        paymentInfo.setStatusPayment(event.statusPayment());
-        paymentInfo.setUser(event.userId());
-        paymentInfo.setProducts(event.produitIds());
+        paymentInfo.setPaymentId(event.getPaymentId());
+        paymentInfo.setTypePayment(event.getTypePayment());
+        paymentInfo.setMontant(event.getMontant());
+        paymentInfo.setDatePayment(event.getDatePayment());
+        paymentInfo.setStatusPayment(event.getStatusPayment());
+        paymentInfo.setUser(event.getUserId());
+        paymentInfo.setProducts(event.getProduitIds());
 
         repository.save(paymentInfo);
     }
