@@ -65,6 +65,21 @@ services:
       retries: 5
       start_period: 30s
 
+  products-db:
+    image: mysql:8.0
+    container_name: products-db
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+      MYSQL_DATABASE: products_db
+    networks:
+      - microservices-network
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
 
   boutique-microservice:
     image: boutique-microservice:latest
@@ -92,6 +107,31 @@ services:
       start_period: 40s
     restart: on-failure
 
+  products-microservice:
+    image: products-microservice:latest
+    build: ./produits
+    container_name: products-microservice
+    environment:
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+      SPRING_CONFIG_IMPORT: "configserver:"
+    ports:
+      - "8091:8091"
+    networks:
+      - microservices-network
+    depends_on:
+      config-server:
+        condition: service_healthy
+      products-db:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/actuator/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+    restart: on-failure
 
   ventes-db:
     image: mysql:8.0
