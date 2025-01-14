@@ -105,6 +105,10 @@ services:
     depends_on:
       config-server:
         condition: service_healthy
+      users-db:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8080/actuator/health" ]
       interval: 10s
