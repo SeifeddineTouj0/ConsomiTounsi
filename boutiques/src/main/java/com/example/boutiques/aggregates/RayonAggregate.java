@@ -67,4 +67,14 @@ public class RayonAggregate {
     public void on(RayonDeletedEvent event) {
     }
 
+    //Assign Product To Rayon
+    @CommandHandler
+    public void handle(AssignProductToRayonCommand command) {
+        AggregateLifecycle.apply(new ProductAssignedToRayonEvent(command.getRayonId(), command.getProductId(), command.getQuantity()));
+    }
+
+    @EventSourcingHandler
+    public void on(ProductAssignedToRayonEvent event) {
+    }
+
 }

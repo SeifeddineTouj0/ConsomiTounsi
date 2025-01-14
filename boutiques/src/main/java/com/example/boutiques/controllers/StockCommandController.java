@@ -7,6 +7,8 @@ import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api/stocks/commands")
 public class StockCommandController {
@@ -19,6 +21,7 @@ public class StockCommandController {
 
     @PostMapping
     public ResponseEntity<String> createStock(@RequestBody CreateStockCommand command) {
+        command.setStockId(UUID.randomUUID().toString());
         commandGateway.sendAndWait(command);
         return ResponseEntity.ok("Stock created successfully!");
     }

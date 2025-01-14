@@ -24,6 +24,7 @@ public class StockEventHandler {
     @EventHandler
     public void on(StockCreatedEvent event) {
         Stock stock = new Stock();
+        stock.setId(event.getStockId());
         stock.setProductId(event.getProductId());
         stock.setQuantity(event.getQuantity());
         stock.setStatus(event.getStatus());
