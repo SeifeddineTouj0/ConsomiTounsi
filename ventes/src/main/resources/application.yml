@@ -12,8 +12,5 @@ spring:
     url: jdbc:mysql://localhost:3306/ventes_microservice
     username: root
     password: root
-axon:
-  serializer:
-    general: jackson
 server:
   port: 8081
