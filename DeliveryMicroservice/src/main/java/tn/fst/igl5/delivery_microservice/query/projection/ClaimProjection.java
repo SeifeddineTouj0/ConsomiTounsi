@@ -3,12 +3,12 @@ package tn.fst.igl5.delivery_microservice.query.projection;
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.queryhandling.QueryHandler;
 import org.springframework.stereotype.Component;
-import tn.fst.igl5.delivery_microservice.event.ClaimCreatedEvent;
-import tn.fst.igl5.delivery_microservice.event.ClaimDeletedEvent;
-import tn.fst.igl5.delivery_microservice.event.ClaimUpdatedEvent;
-import tn.fst.igl5.delivery_microservice.model.ClaimDTO;
-import tn.fst.igl5.delivery_microservice.query.query.GetAllClaimsQuery;
-import tn.fst.igl5.delivery_microservice.query.query.GetClaimQuery;
+import com.example.coreapi.delivery.ClaimCreatedEvent;
+import com.example.coreapi.delivery.event.ClaimDeletedEvent;
+import com.example.coreapi.delivery.event.ClaimUpdatedEvent;
+import com.example.coreapi.delivery.ClaimDTO;
+import com.example.coreapi.delivery.GetAllClaimsQuery;
+import com.example.coreapi.delivery.GetClaimQuery;
 import tn.fst.igl5.delivery_microservice.service.ClaimService;
 
 import java.util.List;

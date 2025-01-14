@@ -4,13 +4,13 @@ import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.spring.stereotype.Aggregate;
 import org.axonframework.modelling.command.AggregateIdentifier;
-import tn.fst.igl5.delivery_microservice.command.CreateDeliveryCommand;
-import tn.fst.igl5.delivery_microservice.command.DeleteDeliveryCommand;
-import tn.fst.igl5.delivery_microservice.command.UpdateDeliveryCommand;
-import tn.fst.igl5.delivery_microservice.event.DeliveryCreatedEvent;
-import tn.fst.igl5.delivery_microservice.event.DeliveryDeletedEvent;
-import tn.fst.igl5.delivery_microservice.event.DeliveryUpdatedEvent;
-import tn.fst.igl5.delivery_microservice.model.DeliveryDTO;
+import com.example.coreapi.delivery.command.CreateDeliveryCommand;
+import com.example.coreapi.delivery.command.DeleteDeliveryCommand;
+import com.example.coreapi.delivery.command.UpdateDeliveryCommand;
+import com.example.coreapi.delivery.event.DeliveryCreatedEvent;
+import com.example.coreapi.delivery.event.DeliveryDeletedEvent;
+import com.example.coreapi.delivery.event.DeliveryUpdatedEvent;
+import com.example.coreapi.delivery.DeliveryDTO;
 
 import static org.axonframework.modelling.command.AggregateLifecycle.apply;
 

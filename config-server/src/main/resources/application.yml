@@ -8,6 +8,7 @@ spring:
         git:
           uri: https://github.com/SeifeddineTouj0/ConsomiTounsi.git
           search-paths: config-files
+          default-label: develop
           clone-on-start: true
           default-label: develop # Specify the branch to pull from
     compatibility-verifier:

@@ -3,12 +3,12 @@ package tn.fst.igl5.delivery_microservice.query.projection;
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.queryhandling.QueryHandler;
 import org.springframework.stereotype.Component;
-import tn.fst.igl5.delivery_microservice.event.DeliveryPersonCreatedEvent;
-import tn.fst.igl5.delivery_microservice.event.DeliveryPersonDeletedEvent;
-import tn.fst.igl5.delivery_microservice.event.DeliveryPersonUpdatedEvent;
-import tn.fst.igl5.delivery_microservice.model.DeliveryPersonDTO;
-import tn.fst.igl5.delivery_microservice.query.query.GetAllDeliveryPeopleQuery;
-import tn.fst.igl5.delivery_microservice.query.query.GetDeliveryPersonQuery;
+import com.example.coreapi.delivery.event.DeliveryPersonCreatedEvent;
+import com.example.coreapi.delivery.event.DeliveryPersonDeletedEvent;
+import com.example.coreapi.delivery.event.DeliveryPersonUpdatedEvent;
+import com.example.coreapi.delivery.DeliveryPersonDTO;
+import com.example.coreapi.delivery.query.GetAllDeliveryPeopleQuery;
+import com.example.coreapi.delivery.query.GetDeliveryPersonQuery;
 import tn.fst.igl5.delivery_microservice.service.DeliveryPersonService;
 
 import java.util.List;

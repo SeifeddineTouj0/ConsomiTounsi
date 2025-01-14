@@ -6,13 +6,13 @@ import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.modelling.command.AggregateLifecycle;
 import org.axonframework.spring.stereotype.Aggregate;
-import tn.fst.igl5.delivery_microservice.command.CreateClaimCommand;
-import tn.fst.igl5.delivery_microservice.command.DeleteClaimCommand;
-import tn.fst.igl5.delivery_microservice.command.UpdateClaimCommand;
-import tn.fst.igl5.delivery_microservice.event.ClaimCreatedEvent;
-import tn.fst.igl5.delivery_microservice.event.ClaimDeletedEvent;
-import tn.fst.igl5.delivery_microservice.event.ClaimUpdatedEvent;
-import tn.fst.igl5.delivery_microservice.model.ClaimDTO;
+import com.example.coreapi.delivery.CreateClaimCommand;
+import com.example.coreapi.delivery.command.DeleteClaimCommand;
+import com.example.coreapi.delivery.command.UpdateClaimCommand;
+import com.example.coreapi.delivery.ClaimCreatedEvent;
+import com.example.coreapi.delivery.event.ClaimDeletedEvent;
+import com.example.coreapi.delivery.event.ClaimUpdatedEvent;
+import com.example.coreapi.delivery.ClaimDTO;
 @Aggregate
 public class ClaimAggregate {
     @AggregateIdentifier

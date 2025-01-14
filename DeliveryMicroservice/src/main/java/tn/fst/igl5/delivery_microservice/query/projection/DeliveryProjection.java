@@ -4,12 +4,12 @@ import com.example.coreapi.delivery.GetDeliveryFeesQuery;
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.queryhandling.QueryHandler;
 import org.springframework.stereotype.Component;
-import tn.fst.igl5.delivery_microservice.event.DeliveryCreatedEvent;
-import tn.fst.igl5.delivery_microservice.event.DeliveryDeletedEvent;
-import tn.fst.igl5.delivery_microservice.event.DeliveryUpdatedEvent;
-import tn.fst.igl5.delivery_microservice.model.DeliveryDTO;
-import tn.fst.igl5.delivery_microservice.query.query.GetAllDeliveriesQuery;
-import tn.fst.igl5.delivery_microservice.query.query.GetDeliveryQuery;
+import com.example.coreapi.delivery.event.DeliveryCreatedEvent;
+import com.example.coreapi.delivery.event.DeliveryDeletedEvent;
+import com.example.coreapi.delivery.event.DeliveryUpdatedEvent;
+import com.example.coreapi.delivery.DeliveryDTO;
+import com.example.coreapi.delivery.query.GetAllDeliveriesQuery;
+import com.example.coreapi.delivery.query.GetDeliveryQuery;
 import tn.fst.igl5.delivery_microservice.service.DeliveryService;
 
 import java.util.List;

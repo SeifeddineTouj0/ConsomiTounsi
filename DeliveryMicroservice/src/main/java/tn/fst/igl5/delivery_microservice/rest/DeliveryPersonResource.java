@@ -20,12 +20,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import tn.fst.igl5.delivery_microservice.command.CreateDeliveryPersonCommand;
-import tn.fst.igl5.delivery_microservice.command.DeleteDeliveryPersonCommand;
-import tn.fst.igl5.delivery_microservice.command.UpdateDeliveryPersonCommand;
-import tn.fst.igl5.delivery_microservice.model.DeliveryPersonDTO;
-import tn.fst.igl5.delivery_microservice.query.query.GetAllDeliveryPeopleQuery;
-import tn.fst.igl5.delivery_microservice.query.query.GetDeliveryPersonQuery;
+import com.example.coreapi.delivery.command.CreateDeliveryPersonCommand;
+import com.example.coreapi.delivery.command.DeleteDeliveryPersonCommand;
+import com.example.coreapi.delivery.command.UpdateDeliveryPersonCommand;
+import com.example.coreapi.delivery.DeliveryPersonDTO;
+import com.example.coreapi.delivery.query.GetAllDeliveryPeopleQuery;
+import com.example.coreapi.delivery.query.GetDeliveryPersonQuery;
 
 @RestController
 @RequestMapping(value = "/api/deliveryPeople", produces = MediaType.APPLICATION_JSON_VALUE)

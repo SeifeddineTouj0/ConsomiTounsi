@@ -6,16 +6,17 @@ import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import tn.fst.igl5.delivery_microservice.command.CreateClaimCommand;
-import tn.fst.igl5.delivery_microservice.command.DeleteClaimCommand;
-import tn.fst.igl5.delivery_microservice.command.UpdateClaimCommand;
-import tn.fst.igl5.delivery_microservice.model.ClaimDTO;
-import tn.fst.igl5.delivery_microservice.query.query.GetAllClaimsQuery;
-import tn.fst.igl5.delivery_microservice.query.query.GetClaimQuery;
+import com.example.coreapi.delivery.CreateClaimCommand;
+import com.example.coreapi.delivery.command.DeleteClaimCommand;
+import com.example.coreapi.delivery.command.UpdateClaimCommand;
+import com.example.coreapi.delivery.ClaimDTO;
+import com.example.coreapi.delivery.GetAllClaimsQuery;
+import com.example.coreapi.delivery.GetClaimQuery;
 import tn.fst.igl5.delivery_microservice.service.ClaimService;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("/api/claims")
@@ -31,9 +32,9 @@ public class ClaimResource {
     }
 
     @GetMapping
-    public ResponseEntity<List<ClaimDTO>> getAllClaims() {
-        List<ClaimDTO> claims = queryGateway.query(new GetAllClaimsQuery(), ResponseTypes.multipleInstancesOf(ClaimDTO.class)).join();
-        return ResponseEntity.ok(claims);
+    public CompletableFuture<ResponseEntity<List<ClaimDTO>>> getAllClaims() {
+        return queryGateway.query(new GetAllClaimsQuery(), ResponseTypes.multipleInstancesOf(ClaimDTO.class)).thenApply(claimDTOList -> ResponseEntity.ok(claimDTOList));
+
     }
 
     @GetMapping("/{id}")
