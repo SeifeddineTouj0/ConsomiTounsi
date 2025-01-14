@@ -1,5 +1,7 @@
 package tn.fst.igl5.delivery_microservice.rest;
 
+import com.example.coreapi.delivery.GetDeliveryFeesQuery;
+import com.example.coreapi.delivery.OrderDetailsDTO;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 
@@ -25,10 +27,9 @@ import tn.fst.igl5.delivery_microservice.command.CreateDeliveryCommand;
 import tn.fst.igl5.delivery_microservice.command.DeleteDeliveryCommand;
 import tn.fst.igl5.delivery_microservice.command.UpdateDeliveryCommand;
 import tn.fst.igl5.delivery_microservice.model.DeliveryDTO;
-import tn.fst.igl5.delivery_microservice.model.OrderDetailsDTO;
 import tn.fst.igl5.delivery_microservice.query.query.GetAllDeliveriesQuery;
-import tn.fst.igl5.delivery_microservice.query.query.GetDeliveryFeesQuery;
 import tn.fst.igl5.delivery_microservice.query.query.GetDeliveryQuery;
+
 
 @RestController
 @RequestMapping(value = "/api/deliveries", produces = MediaType.APPLICATION_JSON_VALUE)

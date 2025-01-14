@@ -3,13 +3,10 @@ package tn.fst.igl5.delivery_microservice.service;
 import java.util.List;
 
 import org.springframework.data.domain.Sort;
-import org.springframework.data.geo.Distance;
 import org.springframework.stereotype.Service;
 import tn.fst.igl5.delivery_microservice.domain.Delivery;
 import tn.fst.igl5.delivery_microservice.domain.DeliveryPerson;
-import tn.fst.igl5.delivery_microservice.helper.DistanceHelper;
 import tn.fst.igl5.delivery_microservice.model.DeliveryPersonDTO;
-import tn.fst.igl5.delivery_microservice.model.OrderDetailsDTO;
 import tn.fst.igl5.delivery_microservice.repos.DeliveryPersonRepository;
 import tn.fst.igl5.delivery_microservice.repos.DeliveryRepository;
 import tn.fst.igl5.delivery_microservice.util.NotFoundException;

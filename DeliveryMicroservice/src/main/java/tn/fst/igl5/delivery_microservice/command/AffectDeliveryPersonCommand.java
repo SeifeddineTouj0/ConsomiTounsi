@@ -1,12 +1,11 @@
 package tn.fst.igl5.delivery_microservice.command;
 
-import jakarta.validation.Valid;
+import com.example.coreapi.delivery.OrderDetailsDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
-import tn.fst.igl5.delivery_microservice.model.OrderDetailsDTO;
 
 @Getter
 @Setter

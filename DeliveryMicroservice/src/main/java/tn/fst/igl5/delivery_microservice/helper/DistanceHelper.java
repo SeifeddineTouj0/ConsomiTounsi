@@ -27,6 +27,8 @@ public class DistanceHelper {
             throw new IllegalArgumentException("Delivery person list cannot be null or empty");
         }
 
+
+
         DeliveryPerson closest = null;
         double smallestDistance = Double.MAX_VALUE;
 

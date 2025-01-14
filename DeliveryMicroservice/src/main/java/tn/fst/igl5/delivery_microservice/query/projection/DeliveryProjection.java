@@ -1,5 +1,6 @@
 package tn.fst.igl5.delivery_microservice.query.projection;
 
+import com.example.coreapi.delivery.GetDeliveryFeesQuery;
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.queryhandling.QueryHandler;
 import org.springframework.stereotype.Component;
@@ -8,7 +9,6 @@ import tn.fst.igl5.delivery_microservice.event.DeliveryDeletedEvent;
 import tn.fst.igl5.delivery_microservice.event.DeliveryUpdatedEvent;
 import tn.fst.igl5.delivery_microservice.model.DeliveryDTO;
 import tn.fst.igl5.delivery_microservice.query.query.GetAllDeliveriesQuery;
-import tn.fst.igl5.delivery_microservice.query.query.GetDeliveryFeesQuery;
 import tn.fst.igl5.delivery_microservice.query.query.GetDeliveryQuery;
 import tn.fst.igl5.delivery_microservice.service.DeliveryService;
 
