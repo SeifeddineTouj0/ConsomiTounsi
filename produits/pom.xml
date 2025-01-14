@@ -11,6 +11,12 @@
   <artifactId>produits</artifactId>
   <dependencies>
     <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-docker-compose</artifactId>
+      <scope>runtime</scope>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>core-api</artifactId>
       <version>${project.version}</version>

@@ -1,0 +1,16 @@
+services:
+  axonserver:
+    image: "axoniq/axonserver:latest"
+    environment:
+      - "AXONIQ_AXONSERVER_STANDALONE=TRUE"
+    ports:
+      - "8024:8024"
+      - "8124:8124"
+  products-db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+      MYSQL_DATABASE: products_db
+    ports:
+      - "18001:3306"
+

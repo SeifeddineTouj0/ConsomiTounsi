@@ -9,6 +9,7 @@ public class ProductMapper {
         return ProductInfo.builder().
                 id(produit.getId()).
                 name(produit.getName()).
+                barCode(produit.getBarCode()).
                 category(produit.getCategory()).
                 storageType(produit.getStorageType()).
                 weight(produit.getWeight()).

@@ -26,5 +26,5 @@ public class PaymentInfo {
     StatusPaiment statusPayment;
     String user;
     @ElementCollection(fetch = FetchType.EAGER)
-    Set<String> products;
+    Set<PurchasedProduct> products;
 }
