@@ -52,7 +52,7 @@ public class Facture {
         // Fetch PaymentInfo using QueryGateway
         PaymentInfo paymentInfo = queryGateway.query(
                 PaymentInfoNamedQueries.FIND_ONE,
-                command.paymentId(),
+                command.getPaymentId(),
                 PaymentInfo.class).get();
 
         if (paymentInfo == null) {
@@ -61,10 +61,10 @@ public class Facture {
 
         // Apply FactureCreatedEvent with additional fields
         apply(new FactureCreatedEvent(
-                command.factureId(),
-                command.dateFacture(),
-                command.typeFacture(),
-                command.paymentId()));
+                command.getFactureId(),
+                command.getDateFacture(),
+                command.getTypeFacture(),
+                command.getPaymentId()));
     }
 
     @CommandHandler
@@ -74,7 +74,7 @@ public class Facture {
         // Check if facture exists
         FactureInfo factureInfo = queryGateway.query(
                 FactureInfoNamedQueries.FIND_ONE,
-                command.factureId(),
+                command.getFactureId(),
                 FactureInfo.class).get();
 
         if (factureInfo == null) {
@@ -84,7 +84,7 @@ public class Facture {
         // Fetch PaymentInfo using QueryGateway
         PaymentInfo paymentInfo = queryGateway.query(
                 PaymentInfoNamedQueries.FIND_ONE,
-                command.paymentId(),
+                command.getPaymentId(),
                 PaymentInfo.class).get();
 
         if (paymentInfo == null) {
@@ -93,36 +93,36 @@ public class Facture {
 
         // Apply FactureUpdatedEvent with additional fields
         apply(new FactureUpdatedEvent(
-                command.factureId(),
-                command.dateFacture(),
-                command.typeFacture(),
-                command.paymentId()));
+                command.getFactureId(),
+                command.getDateFacture(),
+                command.getTypeFacture(),
+                command.getPaymentId()));
     }
 
     @CommandHandler
     public void handle(DeleteFactureCommand command) {
-        apply(new FactureDeletedEvent(command.factureId()));
+        apply(new FactureDeletedEvent(command.getFactureId()));
     }
 
     @EventSourcingHandler
     protected void on(FactureCreatedEvent event) {
-        this.id = event.factureId();
-        this.dateFacture = event.dateFacture();
-        this.typeFacture = event.typeFacture();
-        this.paymentId = event.paymentId();
+        this.id = event.getFactureId();
+        this.dateFacture = event.getDateFacture();
+        this.typeFacture = event.getTypeFacture();
+        this.paymentId = event.getPaymentId();
     }
 
     @EventSourcingHandler
     protected void on(FactureUpdatedEvent event) {
-        this.id = event.factureId();
-        this.dateFacture = event.dateFacture();
-        this.typeFacture = event.typeFacture();
-        this.paymentId = event.paymentId();
+        this.id = event.getFactureId();
+        this.dateFacture = event.getDateFacture();
+        this.typeFacture = event.getTypeFacture();
+        this.paymentId = event.getPaymentId();
     }
 
     @EventSourcingHandler
     protected void on(FactureDeletedEvent event) {
-        this.id = event.factureId();
+        this.id = event.getFactureId();
         markDeleted();
     }
 }

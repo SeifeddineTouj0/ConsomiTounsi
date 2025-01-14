@@ -38,7 +38,8 @@ public class FacturePdfGenerator {
             document.add(new Paragraph("Produits").setBold().setMarginTop(20));
             Table table = new Table(1);
             table.addHeaderCell("Liste Des Produits");
-            factureInfo.getProducts().forEach(product -> table.addCell(product));
+            factureInfo.getProducts()
+                    .forEach(product -> table.addCell(product.getProductId() + " : " + product.getQuantity()));
             document.add(table);
 
             document.close();
