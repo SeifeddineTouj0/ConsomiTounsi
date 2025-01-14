@@ -11,6 +11,7 @@ import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.coreapi.ventes.facture.CreateFactureCommand;
+import com.example.coreapi.ventes.facture.DeleteFactureCommand;
 import com.example.coreapi.ventes.facture.FactureInfo;
 import com.example.coreapi.ventes.facture.FactureInfoNamedQueries;
 import com.example.coreapi.ventes.facture.TypeFacture;
@@ -83,6 +85,12 @@ public class FactureController {
     public CompletableFuture<List<FactureInfo>> getFacturesByType(@RequestParam TypeFacture typeFacture) {
         return queryGateway.query(FactureInfoNamedQueries.FIND_FACTURE_BY_TYPE, typeFacture,
                 ResponseTypes.multipleInstancesOf(FactureInfo.class));
+    }
+
+    @DeleteMapping("/{factureId}")
+    public CompletableFuture<Void> deleteFacture(@RequestParam String factureId) {
+        DeleteFactureCommand command = new DeleteFactureCommand(factureId);
+        return commandGateway.send(command);
     }
 
 }

@@ -8,6 +8,7 @@ import org.axonframework.queryhandling.QueryHandler;
 import org.springframework.stereotype.Component;
 
 import com.example.coreapi.ventes.facture.FactureCreatedEvent;
+import com.example.coreapi.ventes.facture.FactureDeletedEvent;
 import com.example.coreapi.ventes.facture.FactureInfo;
 import com.example.coreapi.ventes.facture.FactureInfoNamedQueries;
 import com.example.coreapi.ventes.facture.TypeFacture;
@@ -50,6 +51,11 @@ public class FactureInfoProjection {
         factureInfo.setProducts(paymentInfo.getProducts());
 
         factureInfoRepository.save(factureInfo);
+    }
+
+    @EventHandler
+    public void on(FactureDeletedEvent event) {
+        factureInfoRepository.deleteById(event.factureId());
     }
 
     @QueryHandler(queryName = FactureInfoNamedQueries.FIND_ALL)

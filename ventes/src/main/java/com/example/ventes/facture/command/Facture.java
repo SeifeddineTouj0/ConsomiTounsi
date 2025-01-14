@@ -10,7 +10,9 @@ import org.axonframework.spring.stereotype.Aggregate;
 import org.axonframework.queryhandling.QueryGateway;
 
 import com.example.coreapi.ventes.facture.CreateFactureCommand;
+import com.example.coreapi.ventes.facture.DeleteFactureCommand;
 import com.example.coreapi.ventes.facture.FactureCreatedEvent;
+import com.example.coreapi.ventes.facture.FactureDeletedEvent;
 import com.example.coreapi.ventes.facture.TypeFacture;
 import com.example.coreapi.ventes.payment.PaymentInfo;
 import com.example.coreapi.ventes.payment.PaymentInfoNamedQueries;
@@ -56,6 +58,12 @@ public class Facture {
                 command.dateFacture(),
                 command.typeFacture(),
                 command.paymentId()));
+    }
+
+    @CommandHandler
+    public Facture(DeleteFactureCommand command, QueryGateway queryGateway) {
+        this.queryGateway = queryGateway;
+        apply(new FactureDeletedEvent(command.factureId()));
     }
 
     @EventSourcingHandler
