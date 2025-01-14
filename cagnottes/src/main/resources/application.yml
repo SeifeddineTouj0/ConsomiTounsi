@@ -17,3 +17,25 @@ server:
   port: 8089
 
 
+resilience4j:
+  retry:
+    instances:
+      default:
+        maxAttempts: 3
+        waitDuration: 500ms
+        enableExponentialBackoff: false
+  rateLimiter:
+    instances:
+      default:
+        limitForPeriod: 5
+        limitRefreshPeriod: 1s
+        timeoutDuration: 500ms
+  circuitbreaker:
+    instances:
+      default:
+        registerHealthIndicator: true
+        failureRateThreshold: 50
+        slidingWindowSize: 10
+        permittedNumberOfCallsInHalfOpenState: 5
+        waitDurationInOpenState: 10000ms
+        minimumNumberOfCalls: 5
