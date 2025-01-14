@@ -3,7 +3,9 @@ package com.example.coreapi.ventes.payment;
 import java.time.LocalDateTime;
 import java.util.Set;
 
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,5 +25,6 @@ public class PaymentInfo {
     LocalDateTime datePayment;
     StatusPaiment statusPayment;
     String user;
-    Set<String> produits;
+    @ElementCollection(fetch = FetchType.EAGER)
+    Set<String> products;
 }

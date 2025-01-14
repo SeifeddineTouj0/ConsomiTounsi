@@ -16,7 +16,7 @@
     <module>eureka-server</module>
     <module>core-api</module>
     <module>config-server</module>
-    <!-- <module>boutiques</module> -->
+    <module>boutiques</module>
     <module>ventes</module>
     <module>cagnottes</module>
   </modules>
