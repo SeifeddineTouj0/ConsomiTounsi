@@ -5,8 +5,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 import java.time.OffsetDateTime;
@@ -16,8 +14,8 @@ import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import tn.fst.igl5.delivery_microservice.model.Decision;
-import tn.fst.igl5.delivery_microservice.model.Status;
+import com.example.coreapi.delivery.Decision;
+import com.example.coreapi.delivery.Status;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)

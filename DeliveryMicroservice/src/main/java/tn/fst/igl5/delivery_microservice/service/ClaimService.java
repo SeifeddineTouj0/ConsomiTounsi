@@ -5,8 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import tn.fst.igl5.delivery_microservice.domain.Claim;
-import tn.fst.igl5.delivery_microservice.helper.DistanceHelper;
-import tn.fst.igl5.delivery_microservice.model.ClaimDTO;
+import com.example.coreapi.delivery.ClaimDTO;
 import tn.fst.igl5.delivery_microservice.repos.ClaimRepository;
 import tn.fst.igl5.delivery_microservice.util.NotFoundException;
 

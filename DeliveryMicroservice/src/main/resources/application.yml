@@ -67,8 +67,7 @@ axon:
     jpa:
       schema-generation:
         enabled: true
-  serializer:
-    general: jackson
+
 
 management:
   endpoints:

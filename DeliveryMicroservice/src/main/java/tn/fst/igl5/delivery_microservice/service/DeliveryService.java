@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import tn.fst.igl5.delivery_microservice.domain.Delivery;
 import tn.fst.igl5.delivery_microservice.domain.DeliveryPerson;
 import tn.fst.igl5.delivery_microservice.helper.DistanceHelper;
-import tn.fst.igl5.delivery_microservice.model.DeliveryDTO;
+import com.example.coreapi.delivery.DeliveryDTO;
 import tn.fst.igl5.delivery_microservice.repos.DeliveryPersonRepository;
 import tn.fst.igl5.delivery_microservice.repos.DeliveryRepository;
 import tn.fst.igl5.delivery_microservice.util.NotFoundException;
@@ -78,8 +78,8 @@ public class DeliveryService {
         delivery.setLocationLat(deliveryDTO.getLocationLat());
         delivery.setLocationLon(deliveryDTO.getLocationLon());
         delivery.setOrderId(deliveryDTO.getOrderId());
-        final DeliveryPerson deliveryPerson = deliveryDTO.getDeliveryPerson() == null ? null : deliveryPersonRepository.findById(deliveryDTO.getDeliveryPerson()).orElseThrow(() -> new NotFoundException("deliveryPerson not found"));
-        delivery.setDeliveryPerson(deliveryPerson);
+        //final DeliveryPerson deliveryPerson = deliveryDTO.getDeliveryPerson() == null ? null : deliveryPersonRepository.findById(deliveryDTO.getDeliveryPerson()).orElseThrow(() -> new NotFoundException("deliveryPerson not found"));
+        //delivery.setDeliveryPerson(deliveryPerson);
         return delivery;
     }
 }

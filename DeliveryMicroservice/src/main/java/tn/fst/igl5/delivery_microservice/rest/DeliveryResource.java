@@ -23,12 +23,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import tn.fst.igl5.delivery_microservice.command.CreateDeliveryCommand;
-import tn.fst.igl5.delivery_microservice.command.DeleteDeliveryCommand;
-import tn.fst.igl5.delivery_microservice.command.UpdateDeliveryCommand;
-import tn.fst.igl5.delivery_microservice.model.DeliveryDTO;
-import tn.fst.igl5.delivery_microservice.query.query.GetAllDeliveriesQuery;
-import tn.fst.igl5.delivery_microservice.query.query.GetDeliveryQuery;
+import com.example.coreapi.delivery.command.CreateDeliveryCommand;
+import com.example.coreapi.delivery.command.DeleteDeliveryCommand;
+import com.example.coreapi.delivery.command.UpdateDeliveryCommand;
+import com.example.coreapi.delivery.DeliveryDTO;
+import com.example.coreapi.delivery.query.GetAllDeliveriesQuery;
+import com.example.coreapi.delivery.query.GetDeliveryQuery;
 
 
 @RestController
