@@ -9,6 +9,7 @@ import tn.fst.igl5.delivery_microservice.command.event.ClaimUpdatedEvent;
 import tn.fst.igl5.delivery_microservice.model.ClaimDTO;
 import tn.fst.igl5.delivery_microservice.query.query.GetAllClaimsQuery;
 import tn.fst.igl5.delivery_microservice.query.query.GetClaimQuery;
+import tn.fst.igl5.delivery_microservice.query.query.GetDeliveryFeesQuery;
 import tn.fst.igl5.delivery_microservice.service.ClaimService;
 
 import java.util.List;
@@ -44,4 +45,6 @@ public class ClaimProjection {
     public ClaimDTO handle(GetClaimQuery query) {
         return claimService.get(query.getClaimId());
     }
+
+
 }

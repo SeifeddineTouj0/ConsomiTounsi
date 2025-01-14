@@ -5,6 +5,7 @@ import jakarta.validation.Valid;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.messaging.responsetypes.ResponseTypes;
@@ -24,7 +25,9 @@ import tn.fst.igl5.delivery_microservice.command.command.CreateDeliveryCommand;
 import tn.fst.igl5.delivery_microservice.command.command.DeleteDeliveryCommand;
 import tn.fst.igl5.delivery_microservice.command.command.UpdateDeliveryCommand;
 import tn.fst.igl5.delivery_microservice.model.DeliveryDTO;
+import tn.fst.igl5.delivery_microservice.model.OrderDetailsDTO;
 import tn.fst.igl5.delivery_microservice.query.query.GetAllDeliveriesQuery;
+import tn.fst.igl5.delivery_microservice.query.query.GetDeliveryFeesQuery;
 import tn.fst.igl5.delivery_microservice.query.query.GetDeliveryQuery;
 import tn.fst.igl5.delivery_microservice.service.DeliveryService;
 
@@ -82,5 +85,11 @@ public class DeliveryResource {
     public ResponseEntity<Void> deleteDelivery(@PathVariable String id) {
         commandGateway.sendAndWait(new DeleteDeliveryCommand(id));
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/caluclateFees")
+    public CompletableFuture<Double> deliveryFees(@RequestBody @Valid OrderDetailsDTO orderDetailsDTO){
+        //return orderDetailsDTO;
+        return queryGateway.query(new GetDeliveryFeesQuery(orderDetailsDTO), Double.class);
     }
 }

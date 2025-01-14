@@ -9,6 +9,7 @@ import tn.fst.igl5.delivery_microservice.command.event.DeliveryUpdatedEvent;
 import tn.fst.igl5.delivery_microservice.model.DeliveryDTO;
 import tn.fst.igl5.delivery_microservice.query.query.GetAllDeliveriesQuery;
 import tn.fst.igl5.delivery_microservice.query.query.GetAllDeliveryPeopleQuery;
+import tn.fst.igl5.delivery_microservice.query.query.GetDeliveryFeesQuery;
 import tn.fst.igl5.delivery_microservice.query.query.GetDeliveryQuery;
 import tn.fst.igl5.delivery_microservice.service.DeliveryService;
 
@@ -45,5 +46,10 @@ public class DeliveryProjection {
     @QueryHandler
     public DeliveryDTO handle(GetDeliveryQuery query) {
         return deliveryService.get(query.getId());
+    }
+
+    @QueryHandler
+    public Double handle(GetDeliveryFeesQuery query){
+        return deliveryService.calculateFees(query.getOrder().getTargetLat(),query.getOrder().getTargetLng(),36.83397342793626, 10.147848486264067,query.getOrder().getWeights());
     }
 }

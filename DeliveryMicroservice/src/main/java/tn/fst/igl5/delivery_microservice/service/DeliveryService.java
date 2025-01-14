@@ -6,6 +6,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import tn.fst.igl5.delivery_microservice.domain.Delivery;
 import tn.fst.igl5.delivery_microservice.domain.DeliveryPerson;
+import tn.fst.igl5.delivery_microservice.helper.DistanceHelper;
 import tn.fst.igl5.delivery_microservice.model.DeliveryDTO;
 import tn.fst.igl5.delivery_microservice.repos.DeliveryPersonRepository;
 import tn.fst.igl5.delivery_microservice.repos.DeliveryRepository;
@@ -45,6 +46,20 @@ public class DeliveryService {
 
     public void delete(final String id) {
         deliveryRepository.deleteById(id);
+    }
+
+    public Double calculateFees(double targetLat, double targetLng, double sourceLat, double sourceLng) {
+        return calculateFees(targetLat, targetLng, sourceLat, sourceLng, null);
+    }
+
+    public Double calculateFees(double targetLat, double targetLng, double sourceLat, double sourceLng, List<Double> Weights) {
+        double prix=0;
+        double distance= DistanceHelper.calculateDistance(targetLat,targetLng,sourceLat,sourceLng);
+        prix = (distance/1000)*0.5;
+        for(Double weight:Weights){
+            prix += weight*0.3;
+        }
+        return (double) Math.round(prix);
     }
 
     private DeliveryDTO mapToDTO(final Delivery delivery, final DeliveryDTO deliveryDTO) {

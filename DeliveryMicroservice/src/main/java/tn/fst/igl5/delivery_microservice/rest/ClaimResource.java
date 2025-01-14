@@ -1,6 +1,5 @@
 package tn.fst.igl5.delivery_microservice.rest;
 
-import jakarta.validation.Valid;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.messaging.responsetypes.ResponseTypes;
 import org.axonframework.queryhandling.QueryGateway;
@@ -10,15 +9,16 @@ import org.springframework.web.bind.annotation.*;
 import tn.fst.igl5.delivery_microservice.command.command.CreateClaimCommand;
 import tn.fst.igl5.delivery_microservice.command.command.DeleteClaimCommand;
 import tn.fst.igl5.delivery_microservice.command.command.UpdateClaimCommand;
-import tn.fst.igl5.delivery_microservice.domain.Claim;
 import tn.fst.igl5.delivery_microservice.model.ClaimDTO;
+import tn.fst.igl5.delivery_microservice.model.OrderDetailsDTO;
 import tn.fst.igl5.delivery_microservice.query.query.GetAllClaimsQuery;
 import tn.fst.igl5.delivery_microservice.query.query.GetClaimQuery;
+import tn.fst.igl5.delivery_microservice.query.query.GetDeliveryFeesQuery;
 import tn.fst.igl5.delivery_microservice.service.ClaimService;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("/api/claims")
@@ -64,5 +64,6 @@ public class ClaimResource {
         commandGateway.send(new DeleteClaimCommand(id));
         return ResponseEntity.noContent().build();
     }
+
 
 }
