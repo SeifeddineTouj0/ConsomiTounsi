@@ -1,13 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
     <version>3.3.6</version>
-    <relativePath />
+    <relativePath/>
     <!-- lookup parent from repository -->
   </parent>
   <groupId>com.example</groupId>
@@ -15,22 +12,20 @@
   <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>consomi-tounsi</name>
-
   <modules>
     <module>eureka-server</module>
     <module>core-api</module>
     <module>config-server</module>
-    <!-- <module>boutiques</module> -->
-    <module>ventes</module>
-
+    <module>boutiques</module>
+    <!--    <module>ventes</module>-->
+    <module>users</module>
+    <module>produits</module>
   </modules>
   <properties>
     <java.version>17</java.version>
     <axon.version>4.9.4</axon.version>
     <spring-cloud.version>2023.0.4</spring-cloud.version>
     <spring.version>3.3.6</spring.version>
-
-
   </properties>
   <dependencies>
     <dependency>
@@ -39,15 +34,11 @@
       <scope>runtime</scope>
       <optional>true</optional>
     </dependency>
-
-
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
       <optional>true</optional>
     </dependency>
-
-
   </dependencies>
   <dependencyManagement>
     <dependencies>
@@ -60,5 +51,4 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
-
 </project>
