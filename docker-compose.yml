@@ -209,6 +209,29 @@ services:
     networks:
       - microservices-network
 
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    networks:
+      - microservices-network
+    depends_on:
+      - boutique-microservice
+      - ventes-microservice
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    networks:
+      - microservices-network
+    depends_on:
+      - prometheus
+
 #  zipkin:
 #    image: openzipkin/zipkin
 #    container_name: zipkin
