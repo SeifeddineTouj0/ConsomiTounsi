@@ -4,14 +4,22 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: product-service
+        - id: products-microservice
           uri: lb://ProductMicroservice
           predicates:
             - Path=/products/**
-        - id: user-service
-          uri: lb://UserMicroservice
+        - id: users-microservice
+          uri: lb://users-microservice
           predicates:
-            - Path=/users/**
+            - Path=/api/users/**
+        - id: cagnottes-microservice-donations
+          uri: lb://cagnotte-microservice
+          predicates:
+            - Path=/api/donations/**
+        - id: cagnottes-microservice-cagnottes
+          uri: lb://cagnotte-microservice
+          predicates:
+            - Path=/api/cagnottes/**
   eureka:
     client:
       service-url:

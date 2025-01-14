@@ -262,30 +262,30 @@ services:
       - SPRING_CLOUD_CONFIG_SERVER_GIT_CLONE_ON_START=true
 
 
-  #  api-gateway:
-  #    image: api-gateway-server:latest
-  #    container_name: api-gateway-server
-  #    build: ./api-gateway
-  #    ports:
-  #      - "8181:8181"
-  #    environment:
-  #      - EUREKA_SERVER_URI=http://eureka-server:8761/eureka
-  #      - CONFIG_SERVER_URI=http://config-server:8888
-  #      - LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY=TRACE
-  #      - SPRING_CLOUD_CONFIG_URI=http://config-server:8888
-  #    networks:
-  #      - microservices-network
-  #    depends_on:
-  #      config-server:
-  #        condition: service_healthy
-  #      eureka-server:
-  #        condition: service_healthy
-  #    healthcheck:
-  #      test: [ "CMD", "curl", "-f", "http://localhost:8181/actuator/health" ]
-  #      interval: 10s
-  #      timeout: 5s
-  #      retries: 5
-  #      start_period: 40s
+  api-gateway:
+    image: api-gateway-server:latest
+    container_name: api-gateway-server
+    build: ./api-gateway
+    ports:
+      - "8181:8181"
+    environment:
+      - EUREKA_SERVER_URI=http://eureka-server:8761/eureka
+      - CONFIG_SERVER_URI=http://config-server:8888
+      - LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY=TRACE
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8888
+    networks:
+      - microservices-network
+    depends_on:
+      config-server:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8181/actuator/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
 
   axon-server:
     image: axoniq/axonserver
