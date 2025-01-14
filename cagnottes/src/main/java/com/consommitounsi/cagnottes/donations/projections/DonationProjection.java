@@ -43,6 +43,7 @@ public class DonationProjection {
         }
         DonationProduct donationProduct = new DonationProduct();
         donationProduct.setProductId(event.getProductId());
+        System.err.println("EVENT PRODUCTID==" + event.getProductId());
         donationProduct.setDonation(donation);
 
         donationProductRepository.save(donationProduct); // Persist the product in the query database
