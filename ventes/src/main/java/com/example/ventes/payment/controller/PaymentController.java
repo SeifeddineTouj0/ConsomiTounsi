@@ -16,11 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.coreapi.ventes.payment.CreatePaymentCommand;
 import com.example.coreapi.ventes.payment.PaymentInfo;
 import com.example.coreapi.ventes.payment.PaymentInfoNamedQueries;
+import com.example.coreapi.ventes.payment.PurchasedProduct;
 import com.example.coreapi.ventes.payment.StatusPaiment;
 import com.example.coreapi.ventes.payment.TypePayment;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/payments")
@@ -37,7 +39,7 @@ public class PaymentController {
     public CompletableFuture<String> createPayment(@RequestParam TypePayment typePayment,
             @RequestParam Double montant, @RequestParam LocalDateTime datePayment,
             @RequestParam StatusPaiment statusPayment,
-            @RequestParam String userId, @RequestParam Set<String> produitIds) {
+            @RequestParam String userId, @RequestBody Set<PurchasedProduct> produitIds) {
 
         CreatePaymentCommand command = new CreatePaymentCommand(UUID.randomUUID().toString(), typePayment, montant,
                 datePayment, statusPayment, userId, produitIds);

@@ -28,7 +28,7 @@ public class Payment {
 
     private String user;
 
-    private Set<String> produits;
+    private Set<PurchasedProduct> produits;
 
     public Payment() {
     }
