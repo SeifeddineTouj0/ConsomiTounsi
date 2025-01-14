@@ -20,6 +20,9 @@ public class Produit {
     @Column(nullable = false, unique = true)
     private String name;
 
+    @Column(nullable = false, unique = true)
+    private String barCode;
+
     @Column(nullable = false)
     private String category;
 

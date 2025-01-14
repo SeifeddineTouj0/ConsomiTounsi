@@ -19,6 +19,7 @@
     <module>boutiques</module>
     <module>ventes</module>
     <module>users</module>
+
     <module>produits</module>
 
   </modules>
@@ -29,12 +30,6 @@
     <spring.version>3.3.6</spring.version>
   </properties>
   <dependencies>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-docker-compose</artifactId>
-      <scope>runtime</scope>
-      <optional>true</optional>
-    </dependency>
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>

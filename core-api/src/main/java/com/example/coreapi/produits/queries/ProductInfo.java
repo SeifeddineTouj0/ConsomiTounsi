@@ -13,6 +13,7 @@ import java.io.Serializable;
 public class ProductInfo implements Serializable {
     private String id;
     private String name;
+    private String barCode;
     private String category;
     private RayonType storageType;
     private float weight;
