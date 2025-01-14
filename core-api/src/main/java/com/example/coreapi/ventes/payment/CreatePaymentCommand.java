@@ -11,6 +11,6 @@ public record CreatePaymentCommand(@TargetAggregateIdentifier String paymentId,
         LocalDateTime datePayment,
         StatusPaiment statusPayment,
         String userId,
-        Set<String> produitIds) {
+        Set<PurchasedProduct> produitIds) {
 
 }

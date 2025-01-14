@@ -14,7 +14,7 @@ public interface PaymentInfoRepository extends JpaRepository<PaymentInfo, String
 
     Iterable<PaymentInfo> findByUser(String userId);
 
-    @Query("SELECT p FROM PaymentInfo p JOIN p.products prod WHERE prod IN :productIds")
+    @Query("SELECT p FROM PaymentInfo p JOIN p.products prod WHERE prod.productId IN :productIds")
     Iterable<PaymentInfo> findByProductIds(Set<String> productIds);
 
 }
