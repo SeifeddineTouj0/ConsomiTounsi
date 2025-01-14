@@ -49,13 +49,12 @@ services:
 #     timeout: 5s
 #     retries: 5
 #     start_period: 40s
-
-  boutique-db:
+  users-db:
     image: mysql:8.0
-    container_name: boutique-db
+    container_name: users-db
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: 1
-      MYSQL_DATABASE: boutique_db
+      MYSQL_DATABASE: users_db
     networks:
       - microservices-network
     healthcheck:
@@ -65,16 +64,50 @@ services:
       retries: 5
       start_period: 30s
 
+#  boutique-db:
+#    image: mysql:8.0
+#    container_name: boutique-db
+#    environment:
+#      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+#      MYSQL_DATABASE: boutique_db
+#    networks:
+#      - microservices-network
+#    healthcheck:
+#      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+#      interval: 10s
+#      timeout: 5s
+#      retries: 5
+#      start_period: 30s
 
-  boutique-microservice:
-    image: boutique-microservice:latest
-    build: ./boutique-microservice
-    container_name: boutique-microservice
+#  boutique-microservice:
+#    image: boutique-microservice:latest
+#    build: ./boutique-microservice
+#    container_name: boutique-microservice
+#    environment:
+#      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+#      SPRING_CONFIG_IMPORT: "configserver:"
+#    ports:
+#      - "8082:8082"
+#    networks:
+#      - microservices-network
+#    depends_on:
+#      config-server:
+#        condition: service_healthy
+#    healthcheck:
+#      test: [ "CMD", "curl", "-f", "http://localhost:8080/actuator/health" ]
+#      interval: 10s
+#      timeout: 5s
+#      retries: 5
+#      start_period: 40s
+
+  users-microservice:
+    build: ./users
+    container_name: users-microservice
     environment:
       SPRING_CLOUD_CONFIG_URI: http://config-server:8888
       SPRING_CONFIG_IMPORT: "configserver:"
     ports:
-      - "8082:8082"
+      - "8090:8090"
     networks:
       - microservices-network
     depends_on:
@@ -108,13 +141,15 @@ services:
   config-server:
     image: config-server:latest
     container_name: config-server
-    build: config-serveree
+    build: ./config-server
     networks:
       - microservices-network
     ports:
       - "8888:8888"
     depends_on:
-      boutique-db:
+#      boutique-db:
+#        condition: service_healthy
+      users-db:
         condition: service_healthy
     healthcheck:
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8888/actuator/health"]
