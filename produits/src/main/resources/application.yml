@@ -1,8 +1,101 @@
 spring:
   application:
-    name: products-microservice
-
+    name: products-microservice # Name for identification in Eureka
 server:
-  port: 8090
+  port: 8091
 
-
+#spring:
+#  application:
+#    name: products-microservice # Name for identification in Eureka
+#  cloud:
+#    config:
+#      import-check:
+#        enabled : false
+#      enabled : false
+#  #  cloud:
+#  #    config:
+#  #      uri: http://config-server:8888
+#  #      fail-fast: true
+#  #      import: "configserver:"
+#  #      import-check:
+#  #        enabled: true
+#  datasource:
+#    url: jdbc:mysql://localhost:18001/products_db
+#    #    url: jdbc:mysql://products-db:3306/products_db
+#    username: root
+#    password: ""
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#  jpa:
+#    hibernate:
+#      ddl-auto: update
+#    show-sql: true
+#    properties:
+#      hibernate.dialect: org.hibernate.dialect.MariaDBDialect
+#
+#server:
+#  port: 8090
+#
+##axon:
+###  serializer:
+###    general: jackson
+##  axonserver:
+##    servers: axon-server:8124
+##  eventhandling:
+##    processors:
+##      default:
+##        mode: tracking
+##        source: eventStore
+##        initial-segment-count: 1
+##  eventstore:
+##    jpa:
+##      schema-generation:
+##        enabled: true
+##        sequence-style-generator: org.hibernate.id.enhanced.TableGenerator
+##    persistence:
+##      sql:
+##        create-token-table: true
+##        create-event-table: true
+##    jdbc:
+##      sql:
+##        dialect: mysql
+#
+##eureka:
+##  client:
+##    service-url:
+##      defaultZone: http://eureka-server:8761/eureka # Eureka Server URL
+#
+##resilience4j:
+##  retry:
+##    instances:
+##      myRetry:
+##        max-attempts: 3 # Maximum number of retry attempts
+##        wait-duration: 500ms # Wait time between retries
+##  rate-limiter:
+##    instances:
+##      myRateLimiter:
+##        limit-for-period: 5 # Maximum 5 requests per period
+##        limit-refresh-period: 1s # Refresh period for rate limiter
+##        timeout-duration: 500ms # Timeout duration for rate-limited requests
+##
+##management:
+##  endpoints:
+##    web:
+##      exposure:
+##        include: info, health, prometheus
+##  metrics:
+##    export:
+##      prometheus:
+##        enabled: true
+##  tracing:
+##    sampling:
+##      probability: 1.0
+##  zipkin:
+##    endpoint: http://zipkin:9411/api/v2/spans # Zipkin Server URL
+##
+##logging:
+##  level:
+##    root: INFO
+##    org.springframework.web: DEBUG
+##    org.axonframework.eventhandling: DEBUG
+##    org.axonframework.commandhandling: DEBUG
+>>>>>>> a9afef83a9996dcab42b481d61f148faa8e5340e
