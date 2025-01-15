@@ -1,6 +1,7 @@
 package com.example.coreapi.ventes.facture;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 import com.example.coreapi.ventes.payment.PurchasedProduct;
@@ -32,5 +33,7 @@ public class FactureInfo {
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "payment_products", joinColumns = @JoinColumn(name = "payment_id"))
-    Set<PurchasedProduct> products;
+    Set<PurchasedProduct> productsQuantites;
+    @ElementCollection(fetch = FetchType.EAGER)
+    List<String> productsNames;
 }

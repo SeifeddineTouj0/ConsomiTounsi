@@ -32,8 +32,6 @@ public class Payment {
 
     private TypePayment typePayment;
 
-    private Double montant;
-
     private LocalDateTime datePayment;
 
     private StatusPaiment statusPayment;
@@ -64,6 +62,7 @@ public class Payment {
 
         Map<String, StockStatusResponse> productStockIdMap = new HashMap<>();
         List<ProductInfo> productInfos = new ArrayList<>();
+        Double total = (double) 0;
 
         for (PurchasedProduct produit : command.getProduitIds()) {
             if (produit.getQuantity() <= 0) {
@@ -76,6 +75,8 @@ public class Payment {
                 throw new IllegalArgumentException("Produit non trouve");
             }
             productInfos.add(productInfo);
+
+            total += productInfo.getPrice() * produit.getQuantity();
 
             StockStatusResponse stockStatusResponse = queryGateway.query(
                     new GetStockStatusQuery(produit.getProductId()), StockStatusResponse.class).join();
@@ -95,7 +96,7 @@ public class Payment {
                     productStockIdMap.get(produit.getProductId()).getQuantity() - produit.getQuantity()));
         }
 
-        apply(new PaymentCreatedEvent(command.getPaymentId(), command.getTypePayment(), command.getMontant(),
+        apply(new PaymentCreatedEvent(command.getPaymentId(), command.getTypePayment(), total,
                 command.getDatePayment(), command.getStatusPayment(), command.getUserId(), command.getProduitIds(),
                 command.getUserAdressLong(), command.getUserAdressLat()));
     }
@@ -104,7 +105,6 @@ public class Payment {
     protected void on(PaymentCreatedEvent event) {
         this.paymentId = event.getPaymentId();
         this.typePayment = event.getTypePayment();
-        this.montant = event.getMontant();
         this.datePayment = event.getDatePayment();
         this.statusPayment = event.getStatusPayment();
         this.user = event.getUserId();
