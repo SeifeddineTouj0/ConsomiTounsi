@@ -8,6 +8,14 @@ spring:
           uri: lb://ProductMicroservice
           predicates:
             - Path=/products/**
+        - id: boutique-microservice-rayons
+          uri: lb://boutique-microservice
+          predicates:
+            - Path=/api/rayons/**
+        - id: boutique-microservice-stocks
+          uri: lb://boutique-microservice
+          predicates:
+            - Path=/api/stocks/**
         - id: users-microservice
           uri: lb://users-microservice
           predicates:
