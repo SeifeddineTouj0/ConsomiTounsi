@@ -21,5 +21,6 @@ public class CreatePaymentCommand {
     StatusPaiment statusPayment;
     String userId;
     Set<PurchasedProduct> produitIds;
-
+    double userAdressLong;
+    double userAdressLat;
 }

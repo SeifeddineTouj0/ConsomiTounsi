@@ -18,5 +18,6 @@ public class PaymentCreatedEvent {
     StatusPaiment statusPayment;
     String userId;
     Set<PurchasedProduct> produitIds;
-
+    double userAdressLong;
+    double userAdressLat;
 }
