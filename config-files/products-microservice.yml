@@ -1,15 +1,15 @@
 spring:
   application:
     name: products-microservice
-    cloud:
-      config:
-        uri: http://config-server:8888
-        fail-fast: true
-        import: "configserver:"
-        import-check:
-          enabled: true
+  port: 8091
+  cloud:
+    config:
+      uri: http://config-server:8888
+      fail-fast: true
+      import: "configserver:"
+      import-check:
+        enabled: true
   datasource:
-#    url: jdbc:mysql://localhost:18001/products_db
     url: jdbc:mysql://products-db:3306/products_db
     username: root
     password: ""
@@ -21,8 +21,6 @@ spring:
     properties:
       hibernate.dialect: org.hibernate.dialect.MariaDBDialect
 
-server:
-  port: 8091
 
 axon:
   axonserver:
