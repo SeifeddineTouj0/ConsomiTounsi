@@ -95,6 +95,7 @@ services:
       start_period: 30s
 
   users-microservice:
+    image: users-microservice:latest
     build: ./users
     container_name: users-microservice
     environment:
@@ -106,6 +107,10 @@ services:
       - microservices-network
     depends_on:
       config-server:
+        condition: service_healthy
+      users-db:
+        condition: service_healthy
+      eureka-server:
         condition: service_healthy
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8090/actuator/health" ]

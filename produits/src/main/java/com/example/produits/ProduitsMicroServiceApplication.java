@@ -6,6 +6,7 @@ import org.axonframework.modelling.saga.repository.jpa.SagaEntry;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @EntityScan(basePackageClasses = {
         Produit.class,
@@ -13,7 +14,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
         , TokenEntry.class
 })
 @SpringBootApplication
-//@EnableDiscoveryClient
+@EnableDiscoveryClient
 public class ProduitsMicroServiceApplication
 {
     public static void main( String[] args )

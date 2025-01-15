@@ -19,7 +19,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
         ,TokenEntry.class
 })
 @SpringBootApplication
-//@EnableDiscoveryClient
+@EnableDiscoveryClient
 public class UsersMicroServiceApplication
 {
     public static void main( String[] args )
