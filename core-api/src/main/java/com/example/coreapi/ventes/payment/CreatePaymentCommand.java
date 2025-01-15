@@ -16,7 +16,6 @@ public class CreatePaymentCommand {
     @TargetAggregateIdentifier
     String paymentId;
     TypePayment typePayment;
-    Double montant;
     LocalDateTime datePayment;
     StatusPaiment statusPayment;
     String userId;

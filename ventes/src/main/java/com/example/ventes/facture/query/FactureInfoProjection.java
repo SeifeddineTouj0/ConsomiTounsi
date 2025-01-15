@@ -1,12 +1,17 @@
 package com.example.ventes.facture.query;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import org.axonframework.eventhandling.EventHandler;
+import org.axonframework.messaging.responsetypes.ResponseTypes;
 import org.axonframework.queryhandling.QueryGateway;
 import org.axonframework.queryhandling.QueryHandler;
 import org.springframework.stereotype.Component;
 
+import com.example.coreapi.produits.queries.FetchproductByIdQuery;
+import com.example.coreapi.produits.queries.ProductInfo;
 import com.example.coreapi.ventes.facture.FactureCreatedEvent;
 import com.example.coreapi.ventes.facture.FactureDeletedEvent;
 import com.example.coreapi.ventes.facture.FactureInfo;
@@ -15,6 +20,7 @@ import com.example.coreapi.ventes.facture.FactureUpdatedEvent;
 import com.example.coreapi.ventes.facture.TypeFacture;
 import com.example.coreapi.ventes.payment.PaymentInfo;
 import com.example.coreapi.ventes.payment.PaymentInfoNamedQueries;
+import com.example.coreapi.ventes.payment.PurchasedProduct;
 import com.example.ventes.facture.utils.FacturePdfGenerator;
 
 @Component
@@ -42,6 +48,18 @@ public class FactureInfoProjection {
             throw new RuntimeException("Failed to fetch PaymentInfo", e);
         }
 
+        List<String> productsNames = new ArrayList<>();
+        for (PurchasedProduct purchasedProduct : paymentInfo.getProducts()) {
+            try {
+                ProductInfo productInfo = queryGateway.query(
+                        new FetchproductByIdQuery(purchasedProduct.getProductId()),
+                        ResponseTypes.instanceOf(ProductInfo.class)).get();
+                productsNames.add(productInfo.getName());
+            } catch (InterruptedException | ExecutionException e) {
+                throw new RuntimeException("Failed to fetch ProductInfo", e);
+            }
+        }
+
         FactureInfo factureInfo = new FactureInfo();
         factureInfo.setFactureId(event.getFactureId());
         factureInfo.setDateFacture(event.getDateFacture());
@@ -49,7 +67,8 @@ public class FactureInfoProjection {
         factureInfo.setPaymentId(event.getPaymentId());
         factureInfo.setUser(paymentInfo.getUser());
         factureInfo.setMontant(paymentInfo.getMontant());
-        factureInfo.setProducts(paymentInfo.getProducts());
+        factureInfo.setProductsQuantites(paymentInfo.getProducts());
+        factureInfo.setProductsNames(productsNames);
 
         factureInfoRepository.save(factureInfo);
     }
@@ -71,12 +90,25 @@ public class FactureInfoProjection {
             throw new RuntimeException("Failed to fetch PaymentInfo", e);
         }
 
+        List<String> productsNames = new ArrayList<>();
+        for (PurchasedProduct purchasedProduct : paymentInfo.getProducts()) {
+            try {
+                ProductInfo productInfo = queryGateway.query(
+                        new FetchproductByIdQuery(purchasedProduct.getProductId()),
+                        ResponseTypes.instanceOf(ProductInfo.class)).get();
+                productsNames.add(productInfo.getName());
+            } catch (InterruptedException | ExecutionException e) {
+                throw new RuntimeException("Failed to fetch ProductInfo", e);
+            }
+        }
+
         factureInfo.setDateFacture(event.getDateFacture());
         factureInfo.setTypeFacture(event.getTypeFacture());
         factureInfo.setPaymentId(event.getPaymentId());
         factureInfo.setUser(paymentInfo.getUser());
         factureInfo.setMontant(paymentInfo.getMontant());
-        factureInfo.setProducts(paymentInfo.getProducts());
+        factureInfo.setProductsQuantites(paymentInfo.getProducts());
+        factureInfo.setProductsNames(productsNames);
 
         factureInfoRepository.save(factureInfo);
     }
