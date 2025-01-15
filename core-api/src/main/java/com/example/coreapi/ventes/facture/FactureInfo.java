@@ -29,6 +29,8 @@ public class FactureInfo {
     TypeFacture typeFacture;
     String paymentId;
     String user;
+    String username;
+    String email;
     Double montant;
     Double deliveryFees;
 

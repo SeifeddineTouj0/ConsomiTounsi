@@ -22,6 +22,8 @@ import com.example.coreapi.delivery.GetDeliveryFeesQuery;
 import com.example.coreapi.delivery.OrderDetailsDTO;
 import com.example.coreapi.produits.queries.FetchproductByIdQuery;
 import com.example.coreapi.produits.queries.ProductInfo;
+import com.example.coreapi.users.queries.FetchUserByIdQuery;
+import com.example.coreapi.users.queries.UserInfo;
 import com.example.coreapi.ventes.payment.*;
 
 import static org.axonframework.modelling.command.AggregateLifecycle.apply;
@@ -66,6 +68,13 @@ public class Payment {
         this.queryGateway = queryGateway;
         this.commandGateway = commandGateway;
 
+        // Check if the user exists
+        UserInfo userInfo = queryGateway.query(new FetchUserByIdQuery(command.getUserId()), UserInfo.class).join();
+        if (userInfo == null) {
+            throw new IllegalArgumentException("Utilisateur non trouve");
+        }
+
+        // Check if the products are valid and in Stock
         Map<String, StockStatusResponse> productStockIdMap = new HashMap<>();
         List<ProductInfo> productInfos = new ArrayList<>();
         Double total = (double) 0;

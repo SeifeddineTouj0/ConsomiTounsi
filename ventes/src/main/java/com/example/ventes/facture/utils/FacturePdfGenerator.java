@@ -32,7 +32,8 @@ public class FacturePdfGenerator {
             // Invoice details
             document.add(new Paragraph("Facture ID: " + factureInfo.getFactureId()));
             document.add(new Paragraph("Date: " + factureInfo.getDateFacture()));
-            document.add(new Paragraph("User: " + factureInfo.getUser()));
+            document.add(new Paragraph("Username: " + factureInfo.getUsername()));
+            document.add(new Paragraph("Email: " + factureInfo.getEmail()));
             document.add(new Paragraph("Type: " + factureInfo.getTypeFacture()));
             document.add(new Paragraph("Montant Total: $" + factureInfo.getMontant()));
             document.add(new Paragraph("Frais de Livraison: $" + factureInfo.getDeliveryFees()));

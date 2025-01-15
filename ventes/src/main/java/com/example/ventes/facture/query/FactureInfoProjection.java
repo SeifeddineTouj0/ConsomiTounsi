@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 
 import com.example.coreapi.produits.queries.FetchproductByIdQuery;
 import com.example.coreapi.produits.queries.ProductInfo;
+import com.example.coreapi.users.queries.FetchUserByIdQuery;
+import com.example.coreapi.users.queries.UserInfo;
 import com.example.coreapi.ventes.facture.FactureCreatedEvent;
 import com.example.coreapi.ventes.facture.FactureDeletedEvent;
 import com.example.coreapi.ventes.facture.FactureInfo;
@@ -60,12 +62,22 @@ public class FactureInfoProjection {
             }
         }
 
+        UserInfo userInfo = queryGateway.query(
+                new FetchUserByIdQuery(paymentInfo.getUser()),
+                ResponseTypes.instanceOf(UserInfo.class)).join();
+
+        if (userInfo == null) {
+            throw new RuntimeException("User not found");
+        }
+
         FactureInfo factureInfo = new FactureInfo();
         factureInfo.setFactureId(event.getFactureId());
         factureInfo.setDateFacture(event.getDateFacture());
         factureInfo.setTypeFacture(event.getTypeFacture());
         factureInfo.setPaymentId(event.getPaymentId());
         factureInfo.setUser(paymentInfo.getUser());
+        factureInfo.setUsername(userInfo.getUsername());
+        factureInfo.setEmail(userInfo.getEmail());
         factureInfo.setMontant(paymentInfo.getMontant());
         factureInfo.setDeliveryFees(paymentInfo.getDeliveryFees());
         factureInfo.setProductsQuantites(paymentInfo.getProducts());
@@ -103,10 +115,21 @@ public class FactureInfoProjection {
             }
         }
 
+        UserInfo userInfo = queryGateway.query(
+                new FetchUserByIdQuery(paymentInfo.getUser()),
+                ResponseTypes.instanceOf(UserInfo.class)).join();
+
+        if (userInfo == null) {
+            throw new RuntimeException("User not found");
+        }
+
+        factureInfo.setFactureId(event.getFactureId());
         factureInfo.setDateFacture(event.getDateFacture());
         factureInfo.setTypeFacture(event.getTypeFacture());
         factureInfo.setPaymentId(event.getPaymentId());
         factureInfo.setUser(paymentInfo.getUser());
+        factureInfo.setUsername(userInfo.getUsername());
+        factureInfo.setEmail(userInfo.getEmail());
         factureInfo.setMontant(paymentInfo.getMontant());
         factureInfo.setDeliveryFees(paymentInfo.getDeliveryFees());
         factureInfo.setProductsQuantites(paymentInfo.getProducts());
