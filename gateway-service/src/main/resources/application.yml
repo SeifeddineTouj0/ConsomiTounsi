@@ -13,18 +13,18 @@ spring:
           predicates:
             - Path=/api/users/**
         - id: cagnottes-microservice-donations
-          uri: lb://cagnotte-microservice
+          uri: lb://cagnottes-microservice
           predicates:
             - Path=/api/donations/**
         - id: cagnottes-microservice-cagnottes
-          uri: lb://cagnotte-microservice
+          uri: lb://cagnottes-microservice
           predicates:
             - Path=/api/cagnottes/**
-  eureka:
-    client:
-      service-url:
-        defaultZone: http://localhost:8761/eureka/
-  logging:
-    level:
-      org.springframework: DEBUG
-      org.springframework.cloud.gateway: DEBUG
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/
+logging:
+  level:
+    org.springframework: DEBUG
+    org.springframework.cloud.gateway: DEBUG
