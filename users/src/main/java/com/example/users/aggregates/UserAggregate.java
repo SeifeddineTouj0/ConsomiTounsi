@@ -1,7 +1,11 @@
 package com.example.users.aggregates;
 
+import com.example.coreapi.users.commands.DeleteUserCommand;
 import com.example.coreapi.users.commands.RegisterUserCommand;
+import com.example.coreapi.users.commands.UpdateUserDataCommand;
+import com.example.coreapi.users.events.UserDeletedEvent;
 import com.example.coreapi.users.events.UserRegisteredEvent;
+import com.example.coreapi.users.events.UserUpdatedEvent;
 import lombok.NoArgsConstructor;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
@@ -40,4 +44,27 @@ public class UserAggregate {
         this.isActive = event.isActive();
         this.createdAt = event.getCreatedAt();
     }
+
+    @CommandHandler
+    public void handle(DeleteUserCommand command){
+        apply(new UserDeletedEvent(command.getId()));
+    }
+
+    @EventSourcingHandler
+    public void on(UserDeletedEvent event){
+
+    }
+
+    @CommandHandler
+    public void handle(UpdateUserDataCommand command){
+        apply(new UserUpdatedEvent(command.getId(), command.getUsername(), command.getEmail(), command.getPassword()));
+    }
+
+    @EventSourcingHandler
+    public void on(UserUpdatedEvent event){
+        this.username=event.getUsername();
+        this.email=event.getEmail();
+        this.password= event.getPassword();
+    }
+
 }
