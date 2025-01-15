@@ -1,8 +1,6 @@
 package com.example.produits.controllers;
 
-import com.example.coreapi.produits.queries.FetchproductByIdQuery;
-import com.example.coreapi.produits.queries.ListAllProductsQuery;
-import com.example.coreapi.produits.queries.ProductInfo;
+import com.example.coreapi.produits.queries.*;
 import org.axonframework.messaging.responsetypes.ResponseTypes;
 import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.http.ResponseEntity;
@@ -29,12 +27,24 @@ public class ProductQueryController {
     public CompletableFuture<ResponseEntity<List<ProductInfo>>> findAll(){
 
         return queryGateway.query(new ListAllProductsQuery(), ResponseTypes.multipleInstancesOf(ProductInfo.class))
-                .thenApply(product -> ResponseEntity.ok(product));
+                .thenApply(products -> ResponseEntity.ok(products));
     }
     @GetMapping("/{id}")
     public CompletableFuture<ResponseEntity<ProductInfo>> findById(@PathVariable("id") String id) {
         return queryGateway.query(new FetchproductByIdQuery(id), ProductInfo.class)
                 .thenApply(product -> ResponseEntity.ok(product));
+    }
+
+    @GetMapping("/isTunisian/{id}")
+    public CompletableFuture<ResponseEntity<String>> checkIfTunisian(@PathVariable("id") String id){
+
+        return queryGateway.query(new CheckForTunisianProductQuery(id),String.class).thenApply(response -> ResponseEntity.ok(response));
+    }
+
+    @GetMapping("/category/{category}")
+    public CompletableFuture<ResponseEntity<List<ProductInfo>>> findByCategory(@PathVariable("category") String category){
+        return queryGateway.query(new FetchProductByCategoryQuery(category), ResponseTypes.multipleInstancesOf(ProductInfo.class))
+                .thenApply(products -> ResponseEntity.ok(products));
     }
 
 }
