@@ -67,6 +67,7 @@ public class FactureInfoProjection {
         factureInfo.setPaymentId(event.getPaymentId());
         factureInfo.setUser(paymentInfo.getUser());
         factureInfo.setMontant(paymentInfo.getMontant());
+        factureInfo.setDeliveryFees(paymentInfo.getDeliveryFees());
         factureInfo.setProductsQuantites(paymentInfo.getProducts());
         factureInfo.setProductsNames(productsNames);
 
@@ -107,6 +108,7 @@ public class FactureInfoProjection {
         factureInfo.setPaymentId(event.getPaymentId());
         factureInfo.setUser(paymentInfo.getUser());
         factureInfo.setMontant(paymentInfo.getMontant());
+        factureInfo.setDeliveryFees(paymentInfo.getDeliveryFees());
         factureInfo.setProductsQuantites(paymentInfo.getProducts());
         factureInfo.setProductsNames(productsNames);
 

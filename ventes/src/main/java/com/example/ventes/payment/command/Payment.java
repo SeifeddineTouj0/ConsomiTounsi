@@ -18,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.example.coreapi.boutique.stock.commands.UpdateStockCommand;
 import com.example.coreapi.boutique.stock.queries.GetStockStatusQuery;
 import com.example.coreapi.boutique.stock.responses.StockStatusResponse;
+import com.example.coreapi.delivery.GetDeliveryFeesQuery;
+import com.example.coreapi.delivery.OrderDetailsDTO;
 import com.example.coreapi.produits.queries.FetchproductByIdQuery;
 import com.example.coreapi.produits.queries.ProductInfo;
 import com.example.coreapi.ventes.payment.*;
@@ -37,6 +39,10 @@ public class Payment {
     private StatusPaiment statusPayment;
 
     private String user;
+
+    private Double montant;
+
+    private Double deliveryFees;
 
     private Set<PurchasedProduct> produits;
 
@@ -89,6 +95,12 @@ public class Payment {
             productStockIdMap.put(produit.getProductId(), stockStatusResponse);
         }
 
+        // Calculate Delivery cost
+        OrderDetailsDTO orderDetailsDTO = new OrderDetailsDTO(command.getUserAdressLat(), command.getUserAdressLong(),
+                productInfos);
+        Double deliveryFees = queryGateway.query(new GetDeliveryFeesQuery(orderDetailsDTO), Double.class).join();
+        total += deliveryFees;
+
         // Update stock
         for (PurchasedProduct produit : command.getProduitIds()) {
             commandGateway.send(new UpdateStockCommand(productStockIdMap.get(produit.getProductId()).getStockId(),
@@ -96,7 +108,7 @@ public class Payment {
                     productStockIdMap.get(produit.getProductId()).getQuantity() - produit.getQuantity()));
         }
 
-        apply(new PaymentCreatedEvent(command.getPaymentId(), command.getTypePayment(), total,
+        apply(new PaymentCreatedEvent(command.getPaymentId(), command.getTypePayment(), total, deliveryFees,
                 command.getDatePayment(), command.getStatusPayment(), command.getUserId(), command.getProduitIds(),
                 command.getUserAdressLong(), command.getUserAdressLat()));
     }
@@ -105,6 +117,8 @@ public class Payment {
     protected void on(PaymentCreatedEvent event) {
         this.paymentId = event.getPaymentId();
         this.typePayment = event.getTypePayment();
+        this.montant = event.getMontant();
+        this.deliveryFees = event.getDeliveryFees();
         this.datePayment = event.getDatePayment();
         this.statusPayment = event.getStatusPayment();
         this.user = event.getUserId();

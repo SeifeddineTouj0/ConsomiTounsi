@@ -25,6 +25,7 @@ public class PaymentInfoProjection {
         paymentInfo.setPaymentId(event.getPaymentId());
         paymentInfo.setTypePayment(event.getTypePayment());
         paymentInfo.setMontant(event.getMontant());
+        paymentInfo.setDeliveryFees(event.getDeliveryFees());
         paymentInfo.setDatePayment(event.getDatePayment());
         paymentInfo.setStatusPayment(event.getStatusPayment());
         paymentInfo.setUser(event.getUserId());

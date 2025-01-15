@@ -34,7 +34,8 @@ public class FacturePdfGenerator {
             document.add(new Paragraph("Date: " + factureInfo.getDateFacture()));
             document.add(new Paragraph("User: " + factureInfo.getUser()));
             document.add(new Paragraph("Type: " + factureInfo.getTypeFacture()));
-            document.add(new Paragraph("Montant: $" + factureInfo.getMontant()));
+            document.add(new Paragraph("Montant Total: $" + factureInfo.getMontant()));
+            document.add(new Paragraph("Frais de Livraison: $" + factureInfo.getDeliveryFees()));
 
             // Products table
             document.add(new Paragraph("Produits").setBold().setMarginTop(20));
@@ -44,7 +45,8 @@ public class FacturePdfGenerator {
             List<PurchasedProduct> Productslist = new ArrayList<>(factureInfo.getProductsQuantites());
 
             for (int i = 0; i < Productslist.size(); i++) {
-                table.addCell(factureInfo.getProductsNames().get(i) + "        :              " + String.valueOf(Productslist.get(i).getQuantity()));
+                table.addCell(factureInfo.getProductsNames().get(i) + "        :              "
+                        + String.valueOf(Productslist.get(i).getQuantity()));
             }
 
             document.add(table);
