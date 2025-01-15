@@ -16,7 +16,7 @@ public class AxonConfig {
     public Serializer serializer() {
         XStream xStream = new XStream();
         xStream.allowTypesByWildcard(new String[]{
-                "com.example.coreapi.delivery.**",
+                "com.example.coreapi.**","tn.fst.igl5.delivery_microservice.**"
         });
         xStream.allowTypes(new Class[] {
                 tn.fst.igl5.delivery_microservice.domain.Delivery.class,tn.fst.igl5.delivery_microservice.domain.Claim.class,tn.fst.igl5.delivery_microservice.domain.DeliveryPerson.class });
