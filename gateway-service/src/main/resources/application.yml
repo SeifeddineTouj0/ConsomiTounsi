@@ -20,6 +20,18 @@ spring:
           uri: lb://users-microservice
           predicates:
             - Path=/api/users/**
+        - id: delivery-microservice
+          uri: lb://delivery-microservice
+          predicates:
+            - Path=/api/claims/**
+        - id: delivery-microservice
+          uri: lb://delivery-microservice
+          predicates:
+            - Path=/api/deliveryPeople/**
+        - id: delivery-microservice
+          uri: lb://delivery-microservice
+          predicates:
+            - Path=/api/deliveries/**
         - id: cagnottes-microservice-donations
           uri: lb://cagnottes-microservice
           predicates:
