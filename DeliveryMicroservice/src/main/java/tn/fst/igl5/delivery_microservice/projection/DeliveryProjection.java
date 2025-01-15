@@ -1,6 +1,5 @@
 package tn.fst.igl5.delivery_microservice.projection;
 
-
 import com.example.coreapi.delivery.GetDeliveryFeesQuery;
 import com.example.coreapi.delivery.command.CreateDeliveryCommand;
 import com.example.coreapi.ventes.payment.PaymentCreatedEvent;
@@ -53,7 +52,7 @@ public class DeliveryProjection {
         deliveryDTO.setLocationLon(event.getUserAdressLong());
         commandGateway.sendAndWait(new CreateDeliveryCommand(id, deliveryDTO));
     }
-    
+
     @QueryHandler
     public List<DeliveryDTO> handle(GetAllDeliveriesQuery query) {
         return deliveryService.findAll();
