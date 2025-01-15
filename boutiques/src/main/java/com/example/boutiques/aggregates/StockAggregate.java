@@ -8,11 +8,15 @@ import com.example.coreapi.boutique.stock.enumerations.StockStatus;
 import com.example.coreapi.boutique.stock.events.StockCreatedEvent;
 import com.example.coreapi.boutique.stock.events.StockUpdatedEvent;
 import com.example.coreapi.boutique.stock.events.StockDeletedEvent;
+import com.example.coreapi.produits.queries.FetchproductByIdQuery;
+import com.example.coreapi.produits.queries.ProductInfo;
 import lombok.NoArgsConstructor;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.modelling.command.AggregateIdentifier;
+import org.axonframework.queryhandling.QueryGateway;
 import org.axonframework.spring.stereotype.Aggregate;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.axonframework.modelling.command.AggregateLifecycle.apply;
 
@@ -27,9 +31,24 @@ public class StockAggregate {
     private int quantity;
     private StockStatus status;
 
+    @Autowired
+    private QueryGateway queryGateway;
+
     //Create Stock
     @CommandHandler
-    public StockAggregate(CreateStockCommand command) {
+    public StockAggregate(CreateStockCommand command, QueryGateway queryGateway) {
+        this.queryGateway = queryGateway;
+        // Validate product existence
+        ProductInfo product = this.queryGateway.query(
+                new FetchproductByIdQuery(command.getProductId()),
+                ProductInfo.class
+        ).join();
+
+        if (product == null) {
+            throw new IllegalArgumentException("Product with ID " + command.getProductId() + " does not exist.");
+        }
+
+
         StockStatus status = determineStockStatus(command.getQuantity());
         apply(new StockCreatedEvent(command.getStockId(), command.getProductId(), command.getQuantity(), status));
     }

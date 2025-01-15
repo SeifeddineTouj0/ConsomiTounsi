@@ -1,0 +1,37 @@
+global:
+  scrape_interval: 5s
+
+scrape_configs:
+  - job_name: 'boutique-microservice'
+    metrics_path: /actuator/prometheus
+    static_configs:
+      - targets: [ 'boutique-microservice:8082' ]
+
+  - job_name: 'ventes-microservice'
+    metrics_path: /actuator/prometheus
+    static_configs:
+      - targets: [ 'ventes-microservice:8081' ]
+
+  - job_name: 'cagnottes-microservice-docker'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: [ 'cagnottes-microservice:8089' ]
+
+
+  - job_name: 'users-microservice-docker'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: [ 'users-microservice:8090' ]
+
+  - job_name: 'products-microservice-docker'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: [ 'products-microservice:8091' ]
+  - job_name: 'delivery-microservice'
+    metrics_path: /actuator/prometheus
+    static_configs:
+      - targets: [ 'delivery-microservice:8087' ]
+
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: [ 'localhost:9090' ]

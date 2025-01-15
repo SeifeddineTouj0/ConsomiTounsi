@@ -1,0 +1,51 @@
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      routes:
+        - id: products-microservice
+          uri: lb://ProductMicroservice
+          predicates:
+            - Path=/api/products/**
+        - id: boutique-microservice-rayons
+          uri: lb://boutique-microservice
+          predicates:
+            - Path=/api/rayons/**
+        - id: boutique-microservice-stocks
+          uri: lb://boutique-microservice
+          predicates:
+            - Path=/api/stocks/**
+            - Path=/api/products/**
+        - id: users-microservice
+          uri: lb://users-microservice
+          predicates:
+            - Path=/api/users/**
+        - id: delivery-microservice
+          uri: lb://delivery-microservice
+          predicates:
+            - Path=/api/claims/**
+        - id: delivery-microservice
+          uri: lb://delivery-microservice
+          predicates:
+            - Path=/api/deliveryPeople/**
+        - id: delivery-microservice
+          uri: lb://delivery-microservice
+          predicates:
+            - Path=/api/deliveries/**
+        - id: cagnottes-microservice-donations
+          uri: lb://cagnottes-microservice
+          predicates:
+            - Path=/api/donations/**
+        - id: cagnottes-microservice-cagnottes
+          uri: lb://cagnottes-microservice
+          predicates:
+            - Path=/api/cagnottes/**
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/
+logging:
+  level:
+    org.springframework: DEBUG
+    org.springframework.cloud.gateway: DEBUG

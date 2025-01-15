@@ -13,6 +13,7 @@ public class CreateProductCommand {
     @TargetAggregateIdentifier
     private String id;
     private String name;
+    private String barCode;
     private String category;
     private RayonType storageType;
     private float weight;

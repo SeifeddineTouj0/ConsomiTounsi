@@ -33,7 +33,7 @@ public class StockProjection {
     @QueryHandler
     public StockStatusResponse handle(GetStockStatusQuery query) {
         Optional<Stock> stock = stockRepository.findByProductId(query.getProductId());
-        return stock.map(value -> new StockStatusResponse(value.getStatus(), value.getQuantity()))
+        return stock.map(value -> new StockStatusResponse(value.getId(), value.getStatus(), value.getQuantity()))
                 .orElse(null);
     }
 }

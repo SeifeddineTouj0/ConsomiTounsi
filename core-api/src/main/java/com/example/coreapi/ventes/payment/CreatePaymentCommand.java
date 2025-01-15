@@ -5,12 +5,21 @@ import java.util.Set;
 
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
-public record CreatePaymentCommand(@TargetAggregateIdentifier String paymentId,
-        TypePayment typePayment,
-        Double montant,
-        LocalDateTime datePayment,
-        StatusPaiment statusPayment,
-        String userId,
-        Set<String> produitIds) {
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class CreatePaymentCommand {
+    @TargetAggregateIdentifier
+    String paymentId;
+    TypePayment typePayment;
+    LocalDateTime datePayment;
+    StatusPaiment statusPayment;
+    String userId;
+    Set<PurchasedProduct> produitIds;
+    double userAdressLong;
+    double userAdressLat;
 }

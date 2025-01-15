@@ -1,0 +1,10 @@
+global:
+  scrape_interval: 5s # Intervalle de scraping par défaut
+
+scrape_configs:
+  # Microservice 1
+  - job_name: 'cagnottes-microservice-docker'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: [ 'host.docker.internal:8089' ]
+

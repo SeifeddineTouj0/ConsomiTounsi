@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: users-microservice # Name for identification in Eureka
+
+server:
+  port: 8090
+

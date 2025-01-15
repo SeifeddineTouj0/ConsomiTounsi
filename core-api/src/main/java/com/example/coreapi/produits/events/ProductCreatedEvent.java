@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 public class ProductCreatedEvent {
     private String id;
     private String name;
+    private String barCode;
     private String category;
     private RayonType storageType;
     private float weight;

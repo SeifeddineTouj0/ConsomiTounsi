@@ -9,6 +9,7 @@ spring:
           uri: https://github.com/SeifeddineTouj0/ConsomiTounsi.git
           search-paths: config-files
           clone-on-start: true
+          default-label: develop # Specify the branch to pull from
     compatibility-verifier:
       enabled: false
 
@@ -27,4 +28,3 @@ management:
       enabled: true
     readinessstate:
       enabled: true
-

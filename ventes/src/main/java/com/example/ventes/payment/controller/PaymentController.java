@@ -16,11 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.coreapi.ventes.payment.CreatePaymentCommand;
 import com.example.coreapi.ventes.payment.PaymentInfo;
 import com.example.coreapi.ventes.payment.PaymentInfoNamedQueries;
+import com.example.coreapi.ventes.payment.PurchasedProduct;
 import com.example.coreapi.ventes.payment.StatusPaiment;
 import com.example.coreapi.ventes.payment.TypePayment;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/payments")
@@ -35,12 +37,13 @@ public class PaymentController {
 
     @PostMapping()
     public CompletableFuture<String> createPayment(@RequestParam TypePayment typePayment,
-            @RequestParam Double montant, @RequestParam LocalDateTime datePayment,
+            @RequestParam LocalDateTime datePayment,
             @RequestParam StatusPaiment statusPayment,
-            @RequestParam String userId, @RequestParam Set<String> produitIds) {
+            @RequestParam String userId, @RequestBody Set<PurchasedProduct> produitIds,
+            @RequestParam double userAdressLong, @RequestParam double userAdressLat) {
 
-        CreatePaymentCommand command = new CreatePaymentCommand(UUID.randomUUID().toString(), typePayment, montant,
-                datePayment, statusPayment, userId, produitIds);
+        CreatePaymentCommand command = new CreatePaymentCommand(UUID.randomUUID().toString(), typePayment,
+                datePayment, statusPayment, userId, produitIds, userAdressLong, userAdressLat);
 
         CompletableFuture<String> commandResult = commandGateway.send(command);
 
@@ -54,4 +57,45 @@ public class PaymentController {
                 null,
                 ResponseTypes.multipleInstancesOf(PaymentInfo.class));
     }
+
+    @GetMapping("/{paymentId}")
+    public CompletableFuture<PaymentInfo> findOne(@RequestParam String paymentId) {
+        return queryGateway.query(
+                PaymentInfoNamedQueries.FIND_ONE,
+                paymentId,
+                ResponseTypes.instanceOf(PaymentInfo.class));
+    }
+
+    @GetMapping("/online")
+    public CompletableFuture<List<PaymentInfo>> findOnlinePayment() {
+        return queryGateway.query(
+                PaymentInfoNamedQueries.FIND_ONLINE_PAYMENT,
+                null,
+                ResponseTypes.multipleInstancesOf(PaymentInfo.class));
+    }
+
+    @GetMapping("/delivery")
+    public CompletableFuture<List<PaymentInfo>> findDeliveryPayment() {
+        return queryGateway.query(
+                PaymentInfoNamedQueries.FIND_DELIVERY_PAYMENT,
+                null,
+                ResponseTypes.multipleInstancesOf(PaymentInfo.class));
+    }
+
+    @GetMapping("/user")
+    public CompletableFuture<List<PaymentInfo>> findPaymentByUser(@RequestParam String userId) {
+        return queryGateway.query(
+                PaymentInfoNamedQueries.FIND_PAYMENT_BY_USER,
+                userId,
+                ResponseTypes.multipleInstancesOf(PaymentInfo.class));
+    }
+
+    @GetMapping("/products")
+    public CompletableFuture<List<PaymentInfo>> findPaymentByProduct(@RequestParam Set<String> productIds) {
+        return queryGateway.query(
+                PaymentInfoNamedQueries.FIND_PAYMENT_BY_PRODUCT,
+                productIds,
+                ResponseTypes.multipleInstancesOf(PaymentInfo.class));
+    }
+
 }

@@ -30,6 +30,8 @@ public class StockQueryController {
 
     }
 
+
+
     @GetMapping("/{id}")
     public CompletableFuture<ResponseEntity<Stock>> getStockById(@PathVariable String id) {
         return queryGateway.query(new GetStockByIdQuery(id), Stock.class)
