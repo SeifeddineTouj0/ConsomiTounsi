@@ -9,12 +9,16 @@ import com.example.coreapi.boutique.rayon.events.RayonCreatedEvent;
 import com.example.coreapi.boutique.rayon.enumerations.RayonType;
 import com.example.coreapi.boutique.rayon.events.RayonDeletedEvent;
 import com.example.coreapi.boutique.rayon.events.RayonUpdatedEvent;
+import com.example.coreapi.produits.queries.FetchproductByIdQuery;
+import com.example.coreapi.produits.queries.ProductInfo;
 import lombok.NoArgsConstructor;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.modelling.command.AggregateLifecycle;
+import org.axonframework.queryhandling.QueryGateway;
 import org.axonframework.spring.stereotype.Aggregate;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
@@ -28,10 +32,35 @@ public class RayonAggregate {
     private List<String> productIds;
     private String position;
 
+    @Autowired
+    private QueryGateway queryGateway;
+
     //Create Rayon
     @CommandHandler
-    public RayonAggregate(CreateRayonCommand command) {
-        AggregateLifecycle.apply(new RayonCreatedEvent(command.getRayonId(), command.getName(), command.getType(), command.getProductIds(), command.getPosition()));
+    public RayonAggregate(CreateRayonCommand command, QueryGateway queryGateway) {
+        // Validate products
+        if (command.getProductIds() != null && !command.getProductIds().isEmpty()) {
+            boolean allValid = command.getProductIds().stream().allMatch(productId -> {
+                ProductInfo product = queryGateway.query(
+                        new FetchproductByIdQuery(productId),
+                        ProductInfo.class
+                ).join();
+
+                return product != null && product.getStorageType() == command.getType();
+            });
+
+            if (!allValid) {
+                throw new IllegalArgumentException("One or more products are invalid or have mismatched storage types.");
+            }
+        }
+
+        AggregateLifecycle.apply(new RayonCreatedEvent(
+                command.getRayonId(),
+                command.getName(),
+                command.getType(),
+                command.getProductIds(),
+                command.getPosition()
+        ));
     }
 
     @EventSourcingHandler
@@ -46,7 +75,28 @@ public class RayonAggregate {
     //Update Rayon
     @CommandHandler
     public void handle(UpdateRayonCommand command) {
-        AggregateLifecycle.apply(new RayonUpdatedEvent(command.getId(), command.getName(), command.getType(), command.getProductIds(), command.getPosition()));
+        // Validate products
+        if (command.getProductIds() != null && !command.getProductIds().isEmpty()) {
+            boolean allValid = command.getProductIds().stream().allMatch(productId -> {
+                ProductInfo product = this.queryGateway.query(
+                        new FetchproductByIdQuery(productId),
+                        ProductInfo.class
+                ).join();
+
+                return product != null && product.getStorageType() == command.getType();
+            });
+
+            if (!allValid) {
+                throw new IllegalArgumentException("One or more products are invalid or have mismatched storage types.");
+            }
+        }
+        AggregateLifecycle.apply(new RayonUpdatedEvent(
+                command.getId(),
+                command.getName(),
+                command.getType(),
+                command.getProductIds(),
+                command.getPosition()
+        ));
     }
 
     @EventSourcingHandler
@@ -69,8 +119,29 @@ public class RayonAggregate {
 
     //Assign Product To Rayon
     @CommandHandler
-    public void handle(AssignProductToRayonCommand command) {
-        AggregateLifecycle.apply(new ProductAssignedToRayonEvent(command.getRayonId(), command.getProductId(), command.getQuantity()));
+    public void handle(AssignProductToRayonCommand command, QueryGateway queryGateway) {
+        // Validate product existence and storage type
+        ProductInfo product = this.queryGateway.query(
+                new FetchproductByIdQuery(command.getProductId()),
+                ProductInfo.class
+        ).join();
+
+        if (product == null) {
+            throw new IllegalArgumentException("Product with ID " + command.getProductId() + " does not exist.");
+        }
+
+        if (product.getStorageType() != this.type) {
+            throw new IllegalArgumentException(
+                    "Product storage type " + product.getStorageType() + " does not match Rayon's storage type " + this.type
+            );
+        }
+
+        // Apply the ProductAssignedToRayonEvent if validation passes
+        AggregateLifecycle.apply(new ProductAssignedToRayonEvent(
+                command.getRayonId(),
+                command.getProductId(),
+                command.getQuantity()
+        ));
     }
 
     @EventSourcingHandler
