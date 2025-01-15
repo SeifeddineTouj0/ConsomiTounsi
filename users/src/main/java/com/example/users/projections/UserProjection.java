@@ -50,13 +50,14 @@ public class UserProjection {
             List<UserInfo> userInfoList = new ArrayList<UserInfo>();
 
             users.forEach(user -> {
-                userInfoList.add(UserInfo.builder().id(user.getId()).
-                        username(user.getUsername()).
-                        email(user.getEmail()).
-                        isActive(user.isActive()).
-                        createdAt(user.getCreatedAt()).
-                        role(user.getRole()).
-                        build());
+                        userInfoList.add(
+                                new UserInfo(user.getId(),
+                                        user.getUsername(),
+                                        user.getEmail(),
+                                        user.getRole(),
+                                        user.isActive(),
+                                        user.getCreatedAt()
+                                ));
             });
         return userInfoList;
     }

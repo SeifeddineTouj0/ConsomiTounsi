@@ -5,6 +5,7 @@ import com.example.coreapi.users.commands.DeleteUserCommand;
 import com.example.coreapi.users.commands.RegisterUserCommand;
 import com.example.coreapi.users.commands.ReinstateUserCommand;
 import com.example.coreapi.users.commands.UpdateUserDataCommand;
+import com.example.coreapi.users.queries.FetchUserByIdQuery;
 import com.example.coreapi.users.queries.FetchUserByNameOrEmailQuery;
 import com.example.coreapi.users.queries.UserInfo;
 import org.axonframework.commandhandling.gateway.CommandGateway;
@@ -47,7 +48,7 @@ public class UserCommandController {
     @DeleteMapping("/{id}")
     public CompletableFuture<ResponseEntity<String>> deleteUser(@PathVariable("id") String id){
         return queryGateway.query(
-                        new FetchproductByIdQuery(id), // Query for the user
+                        new FetchUserByIdQuery(id), // Query for the user
                         UserInfo.class // Expected response type
                 )
                 .thenApply(user -> {
@@ -61,7 +62,7 @@ public class UserCommandController {
     @PutMapping("/reinstate/{id}")
     public CompletableFuture<ResponseEntity<String>> reinstateUser(@PathVariable("id") String id){
         return queryGateway.query(
-                        new FetchproductByIdQuery(id), // Query for the user
+                        new FetchUserByIdQuery(id), // Query for the user
                         UserInfo.class // Expected response type
                 )
                 .thenApply(user -> {
@@ -71,10 +72,10 @@ public class UserCommandController {
                     return ResponseEntity.ok(commandGateway.sendAndWait(new ReinstateUserCommand(id)));
                 });
     }
-    @PutMapping("/reinstate/{id}")
+    @PutMapping("/update")
     public CompletableFuture<ResponseEntity<UserInfo>> updateUser(@RequestBody UpdateUserDataCommand command){
         return queryGateway.query(
-                        new FetchproductByIdQuery(command.getId()), // Query for the user
+                        new FetchUserByIdQuery(command.getId()), // Query for the user
                         UserInfo.class // Expected response type
                 )
                 .thenApply(user -> {

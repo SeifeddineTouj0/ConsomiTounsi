@@ -2,9 +2,11 @@ package com.example.users.aggregates;
 
 import com.example.coreapi.users.commands.DeleteUserCommand;
 import com.example.coreapi.users.commands.RegisterUserCommand;
+import com.example.coreapi.users.commands.ReinstateUserCommand;
 import com.example.coreapi.users.commands.UpdateUserDataCommand;
 import com.example.coreapi.users.events.UserDeletedEvent;
 import com.example.coreapi.users.events.UserRegisteredEvent;
+import com.example.coreapi.users.events.UserReinstatedEvent;
 import com.example.coreapi.users.events.UserUpdatedEvent;
 import lombok.NoArgsConstructor;
 import org.axonframework.commandhandling.CommandHandler;
@@ -52,7 +54,7 @@ public class UserAggregate {
 
     @EventSourcingHandler
     public void on(UserDeletedEvent event){
-
+        this.isActive=false ;
     }
 
     @CommandHandler
@@ -67,4 +69,13 @@ public class UserAggregate {
         this.password= event.getPassword();
     }
 
+    @CommandHandler
+    public void handle(ReinstateUserCommand command){
+        apply(new UserReinstatedEvent(command.getId()));
+    }
+
+    @EventSourcingHandler
+    public void on(UserReinstatedEvent event){
+        this.isActive = true;
+    }
 }

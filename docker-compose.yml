@@ -296,7 +296,7 @@ services:
   api-gateway:
     image: api-gateway-server:latest
     container_name: api-gateway-server
-    build: ./api-gateway
+    build: ./gateway-service
     ports:
       - "8999:8999"
     environment:
