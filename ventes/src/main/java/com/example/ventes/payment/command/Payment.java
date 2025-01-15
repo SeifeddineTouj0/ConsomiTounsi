@@ -38,6 +38,10 @@ public class Payment {
 
     private Set<PurchasedProduct> produits;
 
+    private double userAdressLong;
+
+    private double userAdressLat;
+
     @Autowired
     private final QueryGateway queryGateway;
 
@@ -79,7 +83,7 @@ public class Payment {
         }
 
         apply(new PaymentCreatedEvent(command.getPaymentId(), command.getTypePayment(), command.getMontant(),
-                command.getDatePayment(), command.getStatusPayment(), command.getUserId(), command.getProduitIds()));
+                command.getDatePayment(), command.getStatusPayment(), command.getUserId(), command.getProduitIds(), command.getUserAdressLong(), command.getUserAdressLat()));
     }
 
     @EventSourcingHandler
