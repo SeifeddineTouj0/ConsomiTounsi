@@ -1,0 +1,45 @@
+entity Sujet {
+  id Long,
+  titre String required,
+  contenu String required maxlength(5000),
+  auteur String required,
+  dateCreation ZonedDateTime required,
+  lastInteractionDate ZonedDateTime required
+}
+
+entity Commentaire {
+  id Long,
+  contenu String required maxlength(2000),
+  auteur String required,
+  dateCreation ZonedDateTime required
+}
+
+entity Evaluation {
+  id Long,
+  cibleId Long required, // ID du sujet ou commentaire évalué
+  valeur Integer required, // Likes/dislikes doit etre enum like ou dislike
+  auteur String required,
+  dateCreation ZonedDateTime required
+}
+
+entity ChatMessage {
+  id Long,
+  contenu String required,
+  sender String required,
+  receiver String required,
+  timestamp ZonedDateTime required
+}
+
+relationship OneToMany {
+  Sujet to Commentaire
+}
+
+relationship OneToMany {
+  Sujet to Evaluation
+}
+
+relationship OneToMany {
+  Commentaire to Evaluation
+}
+
+

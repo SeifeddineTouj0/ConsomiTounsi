@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Chat Test</title>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.1/bundles/stomp.umd.min.js"></script>
+</head>
+<body>
+<h1>WebSocket Chat Test</h1>
+<div>
+    <input type="text" id="receiverId" placeholder="Receiver ID">
+    <input type="text" id="messageContent" placeholder="Message Content">
+    <button onclick="sendMessage()">Send Message</button>
+</div>
+<div>
+    <h3>Received Messages:</h3>
+    <ul id="messages"></ul>
+</div>
+
+<script>
+    const socket = new SockJS('/ws');
+    const stompClient = Stomp.over(socket);
+
+    stompClient.connect({}, function () {
+        console.log('Connected to WebSocket!');
+
+        // Subscribe to personal messages queue
+        stompClient.subscribe('/user/queue/messages', function (message) {
+            const chatMessage = JSON.parse(message.body);
+            displayMessage(chatMessage);
+        });
+    });
+
+    function sendMessage() {
+        const receiverId = document.getElementById('receiverId').value;
+        const messageContent = document.getElementById('messageContent').value;
+
+        const chatMessage = {
+            senderId: '123', // Replace with actual sender ID
+            receiverId: receiverId,
+            content: messageContent
+        };
+
+        stompClient.send('/app/send', {}, JSON.stringify(chatMessage));
+    }
+
+    function displayMessage(chatMessage) {
+        const messagesList = document.getElementById('messages');
+        const newMessage = document.createElement('li');
+        newMessage.textContent = `From: ${chatMessage.senderId}, Message: ${chatMessage.content}`;
+        messagesList.appendChild(newMessage);
+    }
+</script>
+</body>
+</html>

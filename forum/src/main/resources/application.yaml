@@ -1,0 +1,53 @@
+server:
+  port: 4000
+
+spring:
+  application:
+    name: forum # Application name for identification in Eureka
+  datasource:
+    url: jdbc:mysql://localhost:3306/forum
+    username: admin
+    password: admin
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update # Use 'update', 'create-drop', or 'validate' based on your needs
+    show-sql: true # Enables logging of SQL queries
+  cloud:
+    config:
+      uri: http://localhost:8888 # Address of your Config Server
+      import: "optional:configserver:" # Correct usage of configserver with optional to avoid errors
+      import-check:
+        enabled: false # Disable configuration import check
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/ # Address of your Eureka Server
+
+axon:
+  axonserver:
+    servers: localhost:8124
+    autoconnect: true
+    context: default
+
+  eventhandling:
+    processors:
+      default:
+        mode: tracking
+        source: eventStore
+
+my-service:
+  ribbon:
+    eureka:
+      enabled: true # Set to `true` if using Eureka
+    listOfServers: http://localhost:4000, http://localhost:4001
+
+zipkin:
+  base-url: http://localhost:9411 # URL of your Zipkin server
+
+sleuth:
+  sampler:
+    probability: 1.0 # Set to 1.0 to trace 100% of requests
+
+
