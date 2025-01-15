@@ -48,6 +48,7 @@ public class StockAggregate {
             throw new IllegalArgumentException("Product with ID " + command.getProductId() + " does not exist.");
         }
 
+
         StockStatus status = determineStockStatus(command.getQuantity());
         apply(new StockCreatedEvent(command.getStockId(), command.getProductId(), command.getQuantity(), status));
     }
