@@ -5,6 +5,7 @@ import com.example.coreapi.produits.commands.CreateProductCommand;
 import com.example.coreapi.produits.commands.DeleteProductCommand;
 import com.example.coreapi.produits.commands.UpdateProductCommand;
 import com.example.coreapi.produits.queries.FetchProductByNameOrBarCodeQuery;
+import com.example.coreapi.produits.queries.FetchproductByIdQuery;
 import com.example.coreapi.produits.queries.ProductInfo;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.queryhandling.QueryGateway;
@@ -46,14 +47,37 @@ public class ProductCommandController {
 
 
     @DeleteMapping("/{id}")
-    public CompletableFuture<ResponseEntity<String>> deleteProduct(@PathVariable("id") String id){
-        return commandGateway.sendAndWait(new DeleteProductCommand(id));
+    public CompletableFuture<ResponseEntity<String>> deleteProduct(@PathVariable("id") String id) {
+        // Check if the product exists using the QueryGateway
+        return queryGateway.query(
+                        new FetchproductByIdQuery(id), // Query for the product by ID
+                        ProductInfo.class // Expected response type
+                )
+                .thenApply(productInfo -> {
+                    if (productInfo == null) {
+                        throw new IllegalArgumentException("Product with ID " + id + " does not exist.");
+                    }
+                    // If product exists, delete it
+                    commandGateway.sendAndWait(new DeleteProductCommand(id));
+                    return ResponseEntity.ok("Product deleted successfully.");
+                });
     }
 
     @PutMapping
-    public CompletableFuture<ResponseEntity<ProductInfo>> updateProduct(@RequestBody UpdateProductCommand updatedProduct){
-        return commandGateway.sendAndWait(updatedProduct);
+    public CompletableFuture<ResponseEntity<UpdateProductCommand>> updateProduct(@RequestBody UpdateProductCommand updatedProduct) {
+        // Check if the product exists using the QueryGateway
+        return queryGateway.query(
+                        new FetchproductByIdQuery(updatedProduct.getId()), // Query for the product by ID
+                        ProductInfo.class // Expected response type
+                )
+                .thenApply(productInfo -> {
+                    if (productInfo == null) {
+                        throw new IllegalArgumentException("Product with ID " + updatedProduct.getId() + " does not exist.");
+                    }
+                    // If product exists, proceed with the update
+                    commandGateway.sendAndWait(updatedProduct);
+                    return ResponseEntity.ok(updatedProduct); // Return the updated product info
+                });
     }
-
 
 }

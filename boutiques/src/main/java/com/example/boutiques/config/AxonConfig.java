@@ -16,8 +16,7 @@ public class AxonConfig {
     public Serializer serializer() {
         XStream xStream = new XStream();
         xStream.allowTypesByWildcard(new String[]{
-                "com.example.coreapi.boutique.rayon.**",
-                "com.example.coreapi.boutique.stock.**",
+                "com.example.coreapi.**",
                 "com.example.boutiques.**",
         });
         xStream.allowTypes(new Class[] {

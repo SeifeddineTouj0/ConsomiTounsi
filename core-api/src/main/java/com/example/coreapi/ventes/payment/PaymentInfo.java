@@ -27,4 +27,6 @@ public class PaymentInfo {
     String user;
     @ElementCollection(fetch = FetchType.EAGER)
     Set<PurchasedProduct> products;
+    double userAdressLong;
+    double userAdressLat;
 }

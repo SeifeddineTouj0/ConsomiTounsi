@@ -4,10 +4,7 @@ package com.example.produits.projections;
 import com.example.coreapi.produits.events.ProductCreatedEvent;
 import com.example.coreapi.produits.events.ProductDeletedEvent;
 import com.example.coreapi.produits.events.ProductUpdatedEvent;
-import com.example.coreapi.produits.queries.FetchProductByNameOrBarCodeQuery;
-import com.example.coreapi.produits.queries.FetchproductByIdQuery;
-import com.example.coreapi.produits.queries.ListAllProductsQuery;
-import com.example.coreapi.produits.queries.ProductInfo;
+import com.example.coreapi.produits.queries.*;
 import com.example.produits.entities.Produit;
 import com.example.produits.mappers.ProductMapper;
 import com.example.produits.repository.ProduitRepository;
@@ -17,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class ProduitProjections {
@@ -95,4 +93,56 @@ public class ProduitProjections {
         else
             return null;
     }
+
+    @QueryHandler
+    public String on(CheckForTunisianProductQuery query) {
+        // Check if the product exists
+        Produit produit = produitRepository.findById(query.getId())
+                .orElseThrow(() -> new IllegalArgumentException("The product with this id [" + query.getId() + "] does not exist"));
+
+        // Check if the barcode starts with "619"
+        if (produit.getBarCode().startsWith("619")) {
+            return "This Product Was Made In Tunisia! [BARCODE:" + produit.getBarCode() + "]";
+        } else {
+            return "This Product Was NOT Made In Tunisia! [BARCODE:" + produit.getBarCode() + "]";
+        }
+    }
+
+    @QueryHandler
+    public List<ProductInfo> on(FetchProductByCategoryQuery query){
+
+        List<Produit> produits = produitRepository.findAllByCategory(query.getCategory());
+
+        List<ProductInfo> productInfoList = new ArrayList<ProductInfo>();
+
+        produits.forEach(produit -> {
+            productInfoList.add(ProductMapper.toDTO(produit));
+        });
+
+
+        return productInfoList;
+    }
+
+    @QueryHandler
+    public List<ProductInfo> on(FetchFilteredProductsQuery query) {
+        List<Produit> products = produitRepository.findAll();
+        List<Produit> filteredProducts = products.stream()
+                .filter(product -> query.getCategory() == null || product.getCategory().equals(query.getCategory()))
+                .filter(product -> query.getStorageType() == null || product.getStorageType().equals(query.getStorageType()))
+                .filter(product -> query.getMinWeight() == null || product.getWeight() >= query.getMinWeight())
+                .filter(product -> query.getMaxWeight() == null || product.getWeight() <= query.getMaxWeight())
+                .filter(product -> query.getMinPrice() == null || product.getPrice() >= query.getMinPrice())
+                .filter(product -> query.getMaxPrice() == null || product.getPrice() <= query.getMaxPrice())
+                .toList();
+
+        List<ProductInfo> filteredProductInfo = new ArrayList<ProductInfo>();
+        filteredProducts.forEach(produit -> {
+            filteredProductInfo.add(ProductMapper.toDTO(produit));
+        });
+
+        return filteredProductInfo ;
+    }
+
+
+
 }
