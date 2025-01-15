@@ -309,7 +309,7 @@ services:
     container_name: api-gateway-server
     build: ./api-gateway
     ports:
-      - "8181:8181"
+      - "8999:8999"
     environment:
       - EUREKA_SERVER_URI=http://eureka-server:8761/eureka
       - CONFIG_SERVER_URI=http://config-server:8888
