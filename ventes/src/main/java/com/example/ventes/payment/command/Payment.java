@@ -1,7 +1,9 @@
 package com.example.ventes.payment.command;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -16,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.example.coreapi.boutique.stock.commands.UpdateStockCommand;
 import com.example.coreapi.boutique.stock.queries.GetStockStatusQuery;
 import com.example.coreapi.boutique.stock.responses.StockStatusResponse;
+import com.example.coreapi.produits.queries.FetchproductByIdQuery;
+import com.example.coreapi.produits.queries.ProductInfo;
 import com.example.coreapi.ventes.payment.*;
 
 import static org.axonframework.modelling.command.AggregateLifecycle.apply;
@@ -59,11 +63,20 @@ public class Payment {
         this.commandGateway = commandGateway;
 
         Map<String, StockStatusResponse> productStockIdMap = new HashMap<>();
+        List<ProductInfo> productInfos = new ArrayList<>();
 
         for (PurchasedProduct produit : command.getProduitIds()) {
             if (produit.getQuantity() <= 0) {
                 throw new IllegalArgumentException("Quantite doit etre positive");
             }
+
+            ProductInfo productInfo = queryGateway.query(
+                    new FetchproductByIdQuery(produit.getProductId()), ProductInfo.class).join();
+            if (productInfo == null) {
+                throw new IllegalArgumentException("Produit non trouve");
+            }
+            productInfos.add(productInfo);
+
             StockStatusResponse stockStatusResponse = queryGateway.query(
                     new GetStockStatusQuery(produit.getProductId()), StockStatusResponse.class).join();
             if (stockStatusResponse == null) {
@@ -83,7 +96,8 @@ public class Payment {
         }
 
         apply(new PaymentCreatedEvent(command.getPaymentId(), command.getTypePayment(), command.getMontant(),
-                command.getDatePayment(), command.getStatusPayment(), command.getUserId(), command.getProduitIds(), command.getUserAdressLong(), command.getUserAdressLat()));
+                command.getDatePayment(), command.getStatusPayment(), command.getUserId(), command.getProduitIds(),
+                command.getUserAdressLong(), command.getUserAdressLat()));
     }
 
     @EventSourcingHandler
