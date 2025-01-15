@@ -30,6 +30,7 @@ public class FactureInfo {
     String paymentId;
     String user;
     Double montant;
+    Double deliveryFees;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "payment_products", joinColumns = @JoinColumn(name = "payment_id"))

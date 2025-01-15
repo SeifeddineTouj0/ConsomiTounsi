@@ -22,6 +22,7 @@ public class PaymentInfo {
     String paymentId;
     TypePayment typePayment;
     Double montant;
+    Double deliveryFees;
     LocalDateTime datePayment;
     StatusPaiment statusPayment;
     String user;
