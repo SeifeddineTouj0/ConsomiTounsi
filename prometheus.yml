@@ -17,6 +17,16 @@ scrape_configs:
     static_configs:
       - targets: [ 'cagnottes-microservice:8089' ]
 
+
+  - job_name: 'users-microservice-docker'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: [ 'users-microservice:8090' ]
+
+  - job_name: 'products-microservice-docker'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: [ 'products-microservice:8091' ]
   - job_name: 'delivery-microservice'
     metrics_path: /actuator/prometheus
     static_configs:
