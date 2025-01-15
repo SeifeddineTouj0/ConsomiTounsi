@@ -4,19 +4,27 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: product-service
+        - id: products-microservice
           uri: lb://ProductMicroservice
           predicates:
             - Path=/products/**
-        - id: user-service
-          uri: lb://UserMicroservice
+        - id: users-microservice
+          uri: lb://users-microservice
           predicates:
-            - Path=/users/**
-  eureka:
-    client:
-      service-url:
-        defaultZone: http://localhost:8761/eureka/
-  logging:
-    level:
-      org.springframework: DEBUG
-      org.springframework.cloud.gateway: DEBUG
+            - Path=/api/users/**
+        - id: cagnottes-microservice-donations
+          uri: lb://cagnottes-microservice
+          predicates:
+            - Path=/api/donations/**
+        - id: cagnottes-microservice-cagnottes
+          uri: lb://cagnottes-microservice
+          predicates:
+            - Path=/api/cagnottes/**
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/
+logging:
+  level:
+    org.springframework: DEBUG
+    org.springframework.cloud.gateway: DEBUG
