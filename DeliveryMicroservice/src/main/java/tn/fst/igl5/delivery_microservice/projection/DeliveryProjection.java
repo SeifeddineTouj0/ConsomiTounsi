@@ -49,8 +49,8 @@ public class DeliveryProjection {
         String id = UUID.randomUUID().toString();
         DeliveryDTO deliveryDTO = new DeliveryDTO();
         deliveryDTO.setOrderId(event.getPaymentId());
-        deliveryDTO.setLocationLat(0.0);
-        deliveryDTO.setLocationLon(0.0);
+        deliveryDTO.setLocationLat(event.getUserAdressLat());
+        deliveryDTO.setLocationLon(event.getUserAdressLong());
         commandGateway.sendAndWait(new CreateDeliveryCommand(id, deliveryDTO));
     }
     
