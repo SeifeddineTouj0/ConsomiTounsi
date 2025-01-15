@@ -44,7 +44,10 @@ public class ProduitProjections {
 
     @QueryHandler
     public ProductInfo on(FetchproductByIdQuery query){
-        return ProductMapper.toDTO(produitRepository.findById(query.getId()).get());
+        if(produitRepository.findById(query.getId()).isPresent())
+            return ProductMapper.toDTO(produitRepository.findById(query.getId()).get());
+        else
+            return null;
     }
 
 

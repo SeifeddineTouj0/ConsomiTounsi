@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.checkerframework.common.aliasing.qual.Unique;
 
 @Entity
 @Data
@@ -16,6 +17,7 @@ public class Stock {
     private String id;
 
     @Column(nullable = false)
+    @Unique
     private String productId; // ID of the product
 
     @Column(nullable = false)
