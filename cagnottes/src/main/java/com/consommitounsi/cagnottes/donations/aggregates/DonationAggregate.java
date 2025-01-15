@@ -4,10 +4,12 @@ import com.consommitounsi.cagnottes.donations.commands.AddProductToDonationComma
 import com.consommitounsi.cagnottes.donations.commands.CreateDonationCommand;
 import com.consommitounsi.cagnottes.donations.events.DonationCreatedEvent;
 import com.consommitounsi.cagnottes.donations.events.ProductAddedToDonationEvent;
+import com.example.coreapi.boutique.stock.commands.UpdateStockCommand;
 import com.example.coreapi.boutique.stock.queries.GetStockStatusQuery;
 import com.example.coreapi.boutique.stock.responses.StockStatusResponse;
 import lombok.NoArgsConstructor;
 import org.axonframework.commandhandling.CommandHandler;
+import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.messaging.responsetypes.ResponseTypes;
 import org.axonframework.modelling.command.AggregateIdentifier;
@@ -33,6 +35,9 @@ public class DonationAggregate {
     @Autowired
     private QueryGateway queryGateway;
 
+    @Autowired
+    private CommandGateway commandGateway;
+
     @CommandHandler
     public DonationAggregate(CreateDonationCommand command) {
         apply(new DonationCreatedEvent(command.getDonationId(), true));
@@ -46,8 +51,9 @@ public class DonationAggregate {
     }
 
     @CommandHandler
-    public void DonationAggregate(AddProductToDonationCommand command, QueryGateway queryGateway) throws Exception {
+    public void DonationAggregate(AddProductToDonationCommand command, QueryGateway queryGateway, CommandGateway commandGateway) throws Exception {
         this.queryGateway = queryGateway;
+        this.commandGateway = commandGateway;
         CompletableFuture<StockStatusResponse> stockStatus = queryGateway.query(
                 new GetStockStatusQuery(command.getProductId()),
                 ResponseTypes.instanceOf(StockStatusResponse.class)
@@ -56,6 +62,14 @@ public class DonationAggregate {
         try {
             StockStatusResponse response = stockStatus.get();
             if (response != null && response.getQuantity() > 0) {
+
+                String stockId = response.getStockId();
+                int stockQuantity = response.getQuantity();
+
+                commandGateway.send(new UpdateStockCommand(response.getStockId(),
+                        command.getProductId(), stockQuantity - 1));
+
+
                 apply(new ProductAddedToDonationEvent(command.getProductId(), this.donationId));
             } else {
                 throw new Exception("Product with ID " + command.getProductId() + " is out of stock.");
