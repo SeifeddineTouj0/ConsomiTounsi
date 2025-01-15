@@ -25,9 +25,6 @@
     <module>cagnottes</module>
     <module>DeliveryMicroservice</module>
 
-    <module>cagnottes</module>
-
-
   </modules>
   <properties>
     <java.version>17</java.version>

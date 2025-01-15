@@ -66,6 +66,6 @@ public class DeliveryProjection {
 
     @QueryHandler
     public Double handle(GetDeliveryFeesQuery query){
-        return deliveryService.calculateFees(query.getOrder().getTargetLat(),query.getOrder().getTargetLng(),36.83397342793626, 10.147848486264067,query.getOrder().getWeights());
+        return deliveryService.calculateFees(query.getOrder().getTargetLat(),query.getOrder().getTargetLng(),36.83397342793626, 10.147848486264067,query.getOrder().getProducts());
     }
 }
