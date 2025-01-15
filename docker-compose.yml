@@ -64,6 +64,7 @@ services:
       retries: 5
       start_period: 30s
 
+
   boutique-db:
     image: mysql:8.0
     container_name: boutique-db
@@ -78,6 +79,7 @@ services:
       timeout: 5s
       retries: 5
       start_period: 30s
+
 
   products-db:
     image: mysql:8.0
@@ -118,6 +120,8 @@ services:
       timeout: 5s
       retries: 5
       start_period: 40s
+
+
 
   boutique-microservice:
     image: boutique-microservice:latest
@@ -207,6 +211,47 @@ services:
         condition: service_healthy
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8081/actuator/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+    restart: on-failure
+
+  delivery-db:
+    image: mysql:8.0
+    container_name: delivery-db
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+      MYSQL_DATABASE: delivery_db
+    networks:
+      - microservices-network
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  delivery-microservice:
+    image: delivery-microservice:latest
+    build: ./DeliveryMicroservice
+    container_name: delivery-microservice
+    environment:
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+      SPRING_CONFIG_IMPORT: "configserver:"
+    ports:
+      - "8087:8087"
+    networks:
+      - microservices-network
+    depends_on:
+      config-server:
+        condition: service_healthy
+      ventes-db:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8087/actuator/health" ]
       interval: 10s
       timeout: 5s
       retries: 5

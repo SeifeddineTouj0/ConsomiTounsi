@@ -1,7 +1,7 @@
 package com.example.ventes.facture.utils;
 
 import com.example.coreapi.ventes.facture.FactureInfo;
-
+import com.example.coreapi.ventes.payment.PurchasedProduct;
 import com.itextpdf.io.font.constants.StandardFonts;
 import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.pdf.PdfDocument;
@@ -12,6 +12,8 @@ import com.itextpdf.layout.element.Table;
 import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class FacturePdfGenerator {
@@ -38,8 +40,13 @@ public class FacturePdfGenerator {
             document.add(new Paragraph("Produits").setBold().setMarginTop(20));
             Table table = new Table(1);
             table.addHeaderCell("Liste Des Produits");
-            factureInfo.getProducts()
-                    .forEach(product -> table.addCell(product.getProductId() + " : " + product.getQuantity()));
+
+            List<PurchasedProduct> Productslist = new ArrayList<>(factureInfo.getProductsQuantites());
+
+            for (int i = 0; i < Productslist.size(); i++) {
+                table.addCell(factureInfo.getProductsNames().get(i) + "        :              " + String.valueOf(Productslist.get(i).getQuantity()));
+            }
+
             document.add(table);
 
             document.close();

@@ -37,12 +37,12 @@ public class PaymentController {
 
     @PostMapping()
     public CompletableFuture<String> createPayment(@RequestParam TypePayment typePayment,
-            @RequestParam Double montant, @RequestParam LocalDateTime datePayment,
+            @RequestParam LocalDateTime datePayment,
             @RequestParam StatusPaiment statusPayment,
             @RequestParam String userId, @RequestBody Set<PurchasedProduct> produitIds,
             @RequestParam double userAdressLong, @RequestParam double userAdressLat) {
 
-        CreatePaymentCommand command = new CreatePaymentCommand(UUID.randomUUID().toString(), typePayment, montant,
+        CreatePaymentCommand command = new CreatePaymentCommand(UUID.randomUUID().toString(), typePayment,
                 datePayment, statusPayment, userId, produitIds, userAdressLong, userAdressLat);
 
         CompletableFuture<String> commandResult = commandGateway.send(command);

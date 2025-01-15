@@ -1,4 +1,4 @@
-package tn.fst.igl5.delivery_microservice.query.projection;
+package tn.fst.igl5.delivery_microservice.projection;
 
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.queryhandling.QueryHandler;
