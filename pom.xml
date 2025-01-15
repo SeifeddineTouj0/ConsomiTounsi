@@ -22,6 +22,7 @@
     <module>users</module>
 
     <module>produits</module>
+    <module>cagnottes</module>
     <module>DeliveryMicroservice</module>
 
     <module>cagnottes</module>

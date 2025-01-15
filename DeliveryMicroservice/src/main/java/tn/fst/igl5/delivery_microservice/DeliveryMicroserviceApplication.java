@@ -22,10 +22,4 @@ public class DeliveryMicroserviceApplication {
     public static void main(final String[] args) {
         SpringApplication.run(DeliveryMicroserviceApplication.class, args);
     }
-
-    @Autowired
-    public void configureSerializers(ObjectMapper objectMapper) {
-        objectMapper.activateDefaultTyping(objectMapper.getPolymorphicTypeValidator(),
-                ObjectMapper.DefaultTyping.JAVA_LANG_OBJECT);
-    }
 }
