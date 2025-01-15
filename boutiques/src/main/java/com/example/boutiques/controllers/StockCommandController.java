@@ -14,7 +14,6 @@ import java.util.UUID;
 public class StockCommandController {
 
     private final CommandGateway commandGateway;
-
     public StockCommandController(CommandGateway commandGateway) {
         this.commandGateway = commandGateway;
     }

@@ -64,7 +64,6 @@ services:
       retries: 5
       start_period: 30s
 
-
   boutique-db:
     image: mysql:8.0
     container_name: boutique-db
@@ -79,7 +78,6 @@ services:
       timeout: 5s
       retries: 5
       start_period: 30s
-
 
   products-db:
     image: mysql:8.0
@@ -115,13 +113,11 @@ services:
       eureka-server:
         condition: service_healthy
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8080/actuator/health" ]
+      test: [ "CMD", "curl", "-f", "http://localhost:8090/actuator/health" ]
       interval: 10s
       timeout: 5s
       retries: 5
       start_period: 40s
-
-
 
   boutique-microservice:
     image: boutique-microservice:latest
@@ -142,7 +138,7 @@ services:
       eureka-server:
         condition: service_healthy
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8080/actuator/health" ]
+      test: [ "CMD", "curl", "-f", "http://localhost:8082/actuator/health" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -210,7 +206,7 @@ services:
       eureka-server:
         condition: service_healthy
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8080/actuator/health" ]
+      test: [ "CMD", "curl", "-f", "http://localhost:8081/actuator/health" ]
       interval: 10s
       timeout: 5s
       retries: 5
